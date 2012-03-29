@@ -16,7 +16,7 @@ handlers:
   static_files: static/robots.txt
   upload: static/robots\.txt
 
-- url: /admin/.*
+- url: /gae/.*
   script: $PYTHON_LIB/google/appengine/ext/admin
   login: admin
 
