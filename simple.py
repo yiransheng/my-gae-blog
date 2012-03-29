@@ -45,15 +45,12 @@ class Post(ndb.Model):
     @classmethod
     def get_posts(cls, draft=True):
 	q = cls.query(cls.draft==draft)
+	q.order(-cls.updated_at)
 	return q.fetch(1000)
 
     def render_content(self):
         return markdown.Markdown(extensions=['fenced_code'], output_format="html5", safe_mode=True).convert(self.text)
 
-try:
-    db.create_all()
-except Exception:
-    pass
 
 def requires_authentication(f):
     @wraps(f)
@@ -69,10 +66,13 @@ def requires_authentication(f):
 @app.route("/")
 def index():
     page = request.args.get("page", 0, type=int)
-    posts_master = db.session.query(Post).filter_by(draft=False).order_by(Post.created_at.asc())
-    posts_count = posts_master.count()
+    posts_master = Post.get_posts(draft=False)
+    # posts_count = posts_master.count()
+    posts_count = len(posts_master)
 
-    posts = posts_master.limit(app.config["POSTS_PER_PAGE"]).offset(page*app.config["POSTS_PER_PAGE"]).all()
+    # posts = posts_master.limit(app.config["POSTS_PER_PAGE"]).offset(page*app.config["POSTS_PER_PAGE"]).all()
+    # pagination needed 
+    posts = posts_master
     is_more = posts_count > ((page*app.config["POSTS_PER_PAGE"]) + app.config["POSTS_PER_PAGE"])
 
     return render_template("index.html", posts=posts, now=datetime.datetime.now(),
