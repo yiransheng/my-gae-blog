@@ -8,14 +8,26 @@ import datetime
 from unicodedata import normalize
 import markdown
 
+# all appengine bullshit comes below
+from google.appengine.ext import ndb
+
 app = Flask(__name__)
 app.config.from_object('settings')
 #db = SQLAlchemy(app)
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
-class Post(db.Model):
-    __tablename__ = "posts"
+class Post(ndb.Model):
+    title = ndb.StringProperty(required=True, indexed=False)
+    slug = ndb.StringProperty(required=True, indexed=False)
+    text = ndb.TextProperty(required=True, indexed=False)
+    draft = ndb.BooleanProperty(required=True, indexed=True)
+    views = ndb.IntegerProperty(required=True)
+    created_at = ndb.DateTimeProperty(auto_now_add=True, indexed=True)
+    updated_at = ndb.DateTimeProperty()
+    '''
+    Original: 
+    __tablename__ = "posts" 
     id    = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(), unique=True)
     slug  = db.Column(db.String(), unique=True)
@@ -24,7 +36,7 @@ class Post(db.Model):
     views = db.Column(db.Integer(), default=0)
     created_at = db.Column(db.DateTime, index=True)
     updated_at = db.Column(db.DateTime)
-
+    '''
     def render_content(self):
         return markdown.Markdown(extensions=['fenced_code'], output_format="html5", safe_mode=True).convert(self.text)
 
