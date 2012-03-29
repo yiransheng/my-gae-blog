@@ -19,12 +19,13 @@ _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 class Post(ndb.Model):
     title = ndb.StringProperty(required=True, indexed=False)
-    slug = ndb.StringProperty(required=True, indexed=False)
+    slug = ndb.StringProperty(required=True)
     text = ndb.TextProperty(required=True, indexed=False)
-    draft = ndb.BooleanProperty(required=True, indexed=True)
-    views = ndb.IntegerProperty(required=True)
+    draft = ndb.BooleanProperty(indexed=True)
+    views = ndb.IntegerProperty()
     created_at = ndb.DateTimeProperty(auto_now_add=True, indexed=True)
     updated_at = ndb.DateTimeProperty()
+    id = ndb.ComputedProperty(lambda self: self.key.id() if self.key else None)
     '''
     Original: 
     __tablename__ = "posts" 
@@ -37,6 +38,15 @@ class Post(ndb.Model):
     created_at = db.Column(db.DateTime, index=True)
     updated_at = db.Column(db.DateTime)
     '''
+    @classmethod
+    def get_by_slug(cls, slug):
+	q = cls.query(cls.slug==slug)
+	return q.get()
+    @classmethod
+    def get_posts(cls, draft=True):
+	q = cls.query(cls.draft==draft)
+	return q.fetch(1000)
+
     def render_content(self):
         return markdown.Markdown(extensions=['fenced_code'], output_format="html5", safe_mode=True).convert(self.text)
 
@@ -67,51 +77,33 @@ def index():
 
     return render_template("index.html", posts=posts, now=datetime.datetime.now(),
                                          is_more=is_more, current_page=page)
-
-@app.route("/<int:post_id>")
-def view_post(post_id):
-    try:
-        post = db.session.query(Post).filter_by(id=post_id, draft=False).one()
-    except Exception:
-        return abort(404)
-
-    db.session.query(Post).filter_by(id=post_id).update({Post.views:Post.views+1})
-    db.session.commit()
-
-    return render_template("view.html", post=post)
-
 @app.route("/<slug>")
 def view_post_slug(slug):
     try:
-        post = db.session.query(Post).filter_by(slug=slug,draft=False).one()
+        post = Post.get_by_slug(slug)
     except Exception:
         return abort(404)
-
-    db.session.query(Post).filter_by(slug=slug).update({Post.views:Post.views+1})
-    db.session.commit()
-
     pid = request.args.get("pid", "0")
     return render_template("view.html", post=post, pid=pid)
 
 @app.route("/new", methods=["POST", "GET"])
-@requires_authentication
+# @requires_authentication
 def new_post():
     post = Post()
     post.title = request.form.get("title","untitled")
     post.slug = slugify(post.title)
-    post.created_at = datetime.datetime.now()
+    post.text = "Write something awesome here."
     post.updated_at = datetime.datetime.now()
 
-    db.session.add(post)
-    db.session.commit()
+    future = post.put_async()
 
-    return redirect(url_for("edit", id=post.id))
+    return redirect(url_for("edit", id=future.get_result().id()))
 
 @app.route("/edit/<int:id>", methods=["GET","POST"])
-@requires_authentication
+# @requires_authentication
 def edit(id):
     try:
-        post = db.session.query(Post).filter_by(id=id).one()
+	post = Post.get_by_id(id)
     except Exception:
         return abort(404)
 
@@ -130,37 +122,35 @@ def edit(id):
         else:
             post.draft = False
 
-        db.session.add(post)
-        db.session.commit()
-        return redirect(url_for("edit", id=id))
+
+        future = post.put_async()
+
+        return redirect(url_for("edit", id=future.get_result().id()))
 
 @app.route("/delete/<int:id>", methods=["GET","POST"])
-@requires_authentication
+# @requires_authentication
 def delete(id):
     try:
-        post = db.session.query(Post).filter_by(id=id).one()
+	post = Post.get_by_id(id)
     except Exception:
         flash("Error deleting post ID %s"%id, category="error")
     else:
-        db.session.delete(post)
-        db.session.commit()
+	post.delete()
 
     return redirect(request.args.get("next","") or request.referrer or url_for('index'))
 
 @app.route("/admin", methods=["GET", "POST"])
-@requires_authentication
+# @requires_authentication
 def admin():
-    drafts = db.session.query(Post).filter_by(draft=True)\
-                                          .order_by(Post.created_at.desc()).all()
-    posts  = db.session.query(Post).filter_by(draft=False)\
-                                          .order_by(Post.created_at.desc()).all()
+    drafts = Post.get_posts(draft=True)
+    posts = Post.get_posts(draft=False)
     return render_template("admin.html", drafts=drafts, posts=posts)
 
 @app.route("/admin/save/<int:id>", methods=["POST"])
-@requires_authentication
+# @requires_authentication
 def save_post(id):
     try:
-        post = db.session.query(Post).filter_by(id=id).one()
+        post = Post.get_by_id(id)
     except Exception:
         return abort(404)
 
@@ -168,15 +158,19 @@ def save_post(id):
     post.slug = slugify(post.title)
     post.text = request.form.get("content", "")
     post.updated_at = datetime.datetime.now()
-    db.session.add(post)
-    db.session.commit()
-    return jsonify(success=True)
+    future = post.put_async()
+    if not future.check_success():
+        return jsonify(success=True)
+    else: 
+	# handler errors here
+	pass
+        
 
 @app.route("/preview/<int:id>")
-@requires_authentication
+# @requires_authentication
 def preview(id):
     try:
-        post = db.session.query(Post).filter_by(id=id).one()
+        post = Post.get_by_id(id)
     except Exception:
         return abort(404)
 
