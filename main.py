@@ -9,7 +9,6 @@ DEBUG = os.environ.get('SERVER_SOFTWARE', '').startswith('Dev')
 # Add lib as primary libraries directory, with fallback to lib/dist
 # and optionally to lib/dist.zip, loaded using zipimport.
 lib_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'lib')
-logging.info(lib_path)
 if lib_path not in sys.path:
     sys.path[0:0] = [
         lib_path,
@@ -20,7 +19,6 @@ for filename in os.listdir(lib_path):
     if filename.endswith((".zip", ".egg")):
         sys.path.insert(0, "%s/%s" % (lib_path, filename))
 
-logging.info(sys.path)
 
 from google.appengine.ext import admin
 from werkzeug_debugger_appengine import get_debugged_app
