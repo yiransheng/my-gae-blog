@@ -3,14 +3,14 @@ import hashlib
 from flask import render_template, request, Response, Flask, flash, redirect, url_for, abort, jsonify, Response
 import re
 from unicodedata import normalize
-from flaskext.sqlalchemy import SQLAlchemy
+#from flaskext.sqlalchemy import SQLAlchemy
 import datetime
 from unicodedata import normalize
 import markdown
 
 app = Flask(__name__)
 app.config.from_object('settings')
-db = SQLAlchemy(app)
+#db = SQLAlchemy(app)
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
