@@ -20,7 +20,7 @@ _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 class Post(ndb.Model):
     title = ndb.StringProperty(required=True, indexed=False)
     slug = ndb.StringProperty(required=True, indexed=False)
-    text = ndb.StringProperty(required=True, indexed=False)
+    text = ndb.TextProperty(required=True, indexed=False)
     draft = ndb.BooleanProperty(required=True, indexed=True)
     views = ndb.IntegerProperty(required=True)
     created_at = ndb.DateTimeProperty(auto_now_add=True, indexed=True)
