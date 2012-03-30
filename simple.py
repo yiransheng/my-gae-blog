@@ -35,7 +35,9 @@ class Post(ndb.Model):
     def get_posts(cls, draft=True):
         q = cls.query(cls.draft==draft)
         q.order(-cls.updated_at)
-        return q.fetch(1000)
+        #Fetch all posts - if you have more than 10 million posts, you're on
+        #your own
+        return q.fetch(10000000)
 
     def render_content(self):
         return markdown.Markdown(extensions=['fenced_code'], output_format="html5", safe_mode=True).convert(self.text)
@@ -58,7 +60,7 @@ def index():
 
     posts_count_future = Post.query(Post.draft==False).count_async()
 
-    posts_async = Post.query(Post.draft==False).fetch_async(limit=POSTS_PER_PAGE, offset=page*POSTS_PER_PAGE)
+    posts_async = Post.query(Post.draft==False).order(-Post.created_at).fetch_async(limit=POSTS_PER_PAGE, offset=page*POSTS_PER_PAGE)
 
     posts_count = posts_count_future.get_result()
     is_more = posts_count > ((page*POSTS_PER_PAGE) + POSTS_PER_PAGE)
