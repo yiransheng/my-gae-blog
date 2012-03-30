@@ -21,10 +21,9 @@ class Post(ndb.Model):
     title = ndb.StringProperty(required=True, indexed=False)
     slug = ndb.StringProperty(required=True)
     text = ndb.TextProperty(required=True, indexed=False)
-    draft = ndb.BooleanProperty(indexed=True)
-    views = ndb.IntegerProperty()
+    draft = ndb.BooleanProperty()
     created_at = ndb.DateTimeProperty(auto_now_add=True, indexed=True)
-    updated_at = ndb.DateTimeProperty()
+    updated_at = ndb.DateTimeProperty(auto_now=True)
     id = ndb.ComputedProperty(lambda self: self.key.id() if self.key else None)
 
     @classmethod
@@ -85,7 +84,6 @@ def new_post():
     post.title = request.form.get("title","untitled")
     post.slug = slugify(post.title)
     post.text = "Write something awesome here."
-    post.updated_at = datetime.datetime.now()
 
     future = post.put_async()
 
@@ -107,7 +105,6 @@ def edit(id):
         post.title = title
         post.slug = slugify(post.title)
         post.text  = text
-        post.updated_at = datetime.datetime.now()
 
         if any(request.form.getlist("post_draft", type=int)):
             post.draft = True
@@ -148,7 +145,6 @@ def save_post(id):
     post.title = request.form.get("title","")
     post.slug = slugify(post.title)
     post.text = request.form.get("content", "")
-    post.updated_at = datetime.datetime.now()
     future = post.put_async()
     if not future.check_success():
         return jsonify(success=True)
