@@ -19,22 +19,13 @@ function makeExpandingArea(container) {
     container.className += ' active';
 }
 
-function issueSaveAjax(id, redirect){
-    var ptitle   = $("#post_title").val();
-    var pcontent = $("#post_content").val();
-    var req = $.ajax({
-        type: "POST",
-        url:"/admin/save/"+id,
-        data: {title: ptitle,
-               content: pcontent}
+function issueSaveAjax(){
+    var data = $('form:first').serializeArray();
+    var obj = {}
+    _.reduce(data, function(memo, y) {obj[y.name]=y.value;}, 0);
+    $.post('', obj, function(data) {
+        setTimeout(issueSaveAjax, 3000);
     });
-    req.done(function(message)
-    {
-        if (redirect)
-        {
-            var win = window.open("/preview/"+id, '_blank');
-        }
-    })
 }
 
 $(function() {
