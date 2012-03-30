@@ -46,6 +46,7 @@ $(function() {
             textarea.style.height = textarea.scrollHeight + "px";
         };
     }
+    $('#post_content').css('min-height', $(window).height() - $('#post_title').height() - 130);
 });
 
 $(function() {
@@ -54,9 +55,8 @@ $(function() {
     var l = areas.length;
 
     while (l--) {
-        makeExpandingArea(areas[l]);
+        // makeExpandingArea(areas[l]);
     }
 
     // Set minimum height of content textarea
-    $('#post_content').css('min-height', $(window).height() - $('#post_title').height() - 130);
 });
