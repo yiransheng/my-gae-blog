@@ -115,18 +115,27 @@ def edit(id):
     else:
         title = request.form.get("post_title","")
         text  = request.form.get("post_content","")
-        post.title = title
-        post.slug = slugify(post.title)
-        post.text  = text
+        draft = request.form.get("post_draft", type=bool)
 
-        if any(request.form.getlist("post_draft", type=int)):
-            post.draft = True
-        else:
-            post.draft = False
+        if post.draft and not draft:
+            slug = slugify(post.title)
+
+            if Post.get_by_slug(slug):
+                slug = '-'.join([slug, sha1(time.time()).hexdigest()[:8]])
+
+            post.slug = slug
+
+        post.draft = draft
+        post.title = title
+        post.text  = text
 
         post.put()
 
-        return redirect(url_for("edit", id=post.key.id()))
+        if request.is_xhr:
+            return jsonify(status='success')
+        else:
+            return redirect(url_for("edit", id=post.key.id()))
+
 
 @app.route("/delete/<int:id>", methods=["GET","POST"])
 @requires_authentication
@@ -140,6 +149,7 @@ def delete(id):
 
     return redirect(request.args.get("next","") or request.referrer or url_for('index'))
 
+
 @app.route("/admin", methods=["GET", "POST"])
 @requires_authentication
 def admin():
@@ -147,21 +157,6 @@ def admin():
     posts = Post.get_posts(draft=False)
     return render_template("admin.html", drafts=drafts, posts=posts)
 
-@app.route("/admin/save/<int:id>", methods=["POST"])
-@requires_authentication
-def save_post(id):
-    post = Post.get_by_id(id)
-
-    if not post:
-        return abort(404)
-
-    post.title = request.form.get("title","")
-    post.slug = slugify(post.title)
-    post.text = request.form.get("content", "")
-    post.put()
-
-    return jsonify(success=True)
-        
 
 @app.route("/preview/<int:id>")
 @requires_authentication
