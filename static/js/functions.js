@@ -1,5 +1,9 @@
 $.fn.autogrow = function(options) {
 
+    /*
+     *      * Auto-growing textareas; technique ripped from Facebook
+     */
+
     this.filter('textarea').each(function() {
 
 	var $this       = $(this),
@@ -39,16 +43,24 @@ $.fn.autogrow = function(options) {
 };
 
 
-function issueSaveAjax(){
+function issueSaveAjax(url){
     var data = $('form:first').serializeArray();
     var obj = {}
     _.reduce(data, function(memo, y) {obj[y.name]=y.value;}, 0);
-    $.post('', obj, function(data) {
-        setTimeout(issueSaveAjax, 3000);
+    if (typeof url == "undefined") url = ""
+    $.post(url, obj, function(data) {
+       setTimeout(issueSaveAjax, 3000);
     });
 }
 
 $(function() {
     $('textarea').autogrow();
+    $("#preview").click(function(e){
+	e.preventDefault();
+	var form = $("form:first").clone();
+	form.attr("action", $(this).attr("href"));
+	form.attr("target", "_blank");
+	form.submit();
+    });
 });
 

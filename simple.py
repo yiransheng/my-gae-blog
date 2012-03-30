@@ -170,12 +170,18 @@ def admin():
     return render_template("admin.html", drafts=drafts, posts=posts)
 
 
-@app.route("/admin/preview/<int:id>/")
+@app.route("/admin/preview/<int:id>/", methods=["POST"])
 @requires_authentication
 def preview(id):
-    post = Post.get_by_id(id)
+    post = Post()
 
-    if not post:
+    title = request.form.get("post_title","")
+    text  = request.form.get("post_content","")
+
+    post.title = title
+    post.text  = text
+
+    if not (title and text):
         return abort(404)
 
     return render_template("post_preview.html", post=post)
