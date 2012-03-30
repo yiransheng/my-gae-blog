@@ -88,7 +88,7 @@ def view_post_slug(slug):
     return render_template("view.html", post=post, pid=pid)
 
 @app.route("/new", methods=["POST", "GET"])
-# @requires_authentication
+@requires_authentication
 def new_post():
     post = Post()
     post.title = request.form.get("title","untitled")
@@ -101,7 +101,7 @@ def new_post():
     return redirect(url_for("edit", id=future.get_result().id()))
 
 @app.route("/edit/<int:id>", methods=["GET","POST"])
-# @requires_authentication
+@requires_authentication
 def edit(id):
     try:
 	post = Post.get_by_id(id)
@@ -129,7 +129,7 @@ def edit(id):
         return redirect(url_for("edit", id=future.get_result().id()))
 
 @app.route("/delete/<int:id>", methods=["GET","POST"])
-# @requires_authentication
+@requires_authentication
 def delete(id):
     try:
 	post = Post.get_by_id(id)
@@ -148,7 +148,7 @@ def admin():
     return render_template("admin.html", drafts=drafts, posts=posts)
 
 @app.route("/admin/save/<int:id>", methods=["POST"])
-# @requires_authentication
+@requires_authentication
 def save_post(id):
     try:
         post = Post.get_by_id(id)
@@ -168,7 +168,7 @@ def save_post(id):
         
 
 @app.route("/preview/<int:id>")
-# @requires_authentication
+@requires_authentication
 def preview(id):
     try:
         post = Post.get_by_id(id)
