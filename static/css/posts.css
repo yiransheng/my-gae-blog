@@ -327,6 +327,7 @@ label {
 #admin .col ul li h3 a {
     border: none; }
 #admin textarea, #admin pre {
+    border: 1px solid rgba(128,128,128,.3);
     margin: 0;
     padding: 0;
     outline: 0;
