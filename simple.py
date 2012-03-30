@@ -198,7 +198,3 @@ def slugify(text, delim=u'-'):
         if word:
             result.append(word)
     return unicode(delim.join(result))
-
-
-if __name__ == "__main__":
-    app.run()
