@@ -80,7 +80,7 @@ def index():
 
     return render_template("index.html", posts=posts, now=datetime.datetime.now(),
                                          is_more=is_more, current_page=page)
-@app.route("/<slug>")
+@app.route("/<slug>/")
 def view_post_slug(slug):
     post = Post.get_by_slug(slug)
 
@@ -90,7 +90,18 @@ def view_post_slug(slug):
     pid = request.args.get("pid", "0")
     return render_template("view.html", post=post, pid=pid)
 
-@app.route("/new", methods=["POST", "GET"])
+
+@app.route("/posts.rss")
+def feed():
+    posts = Post.query(Post.draft==False).order(-Post.created_at).fetch(limit=10)
+
+    return render_template('index.xml', posts=posts)
+
+
+#---------- Admin Views ---------------
+
+
+@app.route("/admin/new/", methods=["POST", "GET"])
 @requires_authentication
 def new_post():
     post = Post()
@@ -102,7 +113,7 @@ def new_post():
 
     return redirect(url_for("edit", id=post.key.id()))
 
-@app.route("/edit/<int:id>", methods=["GET","POST"])
+@app.route("/admin/edit/<int:id>/", methods=["GET","POST"])
 @requires_authentication
 def edit(id):
     post = Post.get_by_id(id)
@@ -137,7 +148,7 @@ def edit(id):
             return redirect(url_for("edit", id=post.key.id()))
 
 
-@app.route("/delete/<int:id>", methods=["GET","POST"])
+@app.route("/admin/delete/<int:id>/", methods=["GET","POST"])
 @requires_authentication
 def delete(id):
     post = Post.get_by_id(id)
@@ -150,7 +161,7 @@ def delete(id):
     return redirect(request.args.get("next","") or request.referrer or url_for('index'))
 
 
-@app.route("/admin", methods=["GET", "POST"])
+@app.route("/admin/", methods=["GET", "POST"])
 @requires_authentication
 def admin():
     drafts = Post.get_posts(draft=True)
@@ -158,7 +169,7 @@ def admin():
     return render_template("admin.html", drafts=drafts, posts=posts)
 
 
-@app.route("/preview/<int:id>")
+@app.route("/admin/preview/<int:id>/")
 @requires_authentication
 def preview(id):
     post = Post.get_by_id(id)
@@ -167,12 +178,6 @@ def preview(id):
         return abort(404)
 
     return render_template("post_preview.html", post=post)
-
-@app.route("/posts.rss")
-def feed():
-    posts = Post.query(Post.draft==False).order(-Post.created_at).fetch(limit=10)
-
-    return render_template('index.xml', posts=posts)
 
 def slugify(text, delim=u'-'):
     """Generates an slightly worse ASCII-only slug."""
