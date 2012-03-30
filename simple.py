@@ -1,6 +1,6 @@
 from functools import wraps
 from hashlib import sha1
-from flask import render_template, request, Response, Flask, flash, redirect, url_for, abort, jsonify, Response
+from flask import render_template, request, Response, Flask, flash, redirect, url_for, abort, jsonify
 import re
 from unicodedata import normalize
 import datetime, time
