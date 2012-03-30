@@ -3,18 +3,15 @@ import hashlib
 from flask import render_template, request, Response, Flask, flash, redirect, url_for, abort, jsonify, Response
 import re
 from unicodedata import normalize
-#from flaskext.sqlalchemy import SQLAlchemy
 import datetime
 from unicodedata import normalize
 import markdown
 
-# all appengine bullshit comes below
 from google.appengine.ext import ndb
 from google.appengine.api import users
 
 app = Flask(__name__)
 app.config.from_object('settings')
-#db = SQLAlchemy(app)
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
@@ -27,18 +24,7 @@ class Post(ndb.Model):
     created_at = ndb.DateTimeProperty(auto_now_add=True, indexed=True)
     updated_at = ndb.DateTimeProperty()
     id = ndb.ComputedProperty(lambda self: self.key.id() if self.key else None)
-    '''
-    Original: 
-    __tablename__ = "posts" 
-    id    = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(), unique=True)
-    slug  = db.Column(db.String(), unique=True)
-    text  = db.Column(db.String(), default="")
-    draft = db.Column(db.Boolean(), index=True, default=True)
-    views = db.Column(db.Integer(), default=0)
-    created_at = db.Column(db.DateTime, index=True)
-    updated_at = db.Column(db.DateTime)
-    '''
+
     @classmethod
     def get_by_slug(cls, slug):
 	q = cls.query(cls.slug==slug)
@@ -163,7 +149,7 @@ def save_post(id):
     if not future.check_success():
         return jsonify(success=True)
     else: 
-	# handler errors here
+	# handle errors here
 	pass
         
 
