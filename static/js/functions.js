@@ -42,16 +42,16 @@ $.fn.autogrow = function(options) {
 
 };
 
-
-function issueSaveAjax(url){
-    var data = $('form:first').serializeArray();
-    var obj = {}
+function recordPostData(){
+    var form, data, obj;
+    form = $("form:first");
+    if (!form) return false 
+    data = form.serializeArray();
+    obj = {}
     _.reduce(data, function(memo, y) {obj[y.name]=y.value;}, 0);
-    if (typeof url == "undefined") url = ""
-    $.post(url, obj, function(data) {
-       setTimeout(issueSaveAjax, 3000);
-    });
+    return $.param(obj);
 }
+
 
 $(function() {
     $('textarea').autogrow();
@@ -62,5 +62,15 @@ $(function() {
 	form.attr("target", "_blank");
 	form.submit();
     });
+    if (window.post_data = recordPostData()) {
+	$("#save").click(function() {
+	    window.post_data = recordPostData()
+	});
+        window.onbeforeunload = function(e) {
+	    if (recordPostData() != window.post_data){
+		return "You have changes unsaved, leave now?"
+	    }
+	};
+    }
 });
 
