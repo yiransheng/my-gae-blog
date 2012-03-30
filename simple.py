@@ -20,12 +20,12 @@ _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template("404.html"), 404
+    return render_template("404.html", now=datetime.datetime.now()), 404
 
 
 @app.errorhandler(500)
 def server_error(e):
-    return render_template("500.html"), 500
+    return render_template("500.html", now=datetime.datetime.now()), 500
 
 
 class Post(ndb.Model):
@@ -96,7 +96,7 @@ def new_post():
     post = Post()
     post.title = request.form.get("title","untitled")
     post.slug = slugify(post.title)
-    post.text = "Write something awesome here."
+    post.text = "emptypost"
 
     future = post.put_async()
 
