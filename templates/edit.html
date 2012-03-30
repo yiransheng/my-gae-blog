@@ -1,17 +1,7 @@
 {% extends "admin_template.html" %}
 
 {% block head %}
-    {% if post.draft %}
-        <script type="text/javascript">
-            /* function SaveTick(){
-                issueSaveAjax({{ post.id }}, false);
-                setTimeout("SaveTick()", 10000)
-            }
-            $(document).ready(function(){
-                setTimeout("SaveTick();", 10000);
-            })* /
-        </script>
-    {% endif %}
+setTimeout(issueSaveAjax, 3000);
 {% endblock %}
 
 {% block content %}

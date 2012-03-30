@@ -1,9 +1,9 @@
 from functools import wraps
-import hashlib
+from hashlib import sha1
 from flask import render_template, request, Response, Flask, flash, redirect, url_for, abort, jsonify, Response
 import re
 from unicodedata import normalize
-import datetime
+import datetime, time
 from unicodedata import normalize
 import markdown
 
@@ -131,8 +131,9 @@ def edit(id):
         if post.draft and not draft:
             slug = slugify(post.title)
 
-            if Post.get_by_slug(slug):
-                slug = '-'.join([slug, sha1(time.time()).hexdigest()[:8]])
+            other_post = Post.get_by_slug(slug)
+            if other_post.id != id:
+                slug = '-'.join([slug, sha1('%s' % time.time()).hexdigest()[:8]])
 
             post.slug = slug
 
