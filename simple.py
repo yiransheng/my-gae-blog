@@ -32,7 +32,7 @@ class Post(ndb.Model):
     title = ndb.StringProperty(required=True, indexed=False)
     slug = ndb.StringProperty(required=True)
     text = ndb.TextProperty(required=True, indexed=False)
-    draft = ndb.BooleanProperty()
+    draft = ndb.BooleanProperty(default=True)
     created_at = ndb.DateTimeProperty(auto_now_add=True, indexed=True)
     updated_at = ndb.DateTimeProperty(auto_now=True)
     id = ndb.ComputedProperty(lambda self: self.key.id() if self.key else None)
