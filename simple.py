@@ -98,9 +98,9 @@ def new_post():
     post.slug = slugify(post.title)
     post.text = "emptypost"
 
-    future = post.put_async()
+    post.put()
 
-    return redirect(url_for("edit", id=future.get_result().id()))
+    return redirect(url_for("edit", id=post.key.id()))
 
 @app.route("/edit/<int:id>", methods=["GET","POST"])
 @requires_authentication
@@ -124,9 +124,9 @@ def edit(id):
         else:
             post.draft = False
 
-        future = post.put_async()
+        post.put()
 
-        return redirect(url_for("edit", id=future.get_result().id()))
+        return redirect(url_for("edit", id=post.key.id()))
 
 @app.route("/delete/<int:id>", methods=["GET","POST"])
 @requires_authentication
@@ -158,12 +158,9 @@ def save_post(id):
     post.title = request.form.get("title","")
     post.slug = slugify(post.title)
     post.text = request.form.get("content", "")
-    future = post.put_async()
-    if not future.check_success():
-        return jsonify(success=True)
-    else: 
-        # handle errors here
-        pass
+    post.put()
+
+    return jsonify(success=True)
         
 
 @app.route("/preview/<int:id>")
