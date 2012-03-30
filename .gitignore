@@ -2,11 +2,6 @@
 env
 *.swp
 *.pyc
-local_settings.py
-pip-log.txt
-django.wsgi
-django_wsgi.py
-backups
 *.orig
 .idea
 PYSMELLTAGS
@@ -14,7 +9,6 @@ PYSMELLTAGS
 ve
 .[!.]*
 *.pyo
-deploy.sh
 *#
 app.yaml
-api/docs/_build/doctrees
+settings.py
