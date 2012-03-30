@@ -96,7 +96,7 @@ def new_post():
     post = Post()
     post.title = request.form.get("title","untitled")
     post.slug = slugify(post.title)
-    post.text = "Write something awesome here."
+    post.text = "emptypost"
 
     future = post.put_async()
 
