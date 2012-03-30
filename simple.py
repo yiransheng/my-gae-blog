@@ -13,6 +13,8 @@ from google.appengine.api import users
 app = Flask(__name__)
 app.config.from_object('settings')
 
+POSTS_PER_PAGE = app.config.get('POSTS_PER_PAGE', 10)
+
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 class Post(ndb.Model):
@@ -54,14 +56,15 @@ def requires_authentication(f):
 @app.route("/")
 def index():
     page = request.args.get("page", 0, type=int)
-    posts_master = Post.get_posts(draft=False)
-    # posts_count = posts_master.count()
-    posts_count = len(posts_master)
 
-    # posts = posts_master.limit(app.config["POSTS_PER_PAGE"]).offset(page*app.config["POSTS_PER_PAGE"]).all()
-    # pagination needed 
-    posts = posts_master
-    is_more = posts_count > ((page*app.config["POSTS_PER_PAGE"]) + app.config["POSTS_PER_PAGE"])
+    posts_count_future = Post.query(Post.draft==False).count_async()
+
+    posts_async = Post.query(Post.draft==False).fetch_async(limit=POSTS_PER_PAGE, offset=page*POSTS_PER_PAGE)
+
+    posts_count = posts_count_future.get_result()
+    is_more = posts_count > ((page*POSTS_PER_PAGE) + POSTS_PER_PAGE)
+
+    posts = posts_async.get_result()
 
     return render_template("index.html", posts=posts, now=datetime.datetime.now(),
                                          is_more=is_more, current_page=page)
