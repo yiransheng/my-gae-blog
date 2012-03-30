@@ -10,6 +10,7 @@ import markdown
 
 # all appengine bullshit comes below
 from google.appengine.ext import ndb
+from google.appengine.api import users
 
 app = Flask(__name__)
 app.config.from_object('settings')
@@ -55,13 +56,13 @@ class Post(ndb.Model):
 def requires_authentication(f):
     @wraps(f)
     def _auth_decorator(*args, **kwargs):
-        auth = request.authorization
-        if not auth or not (auth.username == app.config["ADMIN_USERNAME"]
-                            and hashlib.md5(auth.password).hexdigest() == app.config["ADMIN_PASSWORD"]):
-            return Response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
+	if not users.is_current_user_admin():
+            return redirect(users.create_login_url(request.url))
+
         return f(*args, **kwargs)
 
     return _auth_decorator
+
 
 @app.route("/")
 def index():
@@ -140,7 +141,7 @@ def delete(id):
     return redirect(request.args.get("next","") or request.referrer or url_for('index'))
 
 @app.route("/admin", methods=["GET", "POST"])
-# @requires_authentication
+@requires_authentication
 def admin():
     drafts = Post.get_posts(draft=True)
     posts = Post.get_posts(draft=False)
