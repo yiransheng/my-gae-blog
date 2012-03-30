@@ -13,6 +13,8 @@ from google.appengine.api import users
 app = Flask(__name__)
 app.config.from_object('settings')
 
+POSTS_PER_PAGE = app.config.get('POSTS_PER_PAGE', 10)
+
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 class Post(ndb.Model):
@@ -27,13 +29,14 @@ class Post(ndb.Model):
 
     @classmethod
     def get_by_slug(cls, slug):
-	q = cls.query(cls.slug==slug)
-	return q.get()
+        q = cls.query(cls.slug==slug)
+        return q.get()
+
     @classmethod
     def get_posts(cls, draft=True):
-	q = cls.query(cls.draft==draft)
-	q.order(-cls.updated_at)
-	return q.fetch(1000)
+        q = cls.query(cls.draft==draft)
+        q.order(-cls.updated_at)
+        return q.fetch(1000)
 
     def render_content(self):
         return markdown.Markdown(extensions=['fenced_code'], output_format="html5", safe_mode=True).convert(self.text)
@@ -42,7 +45,7 @@ class Post(ndb.Model):
 def requires_authentication(f):
     @wraps(f)
     def _auth_decorator(*args, **kwargs):
-	if not users.is_current_user_admin():
+        if not users.is_current_user_admin():
             return redirect(users.create_login_url(request.url))
 
         return f(*args, **kwargs)
@@ -53,23 +56,25 @@ def requires_authentication(f):
 @app.route("/")
 def index():
     page = request.args.get("page", 0, type=int)
-    posts_master = Post.get_posts(draft=False)
-    # posts_count = posts_master.count()
-    posts_count = len(posts_master)
 
-    # posts = posts_master.limit(app.config["POSTS_PER_PAGE"]).offset(page*app.config["POSTS_PER_PAGE"]).all()
-    # pagination needed 
-    posts = posts_master
-    is_more = posts_count > ((page*app.config["POSTS_PER_PAGE"]) + app.config["POSTS_PER_PAGE"])
+    posts_count_future = Post.query(Post.draft==False).count_async()
+
+    posts_async = Post.query(Post.draft==False).fetch_async(limit=POSTS_PER_PAGE, offset=page*POSTS_PER_PAGE)
+
+    posts_count = posts_count_future.get_result()
+    is_more = posts_count > ((page*POSTS_PER_PAGE) + POSTS_PER_PAGE)
+
+    posts = posts_async.get_result()
 
     return render_template("index.html", posts=posts, now=datetime.datetime.now(),
                                          is_more=is_more, current_page=page)
 @app.route("/<slug>")
 def view_post_slug(slug):
-    try:
-        post = Post.get_by_slug(slug)
-    except Exception:
-        return abort(404)
+    post = Post.get_by_slug(slug)
+
+    if not post:
+        abort(404)
+
     pid = request.args.get("pid", "0")
     return render_template("view.html", post=post, pid=pid)
 
@@ -89,9 +94,9 @@ def new_post():
 @app.route("/edit/<int:id>", methods=["GET","POST"])
 @requires_authentication
 def edit(id):
-    try:
-	post = Post.get_by_id(id)
-    except Exception:
+    post = Post.get_by_id(id)
+
+    if not post:
         return abort(404)
 
     if request.method == "GET":
@@ -109,7 +114,6 @@ def edit(id):
         else:
             post.draft = False
 
-
         future = post.put_async()
 
         return redirect(url_for("edit", id=future.get_result().id()))
@@ -117,12 +121,12 @@ def edit(id):
 @app.route("/delete/<int:id>", methods=["GET","POST"])
 @requires_authentication
 def delete(id):
-    try:
-	post = Post.get_by_id(id)
-    except Exception:
-        flash("Error deleting post ID %s"%id, category="error")
+    post = Post.get_by_id(id)
+
+    if not post:
+        flash("Error deleting post ID %s" % id, category="error")
     else:
-	post.delete()
+        post.key.delete()
 
     return redirect(request.args.get("next","") or request.referrer or url_for('index'))
 
@@ -136,9 +140,9 @@ def admin():
 @app.route("/admin/save/<int:id>", methods=["POST"])
 @requires_authentication
 def save_post(id):
-    try:
-        post = Post.get_by_id(id)
-    except Exception:
+    post = Post.get_by_id(id)
+
+    if not post:
         return abort(404)
 
     post.title = request.form.get("title","")
@@ -149,16 +153,16 @@ def save_post(id):
     if not future.check_success():
         return jsonify(success=True)
     else: 
-	# handle errors here
-	pass
+        # handle errors here
+        pass
         
 
 @app.route("/preview/<int:id>")
 @requires_authentication
 def preview(id):
-    try:
-        post = Post.get_by_id(id)
-    except Exception:
+    post = Post.get_by_id(id)
+
+    if not post:
         return abort(404)
 
     return render_template("post_preview.html", post=post)
