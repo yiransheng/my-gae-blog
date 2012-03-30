@@ -80,7 +80,7 @@ def index():
 
     return render_template("index.html", posts=posts, now=datetime.datetime.now(),
                                          is_more=is_more, current_page=page)
-@app.route("/<slug>")
+@app.route("/<slug>/")
 def view_post_slug(slug):
     post = Post.get_by_slug(slug)
 
@@ -90,7 +90,18 @@ def view_post_slug(slug):
     pid = request.args.get("pid", "0")
     return render_template("view.html", post=post, pid=pid)
 
-@app.route("/new", methods=["POST", "GET"])
+
+@app.route("/posts.rss")
+def feed():
+    posts = Post.query(Post.draft==False).order(-Post.created_at).fetch(limit=10)
+
+    return render_template('index.xml', posts=posts)
+
+
+#---------- Admin Views ---------------
+
+
+@app.route("/admin/new/", methods=["POST", "GET"])
 @requires_authentication
 def new_post():
     post = Post()
@@ -102,7 +113,7 @@ def new_post():
 
     return redirect(url_for("edit", id=post.key.id()))
 
-@app.route("/edit/<int:id>", methods=["GET","POST"])
+@app.route("/admin/edit/<int:id>/", methods=["GET","POST"])
 @requires_authentication
 def edit(id):
     post = Post.get_by_id(id)
@@ -115,20 +126,29 @@ def edit(id):
     else:
         title = request.form.get("post_title","")
         text  = request.form.get("post_content","")
-        post.title = title
-        post.slug = slugify(post.title)
-        post.text  = text
+        draft = request.form.get("post_draft", type=bool)
 
-        if any(request.form.getlist("post_draft", type=int)):
-            post.draft = True
-        else:
-            post.draft = False
+        if post.draft and not draft:
+            slug = slugify(post.title)
+
+            if Post.get_by_slug(slug):
+                slug = '-'.join([slug, sha1(time.time()).hexdigest()[:8]])
+
+            post.slug = slug
+
+        post.draft = draft
+        post.title = title
+        post.text  = text
 
         post.put()
 
-        return redirect(url_for("edit", id=post.key.id()))
+        if request.is_xhr:
+            return jsonify(status='success')
+        else:
+            return redirect(url_for("edit", id=post.key.id()))
 
-@app.route("/delete/<int:id>", methods=["GET","POST"])
+
+@app.route("/admin/delete/<int:id>/", methods=["GET","POST"])
 @requires_authentication
 def delete(id):
     post = Post.get_by_id(id)
@@ -140,30 +160,16 @@ def delete(id):
 
     return redirect(request.args.get("next","") or request.referrer or url_for('index'))
 
-@app.route("/admin", methods=["GET", "POST"])
+
+@app.route("/admin/", methods=["GET", "POST"])
 @requires_authentication
 def admin():
     drafts = Post.get_posts(draft=True)
     posts = Post.get_posts(draft=False)
     return render_template("admin.html", drafts=drafts, posts=posts)
 
-@app.route("/admin/save/<int:id>", methods=["POST"])
-@requires_authentication
-def save_post(id):
-    post = Post.get_by_id(id)
 
-    if not post:
-        return abort(404)
-
-    post.title = request.form.get("title","")
-    post.slug = slugify(post.title)
-    post.text = request.form.get("content", "")
-    post.put()
-
-    return jsonify(success=True)
-        
-
-@app.route("/preview/<int:id>")
+@app.route("/admin/preview/<int:id>/")
 @requires_authentication
 def preview(id):
     post = Post.get_by_id(id)
@@ -172,12 +178,6 @@ def preview(id):
         return abort(404)
 
     return render_template("post_preview.html", post=post)
-
-@app.route("/posts.rss")
-def feed():
-    posts = Post.query(Post.draft==False).order(-Post.created_at).fetch(limit=10)
-
-    return render_template('index.xml', posts=posts)
 
 def slugify(text, delim=u'-'):
     """Generates an slightly worse ASCII-only slug."""
