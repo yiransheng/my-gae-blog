@@ -1,23 +1,43 @@
-function makeExpandingArea(container) {
-    var area = container.querySelector('textarea'),
-            span = container.querySelector('span');
+$.fn.autogrow = function(options) {
 
-    if (area.addEventListener) {
-        area.addEventListener('input', function() {
-            span.textContent = area.value;
-        }, false);
-        span.textContent = area.value;
-    } else if (area.attachEvent) {
-        // IE8 compatibility
-        area.attachEvent('onpropertychange', function() {
-            span.innerText = area.value;
-        });
-        span.innerText = area.value;
-    }
+    this.filter('textarea').each(function() {
 
-    // Enable extra CSS
-    container.className += ' active';
-}
+	var $this       = $(this),
+	minHeight   = $this.height(),
+	lineHeight  = $this.css('lineHeight');
+
+	var shadow = $('<div></div>').css({
+	    position:   'absolute',
+	    top:        -10000,
+	    left:       -10000,
+	    width:      $(this).width(),
+	    fontSize:   $this.css('fontSize'),
+	    fontFamily: $this.css('fontFamily'),
+	    lineHeight: $this.css('lineHeight'),
+	    resize:     'none'
+	}).appendTo(document.body);
+
+	var update = function() {
+
+	    var val = this.value.replace(/</g, '&lt;')
+	    .replace(/>/g, '&gt;')
+	    .replace(/&/g, '&amp;')
+	    .replace(/\n/g, '<br/>');
+
+	    shadow.html(val);
+	    $(this).css('height', Math.max(shadow.height() + 60, minHeight));
+	}
+
+	$(this).change(update).keyup(update).keydown(update);
+
+	update.apply(this);
+
+    });
+
+    return this;
+
+};
+
 
 function issueSaveAjax(){
     var data = $('form:first').serializeArray();
@@ -29,25 +49,6 @@ function issueSaveAjax(){
 }
 
 $(function() {
-    var textarea = document.getElementById("post_content");
-
-    if (textarea) {
-        textarea.onkeydown = function() {
-            textarea.style.height = ""; /* Reset the height*/
-            textarea.style.height = textarea.scrollHeight + "px";
-        };
-    }
+    $('textarea').autogrow();
 });
 
-$(function() {
-    // Auto-expanding height for editor textareas
-    var areas = document.querySelectorAll('.expandingArea');
-    var l = areas.length;
-
-    while (l--) {
-        makeExpandingArea(areas[l]);
-    }
-
-    // Set minimum height of content textarea
-    $('#post_content').css('min-height', $(window).height() - $('#post_title').height() - 130);
-});
