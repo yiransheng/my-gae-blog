@@ -24,7 +24,7 @@ function issueSaveAjax(){
     var obj = {}
     _.reduce(data, function(memo, y) {obj[y.name]=y.value;}, 0);
     $.post('', obj, function(data) {
-        setTimeout(issueSaveAjax, 3000);
+        setTimeout(issueSaveAjax, 10000);
     });
 }
 
