@@ -65,6 +65,16 @@
 <!-- Content Formatting -->
 <script>
 $(function(){
+    var url_parts = window.location.href.split("#");
+    var printable = url_parts[url_parts.length-1];
+    if (printable == "printable") {
+        $("#header").toggleClass("hide");
+        $("#comment").toggleClass("hide");
+        $("#footer").toggleClass("hide");
+        $("#printable-view").addClass("on");
+    }
+    $(".postMeta:first").removeClass("limited");
+    $(".more-button:first").remove();
     Hyphenator.config({
         displaytogglebox : true,
         minwordlength : 4

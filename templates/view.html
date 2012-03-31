@@ -2,11 +2,6 @@
 
 {% block title %}{{ post.title }} - {{ config.BLOG_TITLE }}{% endblock %}
 
-{% block sidebar %}
-    <br />
-    Views: {{ post.views }}
-{% endblock %}
-
 {% block content %}
 
         <a class="back-button" href="{{ url_for('index', page=pid) }}">Back to Blog</a>
@@ -39,6 +34,23 @@
 	<div><p class="gtag"><a href="#" id="printable-view">Printable Version</a></p></div>
     </section>
 
-    <div id="comment"> </div>
+    <div id="comment"> 
+<a href="#disqus_thread"> </a>
+<div class="text" style="margin:0px;padding:0px;">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/**
+* var disqus_identifier; [Optional but recommended: Define a unique identifier (e.g. post id or slug) for this thread] 
+*/
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://yiransheng.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=yiransheng">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+    </div>
  
 {% endblock %}

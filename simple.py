@@ -80,7 +80,8 @@ def index():
     return render_template("index.html", posts=posts, now=datetime.datetime.now(),
                                          is_more=is_more, current_page=page)
 @app.route("/<slug>/")
-def view_post_slug(slug):
+@app.route("/<int:year>/<int:month>/<slug>")
+def view_post_slug(slug, **kwarg):
     post = Post.get_by_slug(slug)
 
     if not post:
