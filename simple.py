@@ -177,12 +177,12 @@ def admin():
 def preview(id):
     post = Post()
 
+    import logging; logging.info(request.form)
     title = request.form.get("post_title","")
     text  = request.form.get("post_content","")
 
     post.title = title
     post.text  = text
-
 
     return render_template("post_preview.html", post=post)
 
