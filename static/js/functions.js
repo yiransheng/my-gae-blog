@@ -56,10 +56,10 @@ function recordPostData(){
 $(function() {
     $('textarea').autogrow();
     $("#post_draft").click(function() {
-        if ($(this).val() == 1) {
-	    $(this).val(0);
-	} else {
+        if ($(this).is(':checked')) {
 	    $(this).val(1);
+	} else {
+	    $(this).val(0);
 	}
     });
     $("#preview").click(function(e){
