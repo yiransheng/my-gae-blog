@@ -181,8 +181,6 @@ def preview(id):
     post.title = title
     post.text  = text
 
-    if not (title and text):
-        return abort(404)
 
     return render_template("post_preview.html", post=post)
 
