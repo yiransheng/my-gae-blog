@@ -1,5 +1,9 @@
 $.fn.autogrow = function(options) {
 
+    /*
+     *      * Auto-growing textareas; technique ripped from Facebook
+     */
+
     this.filter('textarea').each(function() {
 
 	var $this       = $(this),
@@ -38,17 +42,42 @@ $.fn.autogrow = function(options) {
 
 };
 
-
-function issueSaveAjax(){
-    var data = $('form:first').serializeArray();
-    var obj = {}
+function recordPostData(){
+    var form, data, obj;
+    form = $("form:first");
+    if (!form) return false 
+    data = form.serializeArray();
+    obj = {}
     _.reduce(data, function(memo, y) {obj[y.name]=y.value;}, 0);
-    $.post('', obj, function(data) {
-        setTimeout(issueSaveAjax, 10000);
-    });
+    return $.param(obj);
 }
+
 
 $(function() {
     $('textarea').autogrow();
+    $("#post_draft").click(function() {
+        if ($(this).is(':checked')) {
+	    $(this).val(1);
+	} else {
+	    $(this).val(0);
+	}
+    });
+    $("#preview").click(function(e){
+	e.preventDefault();
+	var form = $("form:first").clone();
+	form.attr("action", $(this).attr("href"));
+	form.attr("target", "_blank");
+	form.submit();
+    });
+    if (window.post_data = recordPostData()) {
+	$("#save").click(function() {
+	    window.post_data = recordPostData()
+	});
+        window.onbeforeunload = function(e) {
+	    if (recordPostData() != window.post_data){
+		return "You have changes unsaved, leave now?"
+	    }
+	};
+    }
 });
 

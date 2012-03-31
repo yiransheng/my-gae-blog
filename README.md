@@ -1,16 +1,14 @@
-Simple
+Seincere
 ================
-A clone of [Obtvse](http://github.com/NateW/obtvse).
+A clone of [Simple](https://github.com/orf/simple), designed for Google Appengine.
 
 About
 ============
-The point of Simple is to be simple. The blog is 1 file (excluding resources) with a few simple pure-python dependancies, it doesn't
-require a database server, has a small footprint and is fairly fast.
+Seincere has the same minimal philosophy as Simple. It's written to be used out of the box.
 
 Installation
 ============
-Its quite simple. Go download Python 2.7+, Flask, Sqlalchemy and flask-sqlalchemy and you are good to go.
-To create a settings file run create_config.py and enter some details, then run simple.py.
+Copy app.yaml.def as app.yaml, enter the name of your GAE app. Copy settings.py.def as settings.py, put in information about your blog, and it's ready to deploy on Google Appengine. Enjoy.  
 
 Screenshots
 ===========

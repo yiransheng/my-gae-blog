@@ -1,6 +1,6 @@
 from functools import wraps
 from hashlib import sha1
-from flask import render_template, request, Response, Flask, flash, redirect, url_for, abort, jsonify, Response
+from flask import render_template, request, Response, Flask, flash, redirect, url_for, abort, jsonify
 import re
 from unicodedata import normalize
 import datetime, time
@@ -127,12 +127,14 @@ def edit(id):
         title = request.form.get("post_title","")
         text  = request.form.get("post_content","")
         draft = request.form.get("post_draft", type=bool)
+	if not draft:
+	    draft = False
 
         if post.draft and not draft:
             slug = slugify(post.title)
 
             other_post = Post.get_by_slug(slug)
-            if other_post.id != id:
+            if other_post and other_post.id != id:
                 slug = '-'.join([slug, sha1('%s' % time.time()).hexdigest()[:8]])
 
             post.slug = slug
@@ -170,13 +172,17 @@ def admin():
     return render_template("admin.html", drafts=drafts, posts=posts)
 
 
-@app.route("/admin/preview/<int:id>/")
+@app.route("/admin/preview/<int:id>/", methods=["POST"])
 @requires_authentication
 def preview(id):
-    post = Post.get_by_id(id)
+    post = Post()
 
-    if not post:
-        return abort(404)
+    title = request.form.get("post_title","")
+    text  = request.form.get("post_content","")
+
+    post.title = title
+    post.text  = text
+
 
     return render_template("post_preview.html", post=post)
 
