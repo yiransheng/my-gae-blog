@@ -1,55 +1,88 @@
 <!doctype html>
 <html lang="en-US">
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>{% block title %}{% endblock %}</title>
     <link href="{{ url_for('static', filename='css/_normalize.css') }}" type="text/css" media="screen" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/posts.css') }}" type="text/css" media="screen" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" type="text/css" media="screen" rel="stylesheet">
     <meta name="author" content="{{ config.AUTHOR }}">
     <link href="{{ url_for('feed') }}" rel="alternate" title="RSS" type="application/rss+xml" />
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,900' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Almendra+SC|Open+Sans+Condensed:700' rel='stylesheet' type='text/css'>
     <link href="{{ url_for('static', filename='css/prettify.css') }}" rel="stylesheet" type="text/css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='js/prettify.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/hyphenator.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript"
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
 </head>
 
-<body onload="prettyPrint()">
-<header>
-    <h1><a href="{{ url_for('index') }}">{{ config.BLOG_TITLE }}</a></h1>
-    <span>{{ config.BLOG_TAGLINE }}</span>
-    <ul>
-        {% if config.GITHUB_USERNAME %}
-            <li><a href="https://github.com/{{ config.GITHUB_USERNAME }}/">Github</a></li>
-        {% endif %}
-        {% if config.CONTACT_EMAIL %}
-            <li><a href="mailto:{{ config.CONTACT_EMAIL }}?subject:Howdy">Email me</a></li>
-        {% endif %}
-        <li><a href="{{ url_for('feed') }}">Feed</a></li>
-        {% block sidebar %}{% endblock %}
-    </ul>
-    <span class="powered-by">
-      Powered by <a href="http://github.com/yiransheng/seincere">Seincere</a>,
-        inspired by <a href="https://github.com/orf/simple">Simple</a>
-	which in turn is inspired by <a href="https://github.com/NateW/obtvse">Obtvse</a>; and 
-	that is inspired by<a href="http://svbtle.com/">Svbtle</a>.
-  </span>
-
-</header>
+<body>
 
 <div id="container">
-    <time>
-        {% if post %}
-            Posted {{ post.created_at.strftime('%B %d, %Y') }}
-            {% if post.created_at.strftime('%B %d, %Y') != post.updated_at.strftime('%B %d, %Y') %}
-                , Updated {{ post.updated_at.strftime('%B %d, %Y') }}
-            {% endif %}
-        {% else %}
-            {{ now.strftime('%B %d, %Y') }}
-        {% endif %}
-    </time>
-    <div id="content">
+    <div id='header'>
+	<header>
+	<div id="header-bloginfo"> 
+	    <h1><a href="{{ url_for('index') }}">{{ config.BLOG_TITLE }}</a></h1>
+	    <span>{{ config.BLOG_TAGLINE }}</span>
+	    <ul>
+		{% if config.GITHUB_USERNAME %}
+		    <li class='text'><a href="https://github.com/{{ config.GITHUB_USERNAME }}/">Github</a></li>
+		{% endif %}
+		{% if config.CONTACT_EMAIL %}
+		<li class='text'><a href="mailto:{{ config.CONTACT_EMAIL }}?subject:Howdy">Email me</a></li>
+		{% endif %}
+		{% if config.LINKEDIN_PROFILE %}
+		<li class='text'><a href="{{ config.LINKEDIN_PROFILE }}">LinkedIn</a></li>
+		{% endif %}
+		<li class='text'><a href="{{ url_for('feed') }}">Feed</a></li>
+		{% block sidebar %}{% endblock %}
+	    </ul>
+	
+	</div>
+	<div id="header-widget" class="widget">
+	    {% if config.ABOUT_TEXT %}
+	       {{ config.ABOUT_TEXT }}
+	    {% endif %}
+	</div>
+	
+	</header>
+
+    </div>
+
+    <div class="main">
         {% block content %}{% endblock %}
+	<div id="footer">
+	    <span class="powered-by">
+		Powered by <a href="http://github.com/yiransheng/seincere">Seincere</a>,
+		inspired by <a href="https://github.com/orf/simple">Simple</a>
+		which in turn is inspired by <a href="https://github.com/NateW/obtvse">Obtvse</a>; and 
+		that is inspired by<a href="http://svbtle.com/">Svbtle</a>.
+		</span>
+	</div>
     </div>
 </div>
-
+<!-- Content Formatting -->
+<script>
+$(function(){
+    Hyphenator.config({
+        displaytogglebox : true,
+        minwordlength : 4
+    });
+    Hyphenator.run();
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$','$']]}
+    });
+    prettyPrint();
+    $("#printable-view").click(function(e){
+	e.preventDefault();
+        $("#header").toggleClass("hide");
+        $("#comment").toggleClass("hide");
+        $("#footer").toggleClass("hide");
+        $(this).toggleClass("on");
+    });
+});
+</script>
 <!-- Google Analytics -->
 <script>
     var _gaq=[['_setAccount','{{ config["ANALYTICS_ID"] }}'],['_trackPageview']];

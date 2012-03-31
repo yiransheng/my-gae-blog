@@ -17,7 +17,6 @@ POSTS_PER_PAGE = app.config.get('POSTS_PER_PAGE', 10)
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
-
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html", now=datetime.datetime.now()), 404
@@ -51,7 +50,7 @@ class Post(ndb.Model):
         return q.fetch(10000000)
 
     def render_content(self):
-        return markdown.Markdown(extensions=['fenced_code'], output_format="html5", safe_mode=True).convert(self.text)
+        return markdown.Markdown(extensions=['fenced_code', 'mathjax'], output_format="html5", safe_mode=True).convert(self.text)
 
 
 def requires_authentication(f):

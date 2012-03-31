@@ -12,3 +12,4 @@ ve
 *#
 app.yaml
 settings.py
+base.html
