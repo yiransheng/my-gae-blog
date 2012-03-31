@@ -41,9 +41,20 @@
 	
 	</div>
 	<div id="header-widget" class="widget">
-	    {% if config.ABOUT_TEXT %}
-	       {{ config.ABOUT_TEXT }}
-	    {% endif %}
+            <div style="font: 0px/0px;clear: both;display: block"> </div>
+		<div id="cse" style="width: 100%;"><span class='text'>Loading Search box...</span></div>
+		    <script src="http://www.google.com/jsapi" type="text/javascript"></script>
+		    <script type="text/javascript">
+			google.load('search', '1', {language : 'en'});
+			google.setOnLoadCallback(function() {
+			var customSearchControl = new google.search.CustomSearchControl('004804659902818603873:oj7uwt8wnay');
+			customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+			customSearchControl.draw('cse');
+			}, true);
+		    </script>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/cse.css') }}" type="text/css" />
+            </div>
 	</div>
 	
 	</header>

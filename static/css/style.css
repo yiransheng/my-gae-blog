@@ -78,6 +78,10 @@ color: #000;
 height: 100%;
 float: right;
 color: white;
+overflow: visible;
+}
+#header-widget iframe{
+display: none;
 }
 #printable-view.on{
 text-decoration: line-through;
