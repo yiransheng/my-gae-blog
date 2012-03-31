@@ -55,6 +55,13 @@ function recordPostData(){
 
 $(function() {
     $('textarea').autogrow();
+    $("#post_draft").click(function() {
+        if ($(this).val() == "1") {
+	    $(this).val("0");
+	} else {
+	    $(this).val("1");
+	}
+    });
     $("#preview").click(function(e){
 	e.preventDefault();
 	var form = $("form:first").clone();
