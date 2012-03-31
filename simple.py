@@ -132,7 +132,7 @@ def edit(id):
             slug = slugify(post.title)
 
             other_post = Post.get_by_slug(slug)
-            if other_post.id != id:
+            if other_post and other_post.id != id:
                 slug = '-'.join([slug, sha1('%s' % time.time()).hexdigest()[:8]])
 
             post.slug = slug
