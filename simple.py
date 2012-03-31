@@ -127,6 +127,8 @@ def edit(id):
         title = request.form.get("post_title","")
         text  = request.form.get("post_content","")
         draft = request.form.get("post_draft", type=bool)
+	if not draft:
+	    draft = False
 
         if post.draft and not draft:
             slug = slugify(post.title)
