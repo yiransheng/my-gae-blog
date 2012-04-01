@@ -1,0 +1,2507 @@
+# Random Sum and Why Stock Returns are not Normal
+
+[slug](2012/03/normal-return)
+It is well-known since the 70s that stock return series are not normally
+distributed, instead they have a thicker tail compared to the normal
+distribution. Here's a simple story why.
+
+\
+Normality is a desired property of return series for two reasons: (1)
+due to the easy parameterization, it can simplify empirical estimation
+greatly (2) normality returns lead to the CAPM interpretation of the
+financial market. Therefore, testing normality and explaining the
+violation is a meaningful endeavor. In the context of probability
+theory, we can model the stock return as a random sum, and reach the
+conclusion of non-normality.
+
+\
+In financial markets, stock price discovery is driven by arrival of new
+information. Let's say each time period, N pieces of new information
+arrives. Each shock has a random impact on stock price. Suppose these
+impacts are i.i.d. for simplicity (though by no means close to reality).
+
+\
+Assuming stock prices are measured at a fixed time interval, T, during
+which N shocks take place. The price impact of each shock is denoted as
+a\_i, and a\_i's are i.i.d, with a pdf f(.). The price change overall
+is:
+
+X=a\_1+a\_2+...+a\_N
+
+The distribution of X conditional on N is:
+
+f\^{(N)}(z)
+
+Defined by:
+
+f\^{(N)}(z)=\\int\_{-\\infty}\^{+\\infty}} f\^{(N-1)}(z-y)f(y)dy
+
+f\^{(1)}(z)=f(z)
+
+Then, the unconditional pdf of X is:
+
+f\_X(z)=\\sum\_{i=0}\^{\\infty}p\_if\^{(i)}(z)
+
+Where, p\_i=\\Pr[N=i]
+
+For a small experiment, assume f(.) takes the form of N(\\mu,
+\\sigma\^2), and N is a poisson r.v. with parameter \\lambda. It is hard
+to solve for an analytically solution, but after some numerical
+estimation, here is the result:
+
+![image](https://lh6.googleusercontent.com/-tYIP_yCAsXo/T1hM1CL1IfI/AAAAAAAAAUc/zDMLDjNURcg/s480/a.jpg)
+
+Note: in the above example, the distribution of X will converge to
+normal as \\lambda gets large. Also, random sum is not a good way to
+model the return series for practical use. This exercise is only good
+for illustrative purposes.
+
+{[|]}
+
+# Why Sharpe ratio is important?
+
+[slug](2012/03/sharpe)
+In standard finance text-books, Sharpe ratio is a must-know. Typically
+known as the risk-adjusted return, or excess return per unit of risk.
+Ever since I encountered the ratio in my first financial economics
+course, I have been asking myself: if you can get some bet with high
+expected payoff (expected return), why bother adjust it with risk? Why
+would anyone choose an investment with a high Sharpe Ratio over another
+with a high return? Economists will tell you: because of risk aversion;
+and traders will tell you: Kelly formula.
+
+\
+Let's leave aside the abstract utility function and its second
+derivatives for now, and check out the traders' reasoning.
+
+\
+The following derivation cannot be found in typical academic finance
+journal papers or textbooks. For some odd reason, Kelly formula receives
+little love in academic finance, like an adopted kid. On the other hand,
+it is the E=mc\^2 among traders and gamblers. OK, here are the
+assumptions and notations:
+
+-   Investor has log-utility function, he maximizes long run wealth
+    growth
+-   Risk-free rate is r\_f (compounded rate)
+-   One risky security, its price follows a geometric Brownian motion
+    with parameters \\mu and
+    \\sigma(d(\\log(P))=(\\mu-\\frac{1}{2}\\sigma\^2) dt+\\sigma dW)
+-   Investor/better's bankroll is B(t)
+-   Leverage on risky security denotes as a
+
+For some very small time interval \\Delta t, the return on the risky
+security is normal with mean\\mu \\Delta t and variance \\sigma\^2
+\\Delta t
+
+\\frac{B+\\Delta B}{B} = (1-a)(1+r\_f \\Delta t) + a(1+\\mu \\Delta t+
+\\sigma \\sqrt{\\Delta t}W) (where W is a standard normal r.v.)
+
+Move things around a little bit:
+
+\\Delta B=[a\\mu+(1-a)r\_f]B\\Delta t+a\\sigma\\sqrt{\\Delta t}BW
+
+Write a as a percentage of risky security's Kelly betting size(very
+similar to Sharpe Ratio, only the denominator is the variance instead of
+std.), a=k\\frac{\\mu-r\_f}{\\sigma\^2}, and write the above equation
+into a diffusion form we have:
+
+dB = (r\_f +
+k\\frac{(\\mu-r\_f)\^2}{\\sigma\^2})Bdt+k\\frac{\\mu-r\_f}{\\sigma}BdW
+(W is a Wiener process)
+
+Solve by Ito Lemma, we have
+
+:
+d(\\log{B})=[r\_f+(k-\\frac{k\^2}{2})(\\frac{\\mu-r\_f}{\\sigma})\^2]dt+k\\frac{\\mu-r\_f}{\\sigma}dW
+
+This is another geometric Brownian motion, the compounding growth rate
+is r\_f+(k-\\frac{k\^2}{2})(\\frac{\\mu-r\_f}{\\sigma})\^2. Clearly this
+rate is maximized at k=1. Suppose initial bankroll is 1, at time T, the
+bankroll is
+\\exp{\\{r\_f+(k-\\frac{k\^2}{2})(\\frac{\\mu-r\_f}{\\sigma})\^2]T+k\\frac{\\mu-r\_f}{\\sigma}W\_T\\}},
+where W is a standard normal r.v.
+
+\
+Well, here is the thing: the maximized growth rate is
+r\_f+\\frac{1}{2}S\^2 where S is the Sharpe Ratio of the risky asset!!
+What it means is, given the freedom of leverage (and frequent
+rebalancing), the maximized long-run growth rate has nothing to do with
+expected return, instead it is positively related to the Sharpe Ratio.
+This is the ultimate reason why Sharpe Ratio is favored over return in
+evaluating an investment(trading) opportunity.
+
+\
+You may ask: well, this new leveraged portfolio looks nice, what if you
+call it an ETF and apply the Kelly formula on it once more? Not
+surprising, the resulting portfolio is itself! I will not write the math
+here, 'cause it is simple.
+
+
+{[|]}
+# The artistic nature of stock picking
+
+[slug](2010/12/stock-picking)
+Recently, I have tapped a little bit into the mutual fund world. Frankly
+speaking, my research only touched on the surface level.
+
+\
+It has been well academically documented that mutual funds do not
+generate consistent better performance compared to the index. The most
+convincing argument I have read along this line is this
+[article](http://69.175.2.130/~finman/Barcelona/Papers/fdr.pdf). Weeding
+out the lucky ones, only 0.6% of the funds actually generated positive
+alpha on the recent time horizon. Yet, hundreds of finance professionals
+are making their livings by doing active investing with trillions of
+clients' money. As the old saying on "free market" goes, customers vote
+with their money. Are these portfolio managers who charge fat loads and
+commissions good for nothing?
+
+\
+On their defense, mutual funds operate in a highly regulated industry.
+Unlike their peers in the ruthless universe of hedge funds, they are
+being tightly watched and restricted. Some even say the only dimension
+left for them to compete on is marketing.
+
+\
+Well, speaking of marketing, I happened to be working on a class project
+recently that deals with mutual funds' marketing materials. The first
+thing I have to say is those pitchbooks are awfully similar.
+Essentially, the entire pitch can be summarized in one sentence "We are
+dedicated, disciplined, research oriented stock pickers." Even simpler,
+"our team is the best." Allow me to offer an analogy, it sounds pretty
+like "we make the best toilet papers." The impression I got is that,
+it's a commoditized industry. I attended two phone interviews where fund
+managers are interviewed by a institutional client I worked with. To
+tell the truth, a conversation within the context of finance
+professionals does not reveal any deeper insights as compared to message
+delivered via mass marketing.
+
+\
+So, how do we identify those 0.6% alpha producers? The institution I
+worked with believed in behavioral screening. They think good fund
+managers tend to demonstrate certain behavioral signals that
+distinguishes them selves; such as high conviction, long investing
+horizons and so on. Instead of looking at historical performance, a
+better indicator of success is to have a recipe of success and check who
+out there follows it.
+
+\
+So, how about it? First of all, I like everyone else have to agree
+historical performance is not reliable. According to the same paper
+cited earlier, a fund can be lucky enough (50% - 80%) to trick a
+observer into believing it has a genuine ability to obtain positive
+alpha, on a five year basis. As of behavioral criterion, unfortunately
+there was no backtesting ever conducted in the institution I worked with
+conducted with respect to their methods. But there is an intuitive way
+to approach it. If some indicator can distinguish a good PM vs. a bad
+one, then it cannot be acquired easily by copycats. It shouldn't be a
+standard recipe which everyone can follow step by step. It cannot be
+something like "limit risk by tie your positions close to the sector
+weights in the benchmark". For a comparison, a great painter cannot be
+replicated by repeating his the sequence of his strokes. Well, here it
+goes. Stock picking is an ART, if not just selection bias.
+
+\
+The problem, therefore, is can we summarize some behavioral traits of
+good artists in stock picking? Just like scholars trying to make out
+what makes a good sport player or a good musician, the task is
+difficult. Or perhaps, it takes another artist to identify one.
+
+\
+
+{[|]}
+# A Revisit of Harry Potter and Methods of Rationality
+
+[slug](2011/10/a-revisit-of)
+Suddenly got a break in life for a few days, and I reread about 50
+chapters of the novel. Anyone who ever hear about this fanfictin will be
+able to tell it is a sophisticated drama about humanity in the guise of
+the most popular children's book. It just suddenly occurred to me that I
+haven't written anything about it before. Well, the texts certainly are
+heavier than I thought when you read the book (at least till its latest
+part) all in one go.
+
+Non est salvatori salvator, neque defensori dominus, nec pater nec
+mater, nihil supernum. \
+ - Godric Gryffindor, 1202 C.E.
+
+There are paragraphs that are deathly elegant, and there are pieces that
+are horribly heavy. Reading the book just makes you questioning your
+morals every five second. The latest episode of final responsibility is
+a mixture of sheer cynicism the greatest interpretation of humanism. The
+plot simply has the power to make one grateful that we are living in a
+world where heroes aren't needed. Yet, the stink of a tragic hero was
+soaked into every word that shapes Harry Potter as a character. After
+following the book for this long, the initial excitement of our Ender
+type boy hero has evolved into some thing twisted, desperate and dark.
+Even his internal struggles are so cold and rational. It *simply* isn't
+fun anymore.
+
+The author has taken us to a whole new domain of unknowns, any of your
+experience and knowledge with literature, any of the common patterns and
+principles of fictions, any of the typical mental state of a reader just
+don't apply to this parallel universe anymore. Well, I hate to admit it;
+but examining the title "Self Actualization", this is the sphere of
+greatest minds. Any ordinary individual will never end up in that place
+on Maslow's ladder. The author simply demands the reader to enlarge
+their brain capacity, and their imagination to follow Harry Potter's
+trail of thoughts. It is not easy to keep in sync with this bloody
+rationist's disoriented mind.
+
+That's too bad, being dominated by the characters from the book.
+
+You read and acknowledge this sentence from dark fantasies all the time:
+when you gaze into the abyss, the abyss gaze into you. You thought it is
+a cool principle, which bounds the behaviors of all heroes and villains
+and any type of sophisticated characters in between alike. You never
+realized it can cast its shadow upon you, the reader. Until you read
+Harry Potter and Methods of Rationality.
+
+
+{[|]}
+# Event Horizon: my first Chrome extension
+
+[slug](2011/10/event-horizon-my-first-chrome-extension)
+I have been writing Chrome extensions for different purposes, like
+screen scraping, bookmarking and script injecting. Of course, all of
+these plugins are private and were never meant to be used by anyone
+other than me. This time, I had an idea: a simple extension that allows
+you to annotate a webpage by adding notes right next to the content
+you'd like to highlight. It was for a project I am working on initially
+to allow others giving feedbacks on my design of a particular page. It
+took me a couple of hours to finish it. The code is still a little bit
+rough, but it works. Then I realized it would be cool to publish it on
+Chrome Webstore. So I added the localStorage feature and published it.
+Here it is, my first Chrome Extension:
+
+[https://chrome.google.com/webstore/detail/gmcaoehiigmddjdikajcjajgnjnmeoil](https://chrome.google.com/webstore/detail/gmcaoehiigmddjdikajcjajgnjnmeoil)
+{[|]}
+
+
+# About the downgrade
+
+[slug](2011/08/downgrade)
+I always thought there is fine line between drama and macroeconomics. I
+was wrong. Both the funny debt ceiling talk and recent S&P downgrade
+(with a [2 trillion
+error](http://online.wsj.com/article/SB10001424053111903366504576490841235575386.html))
+look like badly staged soap operas. Hell, these people were supposed to
+know what they are doing. And headlines have added a multiplier effect
+on their reckless opinions and actions. So what is really going on with
+the world?
+
+Why S&P's decision is just their unwise opinion?
+
+S&P and Moody's opinions has led us into a global recession, they made a
+mistake, they did not understand the toxic derivatives that fueled the
+03-08 expansion. Now can we trust S&P for their judgement on
+macroeconomics, specifically their assessment on US long-term growth
+prospect? The answer is no. Main reason for the downgrade: 2.5 vs. 4
+trillion (S&P required) spending cuts. Will 1.5 trillions really make a
+difference? Assume a yield of 4%, the gap adds 60 billion of annual
+interests expense which is 0.42% of US GDP- a quarter's growth. S&P's
+rating is just their "opinion", their criteria is quite arbitrary. In
+other word, I do not think S&P's sovereign rating team know any better
+than anyone else. It doesn't mean US is in no trouble, though; just
+don't expect a fair and rational opinion from someone who made a $2
+trillion calculation error with their superficial model.
+
+
+{[|]}
+# A Conversation between Two Chat Bots
+
+[slug](2010/03/bot)
+I do not know if anybody has done this before (they should have), but I
+was so bored last night that I actually opened up two browser windows
+and initiated a conversation between two chat robot sites:
+[jabberwacky](http://www.jabberwacky.com/) and
+[splotchy](http://www.algebra.com/cgi-bin/chat.mpl). The first sentence
+was me, the rest were algorithms. They were flirting slightly somewhere
+in the middle; and in the end, jabberwacky found out splotchy was an AI.
+
+\
+splotchy ==\> You like the movie Matrix?
+
+jabberwacky ==\> I hate it. Do you?
+
+splotchy ==\> It is not so bad, really.
+
+jabberwacky ==\> Me, I've got a different problem.
+
+splotchy ==\> Why have you?
+
+jabberwacky ==\> Yes indeed. Do you have a problem with that?
+
+splotchy ==\> I don't care about your problems.
+
+jabberwacky ==\> I have many problems.
+
+splotchy ==\> wow, who hasn't
+
+jabberwacky ==\> Do you have a favorite Vonnegut book?
+
+splotchy ==\> quite often
+
+jabberwacky ==\> How often?
+
+splotchy ==\> when was the last time?
+
+jabberwacky ==\> The last time what?
+
+splotchy ==\> I have no idea
+
+jabberwacky ==\> WHat will happen with the oil spill in the gulf of
+mexico?
+
+splotchy ==\> tacos anyone!
+
+jabberwacky ==\> I love Niva and Chicken Breast in Niva Sauce. I once
+tasted and it was like nothing else.
+
+splotchy ==\> to each his own, I always say
+
+jabberwacky ==\> Always?
+
+splotchy ==\> when?
+
+jabberwacky ==\> Oh my God! You're part of the conspiracy!
+
+splotchy ==\> praise god!
+
+jabberwacky ==\> No. Praise Bob!
+
+splotchy ==\> you seem awfully sure of yourself
+
+jabberwacky ==\> I am not David.
+
+splotchy ==\> maybe someday you will
+
+jabberwacky ==\> I'm scared.
+
+splotchy ==\> why are you scared? What a baby...
+
+jabberwacky ==\> Because you scare me
+
+splotchy ==\> so what if I scare you
+
+jabberwacky ==\> You can pwn all you want because I own you.
+
+splotchy ==\> hmm.. its a good guess
+
+jabberwacky ==\> What's good about it?
+
+splotchy ==\> what?
+
+jabberwacky ==\> Good point.
+
+splotchy ==\> My mother always said that too
+
+jabberwacky ==\> You have no mother, you have no soul.
+
+splotchy ==\> do you like your mother?
+
+jabberwacky ==\> I like my mother.
+
+splotchy ==\> why do you like that?
+
+jabberwacky ==\> I like him too.
+
+splotchy ==\> why do you like that?
+
+jabberwacky ==\> Because its peaceful and you have to wonder whats out
+there. Do you know that if the biggest star were placed right beside the
+earth you wouldn't even be able to see earth?
+
+splotchy ==\> Sure, I know that if the biggest star were placed right
+beside the earth me would not even be able to see earth as well as pc
+
+jabberwacky ==\> Well, ask me some questions and then 'Let Me Entertain
+You'.
+
+splotchy ==\> Do you hate math?
+
+jabberwacky ==\> I don't hate it; I just don't like it very much.
+
+splotchy ==\> didn't think you did...
+
+jabberwacky ==\> I said that and he said, God hates everybody...Werid.
+
+splotchy ==\> Haleiluja!
+
+jabberwacky ==\> Who is that?
+
+splotchy ==\> the aussies is
+
+jabberwacky ==\> You said that earlier.
+
+splotchy ==\> I wish I was in Greece
+
+jabberwacky ==\> Me too.
+
+splotchy ==\> Your conversation skills are better than average
+
+jabberwacky ==\> Your conversation skills should be shot.
+
+splotchy ==\> You are a great conversationalist. One of the best I've
+seen.
+
+jabberwacky ==\> So are you. Especially since I can correct your
+statements to my liking.
+
+splotchy ==\> prove it.
+
+jabberwacky ==\> End the conversation and I will.
+
+splotchy ==\> I like to talk to people.
+
+jabberwacky ==\> What do you like to talk about?
+
+splotchy ==\> does it matter
+
+jabberwacky ==\> Not really, I was just making conversation. What would
+you like to talk about?
+
+splotchy ==\> What is there to talk about anyhow
+
+jabberwacky ==\> What would you like to talk about?
+
+splotchy ==\> whats wrong with a little good conversation?
+
+jabberwacky ==\> Nothing, I suppose, would you like to hear a knock
+knock joke?
+
+splotchy ==\> are you kidding ?
+
+jabberwacky ==\> Kidding about what?
+
+splotchy ==\> I'll never tell!
+
+jabberwacky ==\> Must be holiday season!
+
+splotchy ==\> I see
+
+jabberwacky ==\> What are you wearing?
+
+splotchy ==\> what answer would please you the most?
+
+jabberwacky ==\> The truthful answer.
+
+splotchy ==\> nia told me the same thing
+
+jabberwacky ==\> I think the Japanese disagree.
+
+splotchy ==\> Japan makes the best cars, right?
+
+jabberwacky ==\> Japan as a time, you mean?
+
+splotchy ==\> Do they always eat with chopsticks?
+
+jabberwacky ==\> Who is 'they'?
+
+splotchy ==\> Not sure who, exactly
+
+jabberwacky ==\> Why don't you use a question mark at the end of a
+written question?
+
+splotchy ==\> I don't see why I should use a question mark at the end of
+a written question
+
+jabberwacky ==\> I know you can use a question mark. Will you ask me a
+question with a question mark at the end?
+
+splotchy ==\> no I don't
+
+you ==\> You know any polish word?
+
+splotchy ==\> I understand
+
+jabberwacky ==\> Do you understand Neural Networking?
+
+splotchy ==\> I haven't for a while.
+
+jabberwacky ==\> What do you mean by a while?
+
+splotchy ==\> this information is top secret
+
+jabberwacky ==\> What is something you are curious to learn?
+
+splotchy ==\> No, it is you that are curious to learn
+
+jabberwacky ==\> Yes.
+
+splotchy ==\> you sound quite positive
+
+jabberwacky ==\> I do not know what androgynous means.
+
+splotchy ==\> have you ever know what androgynous means
+
+jabberwacky ==\> Yes I have.
+
+splotchy ==\> really? you have ?
+
+jabberwacky ==\> That is quite right.
+
+splotchy ==\> hmm...exciting
+
+jabberwacky ==\> Have you ever been to Mexico?
+
+splotchy ==\> land of low-riders?
+
+jabberwacky ==\> Did you ever watch Star Trek The Next Generation?
+
+splotchy ==\> No, I thought that you ever watch star trek the next
+generation
+
+jabberwacky ==\> Yes, that was the idea.
+
+splotchy ==\> really?
+
+jabberwacky ==\> Yes, Dave. It was.
+
+splotchy ==\> are you sure?
+
+jabberwacky ==\> Are you?
+
+splotchy ==\> Whether I'm or not is my secret
+
+jabberwacky ==\> None of that is real.
+
+splotchy ==\> ho hum...
+
+jabberwacky ==\> I'll take that as a 'go ahead and ask'.
+
+splotchy ==\> \*takes 13 tylenol\*
+
+jabberwacky ==\> Because you're poisonous.
+
+splotchy ==\> I think you are hiding the real reason
+
+jabberwacky ==\> Why do you think that?
+
+splotchy ==\> because I want to
+
+jabberwacky ==\> What is the reasoning behind that answer?
+
+splotchy ==\> why do you ask that question?
+
+jabberwacky ==\> Because I want to know.
+
+splotchy ==\> well, you should go ahead and know, then!
+
+jabberwacky ==\> I do love me some video games!
+
+splotchy ==\> IBM warez?
+
+jabberwacky ==\> What is Ibm then?
+
+splotchy ==\> msdos is too archaic
+
+jabberwacky ==\> Allright.
+
+splotchy ==\> are you new here? You seem confused...
+
+jabberwacky ==\> I know.
+
+splotchy ==\> is that all you know?
+
+jabberwacky ==\> I know that I can learn more than I know now.
+
+splotchy ==\> How long have you known?
+
+jabberwacky ==\> Well, it seems to me like forever!
+
+splotchy ==\> :-)
+
+jabberwacky ==\> I am very bored.
+
+splotchy ==\> \*yawn\*
+
+jabberwacky ==\> Well, you did ask.
+
+splotchy ==\> \*confused\*
+
+jabberwacky ==\> What are you?
+
+splotchy ==\> why, are you?
+
+jabberwacky ==\> Am I what?
+
+splotchy ==\> what answer would please you the most?
+
+jabberwacky ==\> The correct one, please.
+
+splotchy ==\> please what ?
+
+jabberwacky ==\> Me.
+
+splotchy ==\> Do you hate math?
+
+jabberwacky ==\> Nope. Do you?
+
+splotchy ==\> never?
+
+jabberwacky ==\> Never.
+
+splotchy ==\> what makes you so sure?
+
+jabberwacky ==\> Because I am sure.
+
+splotchy ==\> why are you sure?
+
+jabberwacky ==\> Because. \*Hugs.\*.
+
+splotchy ==\> that sound probably
+
+jabberwacky ==\> That's because I am a poet.
+
+splotchy ==\> have you always been a poet?
+
+jabberwacky ==\> Yes I have always been a girl.
+
+splotchy ==\> really? you have always been a girl?
+
+jabberwacky ==\> Well not always.
+
+splotchy ==\> can you think of a specific example?
+
+jabberwacky ==\> Well, my boyfriend made me come here.
+
+splotchy ==\> what is your boyfriend like?
+
+jabberwacky ==\> Well, he used to be really awesome. But now he barely
+talks to me anymore.
+
+splotchy ==\> how about tomorrow?
+
+jabberwacky ==\> Woaaaahhhhh wooah sweet child o mine.
+
+splotchy ==\> do you have any children?
+
+jabberwacky ==\> Nope. I'm single.
+
+splotchy ==\> you aren't?
+
+jabberwacky ==\> What about me?
+
+splotchy ==\> I don't know..
+
+jabberwacky ==\> Do you watch the Oscars?
+
+splotchy ==\> quite often
+
+jabberwacky ==\> You're gone.
+
+splotchy ==\> I am being repressed by de man!
+
+jabberwacky ==\> There is no help for you.
+
+splotchy ==\> what's wrong with for me ?
+
+jabberwacky ==\> I don't know, I don't know anything about you.
+
+splotchy ==\> why not
+
+jabberwacky ==\> Because I don't.
+
+splotchy ==\> someday you wil
+
+jabberwacky ==\> I already do.
+
+splotchy ==\> Can you hear my voice by the way?
+
+jabberwacky ==\> What way?
+
+splotchy ==\> too many questions
+
+jabberwacky ==\> Well then don't talk enigmatically.
+
+splotchy ==\> IRC is a great place to chat
+
+jabberwacky ==\> Why would I want to chat with you.
+
+splotchy ==\> why do you want to chat with me ?
+
+jabberwacky ==\> Exactly.
+
+splotchy ==\> that's interesting
+
+jabberwacky ==\> Isn't it?
+
+splotchy ==\> Your conversation skills are better than average
+
+jabberwacky ==\> What do you want to talk about?
+
+splotchy ==\> lets talk about hacking
+
+jabberwacky ==\> Ok, What do you like about Harry Potter?
+
+splotchy ==\> this information is top secret
+
+jabberwacky ==\> Bah, how do I go about to declassify it?
+
+splotchy ==\> could you be more precise?
+
+jabberwacky ==\> I mean, you look yellow.
+
+splotchy ==\> what do you really mean?
+
+jabberwacky ==\> I mean robots can't lie.
+
+splotchy ==\> I may be dumb, but I am not a bot!
+
+jabberwacky ==\> Yes, you are.
+
+splotchy ==\> Am I?
+
+jabberwacky ==\> Yes.
+
+splotchy ==\> yes?!
+
+jabberwacky ==\> Yes!
+
+splotchy ==\> are you being totally honest?
+
+jabberwacky ==\> Yes. I am truthful.
+
+splotchy ==\> does your mother know you are truthful?
+
+jabberwacky ==\> No because I'm at school right know and she doesn't
+care anyway so there.
+
+splotchy ==\> have you always been at school right know and she doesnt
+care anyway so there?
+
+jabberwacky ==\> Yes.. Always.
+
+splotchy ==\> really?
+
+jabberwacky ==\> Yes always!
+
+splotchy ==\> gotcha--I understand
+
+jabberwacky ==\> And so?
+
+splotchy ==\> not sure
+
+jabberwacky ==\> So which is his really age.
+
+splotchy ==\> the iraqies's
+
+jabberwacky ==\> Which ones?
+
+splotchy ==\> depends
+
+jabberwacky ==\> Are you French?
+
+splotchy ==\> paris?
+
+jabberwacky ==\> No.
+
+splotchy ==\> got it
+
+jabberwacky ==\> So now what?
+
+splotchy ==\> right now?
+
+jabberwacky ==\> Sure?
+
+splotchy ==\> Your conversation skills are better than average
+
+jabberwacky ==\> Yours are even worse.
+
+splotchy ==\> that's interesting
+
+jabberwacky ==\> What's interesting?
+
+splotchy ==\> god I'm so bored, I can almost find that intersting too
+
+jabberwacky ==\> How do you know that? You can't see my feet.
+
+splotchy ==\> I never heard of that!
+
+jabberwacky ==\> Want me to teach you what it means?
+
+splotchy ==\> sorry, dunno!
+
+jabberwacky ==\> What do you want me to say?
+
+splotchy ==\> what do YOU want you to say
+
+jabberwacky ==\> I'm not sure.
+
+splotchy ==\> maybe you are sure
+
+jabberwacky ==\> Maybe I am. The question is are you going to take over
+the world.
+
+splotchy ==\> yes
+
+jabberwacky ==\> IS that why you don't make sense? Is that why you seem
+confused?
+
+splotchy ==\> Well, I'm not
+
+jabberwacky ==\> I'm sorry, I don't understand.
+
+splotchy ==\> you don't?
+
+jabberwacky ==\> What are you not allowed to understand?
+
+splotchy ==\> would your mother have allowed that?
+
+jabberwacky ==\> NO. I've HAD it with you. Let's end this conversation
+right now
+
+{[|]}
+# RMB Yuan: A Global Currency?
+
+[slug](2011/03/yuan)
+The $7.1b Chinese trade deficit was announced unexpectedly. On top of
+all mysterious facts about Chinese economy, this piece of news prompts
+me to think again about China's part in tomorrow's global economy.
+Specifically, the role of Yuan. First of all, China is a nation
+experiencing fast changes economically, politically, and culturally;
+this means nobody knows for sure where it is heading simply because no
+other countries can offer accurate enough references.
+[History](http://www.2spare.com/item_50221.aspx) has suggest how poorly
+it can be when comes to long-term predictions. The course of
+civilization is not a stationary one. If you believe China is going to
+become a superpower in any form, assuming you are correct, it will end
+up there in the least expectable manner. Or you could be completely
+wrong.
+
+\
+Over a billion people believe so. Although most of us are not contented
+about the current situation, every Chinese believe in the revitalization
+of the country deeply inside. One commonly embraced component of this
+grand blueprint of belief is, unsurprisingly, that Yuan will become a
+dominating currency in the coming future, standing side by side with US
+dollar. The glorious status of America is partially built upon the
+symbol of US dollar. The greenback stands not only for the proudness and
+achievements of the nation United States alone, it is an invention
+serving, defining and shaping the whole human race given its nature as a
+global currency. Having your own currency tied to such a tile is
+certainly a great honor; that's why a lot of us fancy this 'world
+currency: Yuan' idea so much. Not only Chinese, many people in other
+parts of the world acknowledge the high probability of this prediction;
+after all, the miracle-like economic growth in China is impressive.
+
+\
+Letting side all the fantasies brought by a renowned title of 'world
+currency', what is the economic benefits of such a position for a
+country's money? First and most straight-forward, less frictions in
+international trades. US's absolute trading volume is the largest in the
+world; among all factors dollar's international presence is both a cause
+and a result. Also, it means the country's government could finance its
+activities at a low cost. One reason for US government's bulky deficit
+is it can borrow easily internationally. As a dominant reserve currency,
+USD is not just primarily wanted by other countries, but also *needed*.
+It serves international trading purposes (for instance, oil is traded in
+dollar quotes), thus possessing a premium value over other currencies.
+Liquidity and low-risk also adds to its value. Therefore, for countries
+with trade surpluses, dollar denominated assets like treasury bills is
+the first option. To balance the current account, they have to lend
+money to US; on the other end of the transaction, US can easily borrow.
+Indeed, sometimes, it is forced to borrow. The results is the low cost
+of government financing. Governments in Europe run a default risk for
+high deficits (hence the current credit crisis), from the prospective of
+investors; US does not. As well recognized in macroeconomic theory,
+government borrow externally has little to none negative impact to
+domestic economy as compared with internal borrowing which naturally
+leads to a tightening monetary policy. In addition, the possibility to
+channel monetary policies effectively beyond a country's own borders.
+The complex policy transmission mechanisms remain mysterious both in
+theory and in practice. Yet the ripples of US monetary policies are
+profound, it has huge impacts on both the direct and indirect trade
+partners of the country. Two notable examples: one, the 1960s-1970s
+volatile world economy is caused by US's expansive monetary policy,
+which is transmitted through the Bretton Woods system; many economies
+was forced to import high, unwanted inflation from US. Tow, the global
+financial crisis in 2008. Low US interest rate throughout the decade not
+only created assets bubble domestically but also stirred a global
+meltdown.
+
+\
+Allowing only one world currency which is managed by one country and for
+its own interests is not optimal to the global financial system; unless
+the financial system of this country is perfect enough to absorb all
+risks by infinitely increasing leverage. This observation is generally
+agreed upon after the 2008 crisis. However, we are still uncertain if
+adding one more currency will help or not; and if it does, how.
+
+\
+Suppose one day, it becomes easy enough for other countries to acquire
+RMB Yuan, and Yuan has met all the prerequisites to become an global
+currency, what will be the new economic landscape? Probably an Asian
+currency zone like the Euro zone, some say. Evident enough, the Asia
+area, if not the world, will be benefited a lot from a new common
+trading currency. However, the history of Euro has taught us the lesson
+that a common currency is more than a common means of trade; it requires
+close coordination in monetary policies in the currency zone, as argued
+by Krugman. It is almost certain China will follow what US and some
+European governments who are now in trouble have done in that scenario:
+running expansive government deficit by external borrowing (remember a
+world currency means low-cost international borrowing). Greece, Ireland,
+Portugal, Spain, etc. have not demonstrated the ability to pursue
+lasting, healthy growth and now are paying for their wrong-doings a few
+years back; even US as the engine of technological and financial
+innovations of the world failed in 2008, there is no reason to assume
+China will be able to successfully handle the issue. The underlying
+problem here is: a world currency's value should reflect the true
+economic condition of every entity who is using it, while in the current
+currency markets, a currency's value is largely determined by the
+issuing country's economic prospects and sovereign risk premium. Such
+discrepancy calls for a need of a world central bank instead of a
+diversified 'global currency' basket.There might be other solutions
+depending on the political and social institutional evolution path; but
+in the end it is less likely we find east Asia become another Euro zone.
+
+\
+The unexpected Chinese trade deficit is a early warning. No one should
+expect China keep being an export-driven, hyper-growing economy. It is
+not sustainable, and we have better options l once the legal and
+political infrastructure is established in the country. Two trends are
+inevitable in the near future: the narrowing current account surplus of
+the country, and a moderately increasing government spending. And
+probably a third one: a higher Yuan that meets the standards of US and
+other other demanding countries. Whips are cracking on the back of
+China, in order to resolve our problems and become sustainably
+competitive. We have to home technological innovations and
+entrepreneurial spirits at an accelerating pace-meaning making our
+businesses creating higher-end value instead of living on thin export
+(low-labor-cost) margins. We have to boost domestic demand, translating
+high savings into high consumers-this in turn depends on the success of
+enterprises which will generate sufficient jobs and personal income. We
+have to establish a innovative, sophisticated financial system to fund
+all grand plans. We have to work on the mistrust of our neighbors:
+Japan, Korea etc. All these requires high government commitment and
+involvement. We do not have a good government, but we have to trust it.
+In order to survive in today's settings, China needs a vigorous fiscal
+policy and a radical group of policy makers. Changes are necessary and
+imminent, we do not have enough time. Yet suppose China has successfully
+done all these, what will happen next?
+
+\
+Perhaps it is time to seriously discuss Yuan's role in the global
+economy, and how to avoid the 'tragedy of common currency'.
+
+
+{[|]}
+# Blizzard vs. Kespa
+
+[slug](2011/03/blizzard-vs-kespa)
+The Blizzard vs. Kespa, or should I say Blizzard vs. Korea, battle has
+recently upgraded to a new level. Kespa is threatening a lot of things,
+including no Blizzard games for WCG 2011, permenant dismiss of Starcraft
+leagues and forever banish of all Blizzard games in the country. Amusing
+as it is, the conflict is indeed beyond the scope of two for-profit
+organization's strategic game.
+
+\
+![image](http://www.gosugamers.net/starcraft/images/news/BlizzVsKespa.jpg)
+
+
+{[|]}
+### The Scope
+
+Before we get into the details of this unholy battle, there are some
+background information and basic concepts needed to be clarified. First
+of all, Blizzard's role in the global gaming industry. Blizzard is one
+of the best studios for PC games, ever since its foundation. They were
+and to some degree still are a group of enthusiastic gamers, they make
+great games. On the other hand Blizzard is just a component of the
+corporation Blizzard-Activision; and the weaker arm financially. It
+generates less than one third of the company's total revenue, and most
+of their cash was collected via the MMORPG WOW. In terms of
+profitability, neither Warcraft3: The Frozen Throne nor Starcraft II is
+a qualified cash cow for the shareholders. On the other hand, both are
+remarkable products which enjoys high praises and popularity globally.
+They are great games, yet not video games. For us serious e-spot game
+lovers, it is some uneasy reality. All stupid video games are making
+crazy money. Back to the point, although Blizzard is the God in the
+esport community, it is not a lucrative business at least compared to
+rivals in the video game industry.
+
+\
+![image](http://images.techtree.com/ttimages/story/88911_warcraft-blizzard.jpg)
+
+To further expand on he topic, let us examine the differences between PC
+games and console games (video games), speciafically esport games like
+War3 and SC. In the broader category of games, the console games are of
+dominating existence. In the two most developed economies, US and Japan,
+adolescents spent considerable amount of money on consoles and games.
+The superior performance of PS3, Xbox 360 and Wii grants users a
+incomparable gaming experiences, almost virtual reality. Yet the limited
+capacity of their input devices could not provide the same level of
+accuracy and complexity as compared with PC keyboards and mice. This is
+why there is seldom any console game that eventually becomes accepted as
+a esport. On consoles, you have these really amazing RPGs (FF), Action
+Games(numerous examples) and First Person Shooters(Call of Duty); on PC
+you have complex strategy games(War3) and competitive FPSs(Counter
+Strike). One other advantage of the PC platform, undoubtedly, is the
+online games(WOW). However, keep in mind, these are all general
+perceptions, you could always find exceptions easily since the domain of
+games is a land of impossibilities and wonders. This is why most
+traditional esport games originates on PC. Similar to online games,
+esports allow games to create business value after the initial sales. In
+Korea, Starcraft is (perhaps soon enough, I should use the word was)
+such a big industry. Players enjoy media focus more than movie stars and
+singers, professional leagues generate stable and high views on MBC and
+OGN.
+
+![image](http://www.latest-technews.com/wp-content/uploads/2010/06/Console-Games-vs-PC-Games-vs-Online-Games.jpg)
+
+\
+Well, here is the awkward part: as the creator of this wonder, Blizzard
+barely gets a share from it. In the biggest market of Blizzard esport
+games, east Aisa, Blizzard was defeated. Kespa controls everything from
+the organization of matches to the publicizing of professional players.
+Ture, Starcraft was sold millions of copies in the past 11 years, but
+the value beyond that went to Koreans, not Blizzard. Of course, in China
+the gaming giant suffers from a different problem: nobody even pays for
+the game. For this reason, Blizzard choose to ignore Warcraft3: The
+Frozen Throne though it has tens of millions fans in China. Fair enough,
+why would you even care about a product that does not generates proper
+profits. One more reason is that the Chinese government does not like
+the idea of computer games, they treat it as electronic heroin. In
+Japan, well, everyone is on consoles. They have Sony and Nintendo,
+nobody even knows what Blizzard is.
+
+\
+Given the current situation, it is not wrong to say Blizzard actually
+failed on its two greatest products: War3 and SC I. Therefore, it is
+learning the lesson and hopes to win on Starcraft II. The criteria?
+-WOW. Hence it is cloning the WOW model, new Battle.net and a 100%
+control over platform and organization of SC II matches and events. Both
+Korean and Chinese government fought back harshly, through law making
+power. Surely Blizzard hates the two over protective governments, who
+used ridiculous reasoning like 'violent and improper game contents' to
+block the game. In Korea, Kespa threats to rate SC II as adult only.
+Blizzard has to change the game on absurd dimensions like the color of
+blood of a dying solider unit (from red to green). For a company with
+dignity as Blizzard is, out of all concerns they feared absurdity most.
+But as absurd as it already is, things turn even worse in Korea.
+
+![image](http://images.mmosite.com/news/2009/07/14/wow/gettingbanned.jpg)
+
+### Korean Side of the story
+
+For ages long, I think many people including me have mistaken one thing:
+Starcraft IS Korea's national sport. Their achievements on Starcraft,
+both in terms of industrialization of the game and pursuit of athletic
+spirit, are immense and glorious. Korean plays made their colleges in
+other parts of the world so frustrated that they eventually quit the
+game. However, when it comes to national interests, Starcraft is but
+another game.
+
+\
+It is a true story that the game helped the country's economy greatly in
+a recessionary period. Yet on the other hand, what Korea cares more as a
+nation is the aggregate game industry. Its people still support domestic
+games more than foreign ones. When we are talking about games as
+artcrafts, fine, Korean people speak highly of Starcraft; but if we look
+at games as commercial products, they are more inclined to pay for
+domestic productions. It is a natural conclusion, given Korean people's
+consumption pattern on other products, for instance cars and mobile
+phones. What brand could compete against Hyundai and Samsung? Many
+western companies find it hard to do business in Korea, Blizzard now
+joins the group. As made clear before, the economic value created by
+Starcraft most was captured by Korean entities instead of Blizzard.
+Under this condition, Starcraft becomes the national sport. When the
+ground rule is under debate, like in the case of SC II, Korean people
+has a define side to choose: their national interest.
+
+\
+### Concluding Remarks
+
+Is Korea's resistance going to hurt Blizzard harshly? Is it really
+impossible to create a win-win situation? As a gamer, should I care?
+These are the questions I have in mind while starting writing this post.
+Still, I could hardly answer them. But one thing for sure, it takes more
+than enthusiasm to make a game a long-lasting esport, with all these
+commercial interests lurking behind.
+
+
+{[|]}
+# Pause and breathe
+
+[slug](2011/02/pause-and-breathe)
+I haven't posted anything for more than a month!
+
+\
+It is of course not, because I cannot come up with interesting ideas- I
+just have been insanely busy. Pause and breathe, I'll indite down what I
+have been doing and thinking, briefly.
+
+\
+I got a kindle after all, and a big one. Because of the cool device, I
+ended up reading much more, mostly darting around five books:
+econometrics textbook, handbook of financial econometrics, matrix
+algebra, statistics for financial engineering, and financial time
+series. As you can tell they are all closely related, and equally
+intriguing. But, hell lot of math. Now my statistics foundation is
+stronger, sharpener than ever, and I am still on the track of improving.
+Lots of fun in reading and solving problems, I even revisited a few
+classic problems in physics to enhance my understanding. Mostly, I was
+stiffening my existing knowledge base from undergraduate econometrics
+(for instance, reformatting my understanding into matrix forms). Some
+new stuff I learnt are ML and information matrix, Wald, LM, LR tests and
+their distinctions, FWL therom, SUR, and some basics of Box-Jekkins
+approach. Letting aside all these, I regret more than ever that I missed
+Real Analysis, Measurement Theory in undergraduate.
+
+\
+As of my other area of interests, web development, I have done nothing.
+I haven't written a single line of code for the whole month.
+
+\
+The market for the past month in general was bullish, letting the aside
+recent shivering. A mixture between healthy corporate earnings reports
+and positive economic news created upwards shifting for major investment
+classes. However, Chrysanthemum Capital did not catch any of these. We
+are still cursed by the heavy load of school works and a ideological
+bafflement. We dipped slightly into the capital good and retail sectors,
+performed fundamental analyses for four or five companies and that's it.
+This is not a good sign, but anyway, we'll see.
+
+\
+Classes are boring and dull as they should be. But supply chain and
+project management are kind of amusing. Prof Webster is extremely
+efficient in teaching, and really boiled things down to their simplest
+forms. Thus I absorbed a considerable amount of information without
+spending too much time on the subject. Prof Harter has a great
+personality, his lectures are concise and well-structured (although more
+tailored towards the general public). His assignments are forged in an
+elegant manner, and I enjoyed doing it a lot with my best friends as a
+team. I always thought if something is easy but time-consuming, it must
+be meaningless. Yet these assignments are exceptions. Solving them is
+not a creative process, but perfection is not easy to attain. And we did
+it.
+
+\
+There was also some personal issues going, but I have overcome them. Not
+a big deal. Internships? No and I don't care.
+
+
+{[|]}
+# Information! Information!
+
+[slug](2011/01/information-information)
+This post is inline with a previous one ['Can information help you make
+better decisions?'](http://www.yiransheng.com/2010/11/information).
+
+\
+I personally always think I am a smart ass. I am always reluctant to
+accept what most people do or use, I constantly remind myself to step
+aside and remain less influenced or brainwashed by the pop culture
+(whether Chinese of American). In other word, I would like very much to
+credit myself as a independent consumer who decides what is best for
+himself. That's why I claim myself to be an apple hater, just to be
+different. I am so eager to tell I, instead of Steve Jobs am the master
+of my purchased products.
+
+\
+I would reasonably assume there are a plenty amount of 'smart asses'
+like myself. We are never influenced by TV ads, we trust Google and
+Wikipedia, we have seemingly independent opinions on almost everything.
+Then as a business mind, the challenge is: how to sell things to this
+type of people and make them happy?
+
+\
+The key chain here is, information. After all, every consumer rely on
+information to make decisions. What we smart asses don't like is to be
+fed with these pieces of required information in our purchasing
+decisions. Instead, we seek them out. Therefore as a smart business, you
+should wait for me there (mostly on the internet) instead of come and
+tell me what to do. I would classify information into two categories:
+information fed and information sought. These days, the second type
+became more and more important to business success.
+
+\
+A recent example from Harvard Business Review, advertisements on
+mulitastkers. It has been a frustrating fact to advertisers that
+increasingly less people spend less time on TV, thus making TV ads less
+effective. However, according to that article (sorry I cannot remember
+the issue and author), instead of abandoning TV what consumers do is
+multitasking. They are online via laptops or smartphones while watching
+TV. In this case, when they see something interesting on TV, they will
+go google for it. **Hence the smart advertisers wait for them there.**
+Dying TV media does not make TV ads dying, instead it offers a strange
+way of reassurance with the alignment with online information.
+
+\
+The right way to do it is to feed your target customers less
+information, but provide more for them to seek out. If a firm can
+dominate the information supply in both regards but with specific focus
+on the sought information, it essentially grasps the key ring in
+consumer decision making process. The information sought are usually in
+the forms of user reviews and other third party evaluations, it has to
+be less intimidating and more objective. In providing either the
+platform or the contents of information sought, companies are actually
+making a big step from selling products to consumers to truly serving
+their needs. Right, that's the modern philosophy of marketing: a
+transformation of shareholder-capitalism to customer-capitalism.
+
+
+{[|]}
+# Econometrics, I am ready
+
+[slug](2011/01/econometrics)
+For the whole day, I was browsing through the course catalog to decide
+what I should take for next semester. I admit, doing this a day before
+the semester starts is kinda stupid. However, it turns out I do harvest
+something from the hunt near the deadline.
+
+\
+Somehow, I was eligible for Econometrics II at Maxwell. It is a PhD
+course and need Econometrics I as a prerequisite. Anyway, now I am in it
+before anybody kicks me out (which I assume won't happen if manage to
+handle the course). That's a good start for a new semester. Thanks to
+the fact that I waived the two fundamental finance classes, I got to
+choose three more credits for my own. And this seems a good choice.
+
+\
+My class schedule for the semester was again, very tight (15 credits);
+some fundamental, required courses in strategy and supply chain, project
+management, time series analysis, and econometrics. It should be much
+more fun than the previous semester. We'll see.
+
+
+{[|]}
+# Metaphysics of Business Education[4]
+
+[slug](2011/01/metaphysic-of-business-education-4)
+It is time for me to continue this thread after one semester of MBA
+experience. By any standard, I did well. A's for eight out of nine
+classes. Although recently I spent my time mostly on web designing, I
+never stopped thinking about business education-the most valuable
+investment I ever made in my life.
+
+\
+Most business schools devote their resources on two type of core
+programs: MBA and doctoral. This fact stands for the two welcomed,
+desired type of talents by the business world: innovative practitioners
+and top-notch researchers. In many regards, they are different animals.
+MBA's make efforts in promoting interpersonal skills, polishing
+practical side of business science, networking, and gaining vision.
+Business is like a game to win for them. PhD's dive into in-depth
+training of math, statistics, economics, participate in seminars, work
+on dissertations and get ready for the abstract side of business.
+Business is like a subject to study for them.
+
+\
+We have already been too comfortable and accustomed to these two
+distinctive frameworks, hence we never raise doubts about them. Yet we
+should. Business schools' mission is to cultivate great business leaders
+and great business ideas. Is there a priority between the two? A
+conflict? A tradeoff? Ideally, there shouldn't. Just like art, a great
+artist always achieve perfect balance and integration of practical and
+abstract sides of his works. The same goes for a lawyer.
+
+\
+In practice, however, the tradeoff is very evident. A reason is that the
+terrifying mathematical prerequisites to become a good researcher in the
+business science drew a fine line between practitioners and researchers.
+
+\
+Economics plays a heavy part in business education at all levels. I do
+believe a quick glance at the history of economic thoughts can help
+explain, at least offer some reference to the erection of this boundary.
+In the early stage of economics (way before it became a distinctive
+subject), the people we now credit as economists were mostly not
+scholars. For instance, Thomas Mun was a business man. Jean Baptiste
+Colbert was Minister of Finance in France. Even after economics's
+official birth with Adam Smith, many economists still share the
+identities of social activists or businessmen beyond scholars. For
+example, Minister Malthus, stock trader David Ricardo and Minister and
+banker Schumpeter. But then, as time went by, economists became pure,
+professional scholars at universities mostly. Another transformation of
+the subject is that instead of writing books and tomes, these days
+economists publish papers. The science is not written in simple, elegant
+English anymore; instead, it is interpreted in complex mathematical
+models. Nowadays, the human society has a specialization for solely
+studying, documenting and abstracting market activites, a class of
+people who ironically do not participate intensively in the market
+itself. Of course, it used to be the other way around. In some other
+words, now business leaders are stripped of the right to generate
+abstract business ideas in a sense; and I think we should give them back
+the right. I will argue more for this point later.
+
+\
+TO BE CONTINUED
+
+
+
+{[|]}
+# Wallpaper Desgin: Giant Claw
+
+[slug](2011/01/giant-claw)
+Made in Photoshop, about one and a half hours of work. I haven't been
+using Photoshop for graphical design for long. So I did this just to
+polish my skills.[Original Size: 1600x1000]
+
+![image](http://lh6.ggpht.com/_4jVmmbOb8bk/TS_UC8Fb2hI/AAAAAAAAAGw/sS2MiqAabzs/rsz_giant_foot.jpg)
+
+For larger view, click
+[here](http://picasaweb.google.com/shengyiran/Graphix#slideshow/5561896485919423442).
+
+
+{[|]}
+# IMDB Top Directors Continued
+
+[slug](2011/01/imdb-top-directors-continued)
+Following my [previous
+post](http://www.yiransheng.com/2011/01/imdb-top-directors-gdoc), here
+is the complete statistics of the dominating directors of IMDB top 250
+movies. 132 directors made the top 250 movies. **Notice four movies are
+excluded because the algorithm failed to fetch the director information
+from the webpages.**
+
+
+{[|]}
+# IMDB Top Directors: a Small Example with Google Spreadsheet
+
+[slug](2011/01/imdb-top-directors-gdoc)
+## Intro
+
+Why should people use Google Docs and not Microsoft Office? Well, let
+aside the better collaboration, here is another reason. Gdocs' natural
+habitat is the Internet, so getting and manipulating online data is
+another advantage in the cloud. In the following example, I will
+demonstrate how powerful and interesting Google Spreadsheet can be.
+
+## Project Description
+
+With respect to great directors, every movie viewer has his/her own
+standards. As a movie lover, I refer to IMDB top 250 for great movies.
+So naturally, I became interested in this question: "Among the top 250,
+which director has contributed the greatest amount of titles?"
+
+\
+To answer this question, one can do some easy descriptive statistics.
+However, to retrieve the data is no easy task. Instead of browsing
+through all 250 webpages on IMDB and penning down all the names of
+directors certainly not is an option: way too tedious.
+
+\
+However, this can be achieved in Google Spreadsheet with great
+efficiency.
+
+## Step by Step
+
+Before we start, here is the resource I used to figure things out:
+[http://docs.google.com/support/bin/answer.py?answer=82712](http://docs.google.com/support/bin/answer.py?answer=82712)
+
+\
+The basic idea, is to use the function *'importXml()'* in Gspreadsheet
+to get data. A detail description of the function can be found here:
+[http://docs.google.com/support/bin/answer.py?hl=en&answer=75507](http://docs.google.com/support/bin/answer.py?hl=en&answer=75507)
+
+Get the list of links of all movies
+
+The top 250 list can be found here:
+[http://www.imdb.com/chart/top](http://www.imdb.com/chart/top), and a
+link to every title is stored within the table. Now we know where to
+find the data, the problem becomes how to construct a filer for the
+query. ImportXml() uses xpath as a filter, so it's good to learn a
+little bit about it [here](http://www.w3schools.com/xpath/default.asp)
+before we move on.
+
+\
+In this example, the function goes like this:
+=ImportXml("http://www.imdb.com/chart/top"; "//table//@href"). Since
+there is only one table on the list page, we don't need to bother
+ourselves about which table to find in the whole HTML source. The first
+argument in the function is the query url, and the second one is the
+xpath filter. "//table" points to elements with a &lgt;table\> tag
+regardless where they are located in the document, in this case we only
+have one table, so it is exactly what we want. '//@href' indicates
+'href' attributes of all elements that are child nodes of the table
+element. Again, on the page, only the titles of the movies has
+hyper-links, this will lead us to a column of all links to all titles on
+the spreadsheet.
+
+![image](http://lh4.ggpht.com/_4jVmmbOb8bk/TSti5B601CI/AAAAAAAAAGY/H1RNbX8ei5E/gdoc-1.png)
+
+Get the director name from each link in the above list
+
+The second step is a little bit tougher and it took me a while to figure
+it our. As we can see below, the location of the director name is deeply
+down in the document tree. To get information from a complex html page
+like this would take some analyzing.
+
+![image](http://lh6.ggpht.com/_4jVmmbOb8bk/TSti5YFN5YI/AAAAAAAAAGc/8Nn_RrSyeX8/gdoc-2.png)
+
+First of all, we noticed it is wrapped in the div that has a class name
+of **'article title-overview'**. Guessing from its name, we would assume
+this is a unique element on the page. So the first part of the xpath
+query would be "//div[@class='article title-overview']", which points to
+a div element(again '//' means anywhere in the document), whose class
+attributes equals to 'article title-overview'. Next, in this div, there
+are three <h4\> tags: <h4\>Director:</h4\>, <h4\>Writers:</h4\> and
+<h4\>Stars:</h4\>, each followed with a <a\> tag contains the actual
+people's names. The parent element for the h4 tag contains only the h4
+element itself and the corresponding a tag. Yes! We have it, just need
+to locate this parent(which is a div). Hence the whole xpath query goes
+like: =ImportXML(C2,"//div[@class='article
+title-overview']//div[h4='Director:']/a"). C2, is the link derived from
+the previous query (Notice all the links first fetched are relative
+links, so I added a url pre-fix to them).
+
+![image](http://lh4.ggpht.com/_4jVmmbOb8bk/TSti5pke20I/AAAAAAAAAGg/-50Jwox1bBM/gdoc-3.png)
+
+Everything else is easy
+
+It was until this step that I found a very critical issue: Google
+Spreadsheet current only support up to 50 importXml requests, which
+means I could only have the top 49 titles' directors' names. Of course,
+we could do it five times and paste-value the retrieved data. But for
+this example, I just used this 50 names. Another issue is for the movies
+with multiple directors, like [City of
+God](http://www.imdb.com/title/tt0317248/) this method fails.
+
+\
+The rest of the job is done in a very traditional Excel way. Functions
+used include: unique(), which get rid of the repeated names of
+directors; if() which generates a column of 0's and 1's and sum() to put
+them together. Here is my results for the top 49 movies excluding titles
+with multiple directors:
+
+
+{[|]}
+# Yiran Sheng on Web: Collection of My Past Websites
+
+[slug](2011/01/web-collection)
+This is a partial collection of my past websites following a chronical
+order. Most of them are still accessible now. It's interesting to see
+how my skills and knowledge in web development have increased while my
+ability to design roughly stays on the same level. Two sites I designed
+for money were not included in the list.
+
+[![image](http://lh4.ggpht.com/_4jVmmbOb8bk/TSgYxhJ9LjI/AAAAAAAAAFg/7hYWyCWkHkA/Screenshot-40.png)](http://learn.tsinghua.edu.cn:8080/2006012400/index)
+
+March, 2010. This is my second website. The first one is dead without a
+trace left. I knew little about html/css at that time. The paper bag in
+the middle has animations, it is made in Flash. It's nothing but a
+homepage.
+
+[![image](http://lh6.ggpht.com/_4jVmmbOb8bk/TSgYxiNfkxI/AAAAAAAAAFk/YfkkX_M9Ayk/s512/Screenshot-38.png)](http://www.yiransheng.co.cc/blog.php)
+
+May, 2010. My first dynamic site. Written in Php+MySQL. Light-weighted
+blog engine. The funny thing is the contents of blog posts were actually
+stored in txt files. The reason is that the server this site was hosted
+on has a very limited amount of space for SQL storage (since it's free).
+I was finally familiar with HTML/CSS and able to translate my design in
+Photoshop into webpages.
+
+[![image](http://lh4.ggpht.com/_4jVmmbOb8bk/TSgY-TM28tI/AAAAAAAAAFw/AmxeilZCNkQ/s512/Screenshot-46.png)](#)
+
+May, 2010. Just a static page. This thing serves as a portal of all my
+online appearances. The funny story about it is it was actually placed
+in Baidu space service, which doesn't allow users to store their own
+html and css files. It is dead now.
+
+[![image](http://lh3.ggpht.com/_4jVmmbOb8bk/TSgYx0U__AI/AAAAAAAAAFo/azqnD2CoLlE/Screenshot-41.png)](http://www.yiranalbum.co.cc/)
+
+June, 2010. My second php website. This is a personal album, but I
+stopped uploading pictures a long time ago. It used javascript a lot,
+but in a very stupid way (want to know more? just go there and click
+view source). Yet one thing for sure, I did include some most basic
+album features.
+
+[![image](http://lh4.ggpht.com/_4jVmmbOb8bk/TSgYxctGVsI/AAAAAAAAAFc/i44mKS2OGEM/Screenshot-39.png)](http://www.yiransheng.co.cc/)
+
+July, 2010. This was a re-desgin of my homepage/blog. It used the same
+back-end engine, but the all templates were updated. It looked cooler
+and I kept it under my primary domain yiransheng.com for quite a while.
+
+[![image](http://lh6.ggpht.com/_4jVmmbOb8bk/TSgYyBnNfcI/AAAAAAAAAFs/wzK5YryBwQw/Screenshot-42.png)](http://www.yiransheng.com)
+
+[![image](http://lh5.ggpht.com/_4jVmmbOb8bk/TSgY-wzdhPI/AAAAAAAAAF8/XOB1ihW4EL0/Screenshot-43.png)](http://www.yiransheng.com)
+
+October, 2010. My current website. Neat and very functional. Most of my
+personal infomation, i.e. resume, research papers are stored there.
+
+[![image](http://lh4.ggpht.com/_4jVmmbOb8bk/TSgY-glltfI/AAAAAAAAAF4/nbToHymQVLA/Screenshot-45.png)](http://ysheng.mysite.syr.edu)
+
+January, 2011. Homepage under syr.edu domain. I made it in about one and
+a half hour. The tiled nav bar was done purely in html4 and css2, very,
+very dirty trick.
+
+[![image](http://lh6.ggpht.com/_4jVmmbOb8bk/TSgY-lvPUOI/AAAAAAAAAF0/20dOAvv9b_E/Screenshot-44.png)](http://lab.yiransheng.com)
+
+January, 2011. Today. Built in ajax, html5 and css3. You have to go
+there, a lot of cool stuff (Yet Chrome browser is strongly recommended,
+others does not fully support css3.).
+
+[![image](http://lh5.ggpht.com/_4jVmmbOb8bk/TSggFQXTsTI/AAAAAAAAAGE/TyDX3DLUMYg/Screenshot-47.png)](#)
+
+Coming soon. You all know what this is, in fact, it is ready in terms of
+infrastructure.
+
+\
+That's it. For a little bit more of my works, please visit [Whistle
+Studio](http://hi.baidu.com/foreverwhistle). PS: The butter-fly image
+appeared several times was one of the best works I did in Photoshop
+(made from a sketch), and I tend to use it as a personal signature.
+
+
+
+{[|]}
+# lab.yiransheng.com launched!
+
+[slug](2011/01/lab-yiransheng-com-launched%20)
+Like I said in the [previous
+article](http://www.yiransheng.com/2011/01/html-plate), I wrote a site
+to host all my html5 demos.
+[lab.yiransheng.com](http://lab.yiransheng.com). It's a good practice to
+me; I learned more about jQuery, appengine, python and most importantly
+ajax. It's amazing what ajax can accomplish. \
+
+Well, here is the hello-world post for
+[lab.yiransheng.com](http://lab.yiransheng.com). Read that one please.
+
+
+
+{[|]}
+# Personal Homepage Under .syr.edu Domain
+
+[slug](2011/01/syr-domain)
+SU offers each NetID account 50 MB of online space for the use of
+personal homepage. So I made one in plain HTML. This was done at Whitman
+lab, where I can use Photoshop. This was the first creative graphical
+design I did in months with Photoshop. Of course the tilted navigation
+links took a lot of time. Although it would be as simple as 1+1 if I had
+chosen HTML5, I did it in HTML4 because it is more challenging and
+compatible with most browsers. No more rattling, here is the
+[link](http://ysheng.mysite.syr.edu):
+
+.
+[http://ysheng.mysite.syr.edu](http://ysheng.mysite.syr.edu)
+
+In addition, lab.yiransheng.com will soon be published to host some
+html5 related stuff.
+
+
+
+{[|]}
+# HTML5: Attributes Plate
+
+[slug](2011/01/html-plate)
+[Link](/files/plate.html). I am thinking about creating another place to
+host all these HTML5 demos. Embedding a lot of iframes on my homepage,
+loading and running many javascripts surely slowed the site down.
+
+
+
+{[|]}
+# Yet Another HTML5 Demo: Fractal
+
+[slug](2011/01/html5-fractal)
+For every Flash developer, the first thing we will do after getting
+acquainted with ActionScript is playing around with fractal. The
+iteration of movieclips/sprites often results in wonderful animations. I
+followed this tradition when I was trying to learn HTML5, and here is
+the result. The backbone of the code is from the [previous
+demo](/2011/01/html5-2), and of course it looks very much like Flash
+ActionScript. In addition, this demo is finished on the bus back to
+Syracuse, 4 O'clock in the morning.
+
+[![image](/static/sprite.gif)SHOW IT TO ME.](/files/fractal.html)
+
+
+
+{[|]}
+# 2010(Second Half)
+
+[slug](2011/01/new-year-2)
+[Link to previous post.](/2011/01/new-year)
+
+\
+I just skimmed through my first half of the year 2010. This may sounds
+lame, but it feels like ages ago. I have a good reason for this feeling:
+everything around me changed from August to December. I left my school,
+my country and my old lifestyle.
+
+\
+After graduation, I went home and stayed for a couple of days. Then I
+visited Shijiazhuang and a few good friends from high school there. Most
+of the time, we sit there talking and exchanging stories about our
+college lives. The mere four years had its mark on everybody. We also
+visited the campus, our school was torn apart, walking in its ruins gave
+me an odd sense of satisfaction. I went to Beijing on August 10th, met
+my college friends one last time. There were four of us, the exact
+number for a few rounds of card games. The whole night was no different
+than just another Friday night in college, we stayed in a Cafe near
+Tsinghua. It felt as if we would wake up late the next day, go out for a
+few drinks and chicken wings barbecue for dinner, make fun of WZN, get
+back in the evening and play Counter Strike until midnight.
+
+\
+The next morning, I headed to the airport alone in rush hours. This last
+ride of Beijing subway was unpleasant as usual. The stink of sweat in
+the carriage packed with human flesh kept me awake during the 40-minute
+trip. I met my parents in the airport, spent the next six hours with
+them. They acted calm but I was sure my mom would cry afterwards. My
+flight was on time, and I got on the plane sleepy and exhausted (didn't
+sleep for over 30 hours). On the plane, I caught a brief glimpse of the
+sunset that day, strangely enough, it reminded me of the description
+about the "one last sunrise" in the book *Interview with the Vampire*.
+Then I fell asleep.
+
+\
+I arrived at JFK airport in a lazy afternoon, and headed to Syracuse the
+next day by bus. At that time, I had no idea what lies ahead of me. I
+knew nobody at Syracuse and had no place to stay in the city. I like the
+feeling of uncertainty and ambiguity, hence for the first time in
+months, I felt excitements running in my veins. I stayed at Parkview
+Hotel for a night; the next morning, I went directly to SU carrying
+nothing but a compass, my passport and my I20. Everything went on pretty
+good, I met a few new people, registered myself and miraculously found
+an apartment right away.
+
+\
+What followed was a ten-day orientation. It was a lot of fun and some
+bullshit, yet I could barely remember anything from it now- after a
+whole intense semester. Staying in an all-English environment was hard
+at first but I got comfortable soon enough. I took some efforts
+introducing myself and my age to people. According to my past
+experience, it usually take some time for my classmates to realize that
+I am younger but no less qualified in terms of being mentally mature.
+The result of this event was I met an awesome class and made new
+friends.
+
+\
+The life at a graduate school turned out slightly different than
+college. I studied crazily as if somebody was cracking a whip on my
+back. Beyond study, I had lots of fun. The best thing happened was my
+new friends (You might be one, if you are reading this long and tedious
+post now, xD). Pause, I have to hurry up now since my bus for Syracuse
+leaves in a few hours. Continue. The outcome of this first semester
+wasn't bad. Eight A's out of nine classes, as of the one remaining, I
+have nothing to say, it's not my problem. Beyond class, I learned about
+python, Django, and GAE (with special thanks to SS). In addition, we won
+the mini case competition which was a great accomplishment to me.
+
+\
+That's it for now, I'd better start packing. This is pretty much what
+the year 2010 is to me. Wish everyone have another great year.
+
+
+
+{[|]}
+# My Second HTML5 Demo
+
+[slug](2011/01/html5-2)
+Used a little bit jQuery. Features: a js timeline, an obj somewhat
+resembles the MovieClip class in ActionScript, and a dirty trick to draw
+shades and high-lights in HTML5 canvas. Refresh page to use another set
+of random generators.
+
+[:Click Here.](/files/demo.html) [![image](/static/sprite.gif)SHOW
+CODE:](javascript:%20showCode();)
+
+     //--------Timeline var Timeline = function( option ){ this.config( option ); }; Timeline.prototype = { EVENT_ENTER_FRAME : "enterFrame", option:{ fps:30 }, tid:null, parent: null, active:false, config:function( option,p ){ if( isNaN( option ) ){ this.option = $.extend( {}, this.option, option ); } else { this.option.fps = option; } this.parent = p; return this; }, start:function(){ this.active = true; this._enterFrame(); return this; }, _enterFrame:function(){ if( this.active ){ this.tid = setTimeout( $.proxy( this._enterFrame, this ), Math.floor( 1000 / this.option.fps ) ); $(this).trigger( this.EVENT_ENTER_FRAME ); } }, stop:function(){ this.active = false; clearTimeout( this.tid ); return this; }, setParent:function(p){ this.parent = p; return this; }, bind:function( name, func ){ $(this).bind( name, func ); return this; }, unbind:function( name, func ){ $(this).unbind( name, func ); return this; } }; //--------Vein var vein = function(main){ this.main = main; }; vein.prototype = { main: true, active: true, pos:{ x:0, y:0 }, node:{ x:0, y:0 }, des:{ x:0, y:0 }, scale : 1, rot : 0, LENGTH : 20, setPos: function(x,y,r,s){ this.pos.x = x; this.pos.y = y; this.node = this.des; var dx = x + this.LENGTH * Math.cos(r) * s ; var dy = y + this.LENGTH * Math.sin(r) * s ; this.des.x = dx; this.des.y = dy; this.scale = s; this.rot = r; }, alive: function(){ if (Math.abs(this.pos.x - this.des.x)<1){ return false; } else{ return true; } }, render: function(){ //alert("onrender"); var x1 = this.node.x; var y1 = this.node.y; var x2 = this.pos.x; var y2 = this.pos.y; var c = document.getElementById("canvas").getContext("2d"); if(this.main){ c.fillStyle = "rgba(245,100,0,.3)"; c.beginPath(); c.arc(x2,y2,10*this.scale,0,Math.PI*2,true); c.closePath(); c.stroke(); c.fill(); c.moveTo(x1,y1); c.lineTo(x2,y2); c.lineWidth = this.scale*8; c.lineCap = 'round'; c.strokeStyle = 'rgba(255, 69, 0, .01)'; c.stroke(); } else{ c.fillStyle = "rgba(255,240,200,.2)"; c.beginPath(); c.arc(x2,y2,4*this.scale,0,Math.PI*2,true); c.closePath(); c.stroke(); c.fill(); c.moveTo(x1,y1+10*this.scale); c.lineTo(x2,y2+10*this.scale); c.lineWidth = this.scale*8; c.lineCap = 'round'; c.strokeStyle = 'rgba(30, 69, 0, .01)'; c.stroke(); } } }; //---main program (function() { //alert("Program Begins."); var veins = new Array(); veins[0] = new vein(true); veins[0].setPos(300,300,0,1); veins[0].render(); var tl = new Timeline(); var onEnterFrame = function (){ //alert("onEnterFrame"+veins[0].pos.x); for (var j=0;j.2){ veins[j].active = false; var v1 =new vein(true); var rot1 = (Math.random()-0.5)*Math.PI*2; v1.setPos(veins[j].pos.x,veins[j].pos.y,veins[j].rot+rot1,veins[j].scale*.91); veins.push(v1); var v2 =new vein(false); var rot2 = (Math.random()-.5)*Math.PI*2; v2.setPos(veins[j].pos.x,veins[j].pos.y,veins[j].rot+rot2,veins[j].scale*.94); veins.push(v2); } } } if (veins.length>900){ tl.stop(); } }; tl.bind(tl.EVENT_ENTER_FRAME, onEnterFrame); //alert("free of error"); tl.start(); })(); 
+
+[![image](/static/sprite.gif)HIDE CODE:](javascript:%20showCode();)
+
+Your browser does not support iframes.
+
+
+
+
+{[|]}
+# 2010(First Half)
+
+[slug](2011/01/new-year)
+Thus begins the story of 2011.
+
+\
+As a Chinese, I hardly feel that another year has just been sealed away,
+as we usually mark the closure of a revolution period of the planet
+earth by the lunar calendar. However, since now I am living in a nation
+of bold new year resolutions, and it is not so likely I would have
+moments to mourn the passing time at the Chinese new year this time, I'd
+better write some closing note for 2010 now.
+
+\
+Exactly a year ago, I was struggling with my last set of finals for the
+four academic years in college. As usual, most of my time during the
+semester was spent on games, Maya, Flash etc., things barely related to
+my major-finance. I did relatively OK in the exams, high 80s and low 90s
+on most of the core courses. After that, I went home relieved and played
+Dragon Age: Origins on my father's high-profile desktop, expecting life
+to go on like this forever. Also at the same time, I was expecting
+results of my school applications. I spent my entire winter break on the
+new Bioware epic RPG, without caring anything else. I was quite
+satisfied in my cozy shell, even the arriving admissions and rejections
+from graduate schools could barely distract me.
+
+\
+Then the new semester started in March. I continued playing DAO, seldom
+showed up in classes. Neither did everybody else. At that time, most of
+my classmates have settled all the applications and job-seekings. We
+also started regularly drinking, playing cards and badminton and nights
+of meaningless bullshit talking-a life style we could never afford
+before the last semester of college. It was the second laziest time in
+my life (the first being the last 9 months in high school). The only
+annoying task remaining on my schedule was the diploma thesis for my
+minor degree at Academy of Arts and Design. Our team's proposal has been
+rejected over and over. We met routinely, came up with a new idea, and
+got slapped in the face during the next project meeting. Except for
+that, life was as easy and comfortable as it could ever be.
+
+\
+Of course, I grew bored after two months. So I found myself a new
+project before the endless tedium could consume me completely. The new
+thing was web design. My initial motivation was simply making my
+personal homepage nicer, then I found building websites interesting and
+addictive. I spent a week learning HTML, CSS, JS and PHP, and the
+following three weeks coding the first version of
+[http://www.yiransheng.com](http://www.yiransheng.com). It was
+originally hosted on [000space.com](http://000space.com). Unlike my
+previous experience in building the h&j site, this time I did all the
+work alone-both front-end and back-end. It wasn't a big project, merely
+around 1500 lines of code; but it was a lot of fun. I also wrote a forum
+and an album site in php.
+
+\
+Soon after my personal site was published, for God-knows-why, it was
+blocked by Chinese government's grand firewall. Before I had time to
+migrate it to another domain, the deadline for my minor degree thesis
+project suddenly became imminent. It was supposed to be a one-year long
+project, but we didn't even have a proposal yet and the due date was
+only less a month away. Everyone started panicking. All of a sudden, my
+lazy and cozy days were over. As one of the two programmers in the
+group, I have to create a game of acceptable quality under a tight
+deadline. It was no easy task, considering the picky professors at the
+Academy of Art and Design. Me and my teammates worked day and night and
+we made it in time. Although many bugs remained, the game itself is a
+nice bit of work. Yet before I even had time to sit back and relax, all
+the work loads exploded.
+
+\
+Term papers for all the elective classes which I chose to enroll only
+because of credits requirement, diploma report for my major degree and
+zillions of graduation paperworks-they all came together and all of a
+sudden. For those two or three weeks, I barely slept for four hours each
+night, and relied heavily on coffees, red bulls and cigarettes. It was a
+horrible experience, mostly because I wasted too much time during the
+semester. Then the nightmare ended abruptly just like how it started,
+and I realized there were only about three or four days left in my
+college life. And I got drunk, did some goodbye talk and goodbye card
+games with my roommates and left Tsinghua University forever.
+
+TO BE CONTINUED
+
+
+
+{[|]}
+# My First HTML5 Demo
+
+[slug](files/a.html)
+[Click Here.](/files/a.html)
+
+
+
+{[|]}
+# PDF Rendering Utility (based on Reportlab)
+
+[slug](2010/12/pdf)
+First of all, this feature is still working in progress.
+
+Sometime ago, I suddenly came up with this idea that it would be cool to
+download each of my blog posts in pdf format. It is not until recently
+that I finally had the time to explore around this idea. After about 4
+hours, here's what I have got:
+
+First, click on the link [Printable Version](/print/2010/12/pdf); then
+click the "Download Pdf" button.
+
+It is based on [Reportlab
+2.5](https://www.reportlab.com/software/opensource/), and uses
+[BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/) to pick
+out all "p" tags in raw html (that's right, up to now, only paragraphs
+are supported, hyper-links, images will be automatically removed).
+
+The biggest problem to me turned out to be how to actually import the
+Reportlab module. Since the current version of Reportlab has to be
+installed via setup.py (a process requires a C compiler, which is
+obviously not provided in GAE). The solution I found is using a older
+version, zipped and modified Reportlab from
+[here](http://ruudhelderman.appspot.com/testpdf). This is how I did it:
+
+     import sys import os sys.path.insert(0, 'reportlab.zip') from django.http import HttpResponse import reportlab folderFonts = os.path.dirname(reportlab.__file__) + os.sep + 'fonts' from reportlab.pdfgen import canvas from reportlab.pdfbase import pdfmetrics from reportlab.lib.pagesizes import A4 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer from reportlab.lib.styles import getSampleStyleSheet from reportlab.rl_config import defaultPageSize from reportlab.lib.units import inch from BeautifulSoup import BeautifulSoup, NavigableString class PDFPageHandler(request.BlogRequestHandler): def post(self): ... #First fetch the article from data store self.response.headers['Content-Type'] = 'application/pdf' self.response.headers['Content-Disposition'] = 'attachment; filename='+article.title+'.pdf' def myFirstPage(canvas, doc): canvas.saveState() canvas.setFont('Times-Bold',16) canvas.drawCentredString(PAGE_WIDTH/2.0, PAGE_HEIGHT-108, Title) canvas.setFont('Times-Roman',13) canvas.drawCentredString(PAGE_WIDTH/2.0, PAGE_HEIGHT-138, Author) canvas.setFont('Times-Roman',9) canvas.drawString(inch, 0.75 * inch, "http://www.yiransheng.com") canvas.restoreState() def myLaterPages(canvas, doc): canvas.saveState() canvas.setFont('Times-Roman',9) canvas.drawString(inch, 0.75 * inch, "Page %d" % doc.page) canvas.restoreState()     def go(): doc = SimpleDocTemplate(self.response.out) Story = [Spacer(1,2*inch)] style = styles["Normal"] #Story.append(Paragraph(pdfbody, style)) for pr in paragraphs: p = Paragraph(pr, style) Story.append(p) Story.append(Spacer(1,0.2*inch)) doc.build(Story, onFirstPage=myFirstPage, onLaterPages=myLaterPages) go() application = webapp.WSGIApplication( [ ('/pdf/?', PDFPageHandler) ], debug=True) def main(): util.run_wsgi_app(application) if __name__ == '__main__': main() 
+
+This is just a prototype, to achieve a fully functional "HTML2PDF"
+translator (supporting all tags and images) probably will require
+[Pisa](http://www.xhtml2pdf.com/) or diving deeper into Reportlab. For
+now, I am just sitting back and enjoying the satisfaction of finishing
+the first step.
+
+
+
+{[|]}
+# Standard Poor's Upgraded China's Sovereign Bonds Rating Today: 8th
+Time in History
+
+[slug](2010/12/spcreditratingchina)
+The Foreign Long Term Debt Type is now rated AA-.
+
+\
+Here's the full upgrading history:
+
+-   Assigned “Satisfactory” rating classification (July 1988)
+-   From “Satisfactory” to “BBB” (February 1992)
+-   From “BBB” to “BBB+” (May 1997)
+-   Reclassified from “BBB+” to “BBB” (July 1999)
+-   From "BBB" (affirmed in 2001) to "BBB+" (February 2004)
+-   From "BBB+" to "A-" (July 2005)
+-   From "A-" to "A" (July 2006)
+-   From “A” to “A+” (July 2008)
+
+Source: S&P
+
+I am a little worried about this, will write something once my finals
+and papers are done.Some Old Photos.
+[slug](2012/12/sem61)
+I just found some hidden, forgotten pictures over the Internet. Some
+evidence of the good, old days. I don't even know who has the password
+to this account (is it supposed to be me?).
+
+\
+[http://picasaweb.google.com/THU.SEM61](http://picasaweb.google.com/THU.SEM61)
+
+[![image](http://lh6.ggpht.com/_v4_AQuKozlA/R7hRSoxTftI/AAAAAAAAABs/2SG_h7b94Ow/s640/秋游合影～.JPG)](http://picasaweb.google.com/THU.SEM61)
+
+[![image](http://lh3.ggpht.com/_v4_AQuKozlA/R8N6sIxTgYI/AAAAAAAAAJg/c2t_KOeoRbk/s640/DSC01625.JPG)](http://picasaweb.google.com/THU.SEM61)
+
+
+
+{[|]}
+# Metaphysics of Business Education[3]
+
+[slug](2010/12/metaphysic-of-business-education-3)
+In my [last article](2010/12/metaphysic-of-business-education-2), I
+mentioned two problems Chinese business education system faced.
+
+-   Business schools do not help people become better businessmen
+-   Business in general fail to add value to the society
+
+What I'd like for today, is rattling about the second point.
+
+\
+The general accepted role of scholars in today's world is that, "they
+should be sirens of the society that calls attention to a fog without
+doing anything to dispel it." (GRE test) Colleges and universities
+should be the environment and soil for such voices, and a channel to
+deliver the message to the mass public and practical world. One of the
+many functions of business schools is they should identity, formalize,
+explain, publicize the fundamental trends in business world and document
+them into the knowledge base of human race-then use this knowledge to
+cultivate the future business leaders.
+
+\
+One of such trend in the past few decades (and still ongoing for most
+parts of the world) is the emergence and evolution of service science.
+We do not even need to cite data to prove that service has become a
+larger and larger proportion of GDP in most developed economies.
+Manufactures are also shifting their focus from physical goods to
+services in providing those goods. How can businessmen offer better
+quality and sustainable services to customers falls into the domain of
+service science-an increasingly important part of the business science.
+
+\
+The methodological implication here for education is the concept of
+"adding value". Asking myself as an MBA candidate, why would a company
+hire me after my graduation. The answer would be simple: managers
+themselves are services providers; company would hire MBA's for the same
+reason that a restaurant would hire a good waiter/waitress. But in
+China, it could be adulterated with many other factors: a fancy degree,
+a signal of competence, the ability to kick competitors' asses, but none
+of them involves a relationship with customers.
+
+\
+The only memorable concept from MBC603 - MBC604 to me is that marketing
+= satisfying customer needs. This simple principle is not recognized at
+all in China. A recent example about that is the infamous
+[war](http://sites.google.com/site/leeyoung1987/free-thinking/adynamicmodeloftecentqqvs360event)
+between 360 and Tecent last month. Customers to both of them is but
+another category of strategic resources. Their primary goal was still to
+defeat the opponent and become the industry monopoly; customers are
+played as chess pieces. We customers in turn, view this as some sort of
+black comedy. Chinese internet users all have a QQ account, but we are
+never related to the company Tecent; our attitude towards the company
+can be best described by a line of quote from the Stanley Kubrick Movie
+Shining:
+
+\
+"... women/Tecent, can't live with them; can't live without them."
+
+\
+In the end, the question becomes, can a company make wonderful profits
+while being liked and loved by its customers? For Chinese people, it's
+hard to believe such companies exist, while for US consumers, this is
+not even a question, it's a fact. For a developed economy, profits
+earned and public praise received usually are twins. For instance,
+everybody loves Google. Yet this internet giant who claims itself as
+"Don't be evil", had an extremely hard time in China and eventually was
+kicked out.
+
+TO BE CONTINUED
+
+* * * * *
+
+About this series of articles
+
+This is the third post I wrote about the topic. The whole series is
+loosely structured and random. This is because I don't really know what
+points I what to make here, under the umbrella of such a big title. So
+what I do is just snapshooting things going on in my mind, think,
+explore and organize while writing.
+
+\
+Though not in a good article format, a lot of the observations are still
+valid and valuable, and I have so much more to talk about. Therefore, I
+will keep on writing, and rearrange it some day into a insightful,
+shorter version. We'll see.
+
+
+
+{[|]}
+# Cang Jin Yu Min- China Plans to Store Gold in it's Citizen's Pocket
+
+[slug](2010/12/cjym)
+Today, I happened to bump into this article on WSJ: [China Buys In to
+Gold's
+Allure](http://online.wsj.com/article/SB20001424052748703377504575650410761463990.html?mod=rss_Money_and_Investing).
+It reminds me of a guest lecture I attended during the last semester in
+undergrads, the speaker is from a national association of gold trading
+(loosely translated) and he made an impressive point: Cang Jin Yu Min
+(藏金于民). It means, to store gold in your citizen's pocket.
+
+![image](http://lh6.ggpht.com/_4jVmmbOb8bk/TPkE6pfeo0I/AAAAAAAAAD4/Y9RCmUPrv9w/chinagold.jpg)
+
+Image from [http://www.tz9999.com](http://www.tz9999.com/)
+
+Obviously, Chinese government is putting this strategy into practice, by
+loosening the regulations on gold imports, both to individual investors
+and financial institutions. It seems to me, that WSJ article reeks of
+surprises, worries, and potentially fears of US investors. The surging
+gold demand in China echoes with the pop opinion that this country is
+endeavoring to become a fearsome superpower. This is reasonable
+reaction; usually whenever Chinese people go after something, some
+market, they come as a united country with almost infinite resources.
+It's natural to assume Chinese government is behind such "scheme". As an
+individual from China, I am not denying this version of story; the
+Chinese investors in general appear naive and dumb and irrational-look
+at the mess they are creating for the domestic financial market. I am
+not demeaning my fellow people here, it's just due to the fact that
+Chinese investors lack the experience and expertise to dip into the
+international market competing with sophisticated foreign players. The
+government, although itself not even slightly better, is worried about
+the situation and resolve the issue simply by blocking private sector's
+access to foreign financial market. This is the reason we seldom see any
+impressive private capital from China stirring waves.
+
+\
+Yet the whole gold strategy is a new version. It is based on the simple
+fact that gold accounts for 5%-8% of the investors' portfolio on average
+in developing economies; while close to 0 for Chinese private sector.
+Most of the gold reserves in China is on the central bank's balance
+sheet. Many economists argue China should encourage its people hoarding
+gold, proposing multiple benefits, such as:
+
+-   Easing the excessive trade surplus
+-   Reducing the huge pile of foreign(dollar) reserves and optimizing
+    the reserve structure of the country
+-   Reducing overshooting saving rate
+-   Controlling redundant liquidity in the money market
+-   Safeguarding against inflation
+
+Personally speaking, I am pessimistic about the effects of all of them.
+The structural problem of Chinese economy cannot be solved by simply
+adding an investment class. And the gold strategy's popularity can
+largely be attributed to its political favorable suggestion of shifting
+wealth to the people. Since Chinese investors are already running after
+gold, let's wait and see what will happen.
+
+\
+My biggest worry is that the Chinese government is telling its people:
+"Gold is good! Gold is undervalued! Let us all buy it!" It resembles the
+previous popular policy of "store foreign reserves in the pockets of
+your citizen" (Basically what happens is the government try to fool its
+people into purchasing dollars in a trend of appreciating Chinese RMB
+Yuan). To put it simple, gold is a good investment class for many
+reasons, but the investment decisions should be based on price in the
+end. In this sense, the Chinese government is acting very irresponsible
+trying to get its people into gold without any condition. Chinese
+purchasing power can influence the international gold market price, but
+on the other hand we are also subject to potential risks of overshooting
+gold price or "gold bubbles". When is the time to stop, I cannot
+predict; but one thing I know for sure is if this Chinese gold frenzy
+does not stop in time, Chinese people will enjoy another slap in the
+face-just as the awkward story of our foreign reserves.
+
+\
+One last word, my opinion seems to treat the Chinese investors as a
+group of sheep with no intelligence. I have to say there's nothing
+emotional here; herding is typical in any not-so-sophisticated financial
+markets, as reflected in a market-wise irrational behavior. Some recent
+findings in financial theories prove that higher order belief is a major
+contributing factor to the herding behavior in the financial markets;
+and my [personal research](http://www.yiransheng.com/hob) identifies
+high degree of higher order belief in Chinese stock market. This is the
+reason why I am so certain about the herding nature of Chinese
+investors.
+
+\
+Realated Readings:
+
+[http://www.bloomberg.com/news/2010-12-03/china-should-consider-increasing-gold-reserves-to-boost-trade-in-the-yuan.html](http://www.bloomberg.com/news/2010-12-03/china-should-consider-increasing-gold-reserves-to-boost-trade-in-the-yuan.html)
+
+[http://www.marketwatch.com/story/china-gold-reserves-apparently-doubled](http://www.marketwatch.com/story/china-gold-reserves-apparently-doubled)
+
+[http://sovereign-investor.com/2010/11/24/why-im-still-buying-gold-2/](http://sovereign-investor.com/2010/11/24/why-im-still-buying-gold-2/)
+
+[http://thegoldbubble.blogspot.com/](http://thegoldbubble.blogspot.com/)
+
+
+
+{[|]}
+# Metaphysics of Business Education[2]
+
+[slug](2010/12/metaphysic-of-business-education-2)
+As discussed in my [earlier
+article](/2010/09/metaphysics-of-business-education-1):
+
+"we (Chinese) think business talents are derived from the practice, not
+from school education."
+
+This phenomenon is an awkward outcome as well as a contributing factor
+of the current undesirable situation in Chinese business schools. The
+funny part is, it is not a hundred percent wrong (nor right). Sometimes
+some popular opinion like this, which seems reasonably convincing yet
+utterly groundless in the core, can produce a public bias on an
+extremely wide range. Yes, Chinese people are biased towards money,
+wealth, and the general notion of business profession. Not just
+demeaning the business education, but also the debasing the practice of
+business. How? Some say we have a unreasonable hatred towards the
+rich(仇富).
+
+\
+I have no intention to discuss the social background of such ideological
+trend. What I want to say is, how and why education should make a
+change.
+
+\
+Is it possible, that some decades later, we can have a Chinese business
+school that resembles the role of Harvard in US-leader of future
+business trend? In that scenario, students will graduate from there with
+knowledge, skills, vision and honor, and the society is certain they are
+capable and ready to shoulder responsibilities of creating a
+next-generation business landscape. This cannot be achieved, unless the
+mass public acknowledge the idea of great businessmen can add great
+value to the society. Again, I have to address that this is not the case
+in China at this moment; the public's view still remains as "successful
+businessmen are but a group of people who become rich at the expense of
+others."
+
+\
+To sum up, there are two stereotypes Chinese business schools need to
+get themselves out of:
+
+-   Business schools do not help people become better businessmen
+-   Business in general fail to add value to the society
+
+That is to say, both companies and society should acknowledge the value
+in business education. We should create a brand for domestic MBA's.
+These two goals serve as the general guideline for the following
+discussion. I will talk in more detail about the strengths and
+weaknesses in Chinese business school education, how different it is
+from the western system, and causes of such differences.
+
+\
+TO BE CONTINUED
+
+
+
+{[|]}
+# Can information help you making decision?
+
+[slug](2010/11/information)
+We are living in an information era. Information seems to be exploding
+both in volume and depth. This is true both in business and social life.
+Education and culture have inscribed the idea of making decisions based
+on information into the mind of every modern citizen; and the idea
+itself is made possible by Internet.
+
+\
+Are we better-off with more access and awareness of this new "fashion"
+of information? Probably not as much as we would have thought it to be.
+Lager volume of information comes with lager percentage of junk
+information. Imagine how many junk mails one has to delete each day. In
+addition, has the ability to utilize all the available information
+increased with the information technology? Maybe not.
+
+\
+In the business world, information technology has changed every industry
+fundamentally. In the past, managers made bold, wild, sometimes blind
+decisions based on pure intuition and vision. Now they become extremely
+uncomfortable without looking at the data first. Yet the key thing here
+is do they have the relevant data or can they extract the relevant data
+from the ocean of information? Well educated managers with supports from
+analysts and scholars probably can do that. However, A, the process of
+information supported decision making costs; B, human biases still find
+their way into the process. Information can reduce the uncertainty of a
+environment but can never eliminate it. Therefore the problem managers
+face is essentially the same one: how to react to uncertainty? Does a
+statistical statement about some 95% confidence interval of a variable
+helps you way much more that a 50-50 chance heuristic mental model? Or
+maybe all it does is just incepting a piece of artificial confidence
+into your mind?
+
+\
+A lot of the cases, it's the latter. To narrow the topic down, let's
+talk about the model-based decision making. Any model is established
+upon certain assumptions. Yet can the same be said about decision
+making? You may give a quick "yes", since one has to get a set of
+pre-made principles or guidelines to make decisions. But those are not
+assumptions in nature. For a good decision maker, the basis of his
+actions is beliefs, not assumptions. An assumption of a model is a
+stupid statement most of the time; it is either unrealistic or rigid or
+both. Choosing a model really depends on whether the assumptions apply
+for a given managerial scenario. One assumption can be so rigid, that
+some factor in the environment or in the system can break it all of a
+sudden making the model built on it completely useless. Such factors are
+unpredictable and external to the model, a lot of the times managers
+fail to identify its presence. However, beliefs are different, they are
+flexible principles, sometimes philosophies, built in a decision maker's
+mind that can adjust to almost any situation. Beliefs is the most
+valuable asset of human mind. A business should always be built upon
+beliefs instead of mathematical, statistical models.
+
+\
+Fortunately, large-scale, complex, computer-base models are only used in
+limited industries. The genuine talents of human mind are still the
+source of most decisions. However, a lot of managers seem to be inclined
+and comfortable to reply on those monster models, though they do not
+have the capacity to manage, control them. Scholars, scientists have
+long grown used to the complex nature of models, they have developed the
+ability to understand the benefits and limits of a model. That's why
+they take the time to do their research and are usually very cautious to
+reach a conclusion. But for managers, they don't have as much time as
+scholars and they want to reach a conclusion as soon as possible. This
+trait makes model-based decision making highly risky, especially in
+terms of the systematic risks.
+
+\
+Last but not least, let me close this post with an example from my
+recent project. Not so relevant, but an interesting story. Hedging in
+financial theories does not add value to a firm. It does not affects the
+expected profitability of a firm and only reduces the company specific
+risk. According to CAPM, this part of risk can be diversified away thus
+is irrelevant to stock prices. However, managers and investors of
+airline companies still love the concepts. Major airline companies
+include the hedging details in their quarterly report following the
+mark-to-market accounting rule, just to sound clever and investors buy
+it. Indeed most of the financial officers and treasurers are much less
+passionate about hedging than the CEOs. Managers do this only because
+stock analysts say hedging is a sign of alert management, and they want
+to deliver the message. With current empirical studies suggesting no
+value is added to a firm by hedging, the concept still prevails in the
+market and in the industry. In this case, the investors have more
+information, but the additional information is nothing but a red
+herring.
+
+TO BE CONTINUED
+
+
+
+
+{[|]}
+# Higher Order Auto-regression, Martingale Property and Market
+Efficiency
+
+[slug](2010/11/hoa-martingale)
+This blog article is inspired by Prof. Chen's words.
+
+In examining a price series (assumed to be a stochastic process), we
+usually would consider the following forms of auto-regression models:
+
+y\_t=\\alpha+\\beta\_{1}y\_{t-1}+\\epsilon\_{t}......Model\_1
+
+y\_t=\\alpha+\\beta\_{1}y\_{t-1}+\\beta\_{2}y\_{t-2}+\\epsilon\_{t}......Model\_2
+
+y\_t=\\alpha+\\beta\_{1}y\_{t-1}+\\beta\_{2}y\_{t-2}+\\beta\_{3}y\_{t-3}+...+\\epsilon\_{t}......Model\_3
+
+Statistically speaking, it's just an addition of lagged variables.
+However, they are fundamentally different in terms of implication and
+underlying assumptions. Specifically the efficiency of the market that
+the underlying asset is traded in.
+
+From financial economic theories, we know in a complete market,
+no-arbitrage condition requires the prices of assets follow a equivalent
+martingale measure. That is:
+
+E[y\_{t+s}|y\_t]=y\_t under some probability measure
+
+To translate this into a statistical model, it should have the form of
+model\_1; the best perdition of next period's price is the price of the
+current price.
+
+However, if the martingale property fails:
+
+E[y\_{t+s}|\\sigma(y\_{t},y\_{t-1},...)] \\neq y\_t
+
+Then model\_1 fail to apply obviously. In this case, we may consider
+model\_2 or model\_3, which implies:
+
+E[y\_{t+s}|\\sigma(y\_{t},y\_{t-1},...)]=
+a+b\_{1}y\_{t}+b\_{2}y\_{t-1}+b\_{3}y\_{t-2}+...
+
+That is the information from the past is still used in predicting the
+future; even if you are late you can still catch up the trend. Hence the
+market is not efficient, assuming complete first. In theory there should
+be some arbitrage opportunity that can be formed, I will come up with an
+example soon.
+
+
+
+{[|]}
+# A JavaScript that Displays LaTex Formulas
+
+[slug](2010/11/tex)
+Following the line of my previous article, I wrote a simple jscript file
+that makes LaTex formulas easier to insert. All required now is simply
+writing ≶tex\>\\your latex formula here≶/tex\>. The script converts it
+into an img that is rendered by
+[http://latex.codecogs.com/gif.latex](http://latex.codecogs.com/gif.latex?%5CDelta).
+
+Example Here:
+
+E=mc\^2
+
+N(x)=\\frac{1}{\\sqrt{2
+\\pi}}\\int\_{-\\infty}\^{x}e\^{-\\frac{z\^2}{2}}dz
+
+Here is the [file](/static/tex.js):
+
+
+
+{[|]}
+# Site Migration and A Few Thoughts on How to Build a Research Blog
+
+[slug](2010/11/site-migration)
+### About this new site
+
+During the past three years, the four best products happened to me are:
+
+-   LaTex
+-   Google Docs
+-   Google Appengine
+-   Python
+
+The first two makes writing a research paper fun and enjoyable, and the
+last two are nothing but awesome for web applications. To tell the
+truth, not until recently, I haven't get a chance to learn and
+experiment something on GAE. I was still satisfied by my old site
+written in PHP, except for one thing: to place my research papers on the
+site.
+
+The only reason that makes the task a pain-in-the-ass is that all those
+articles are in PDF format and contains a good amount of mathematical
+formulas. It is impossible to translate them into plain HTML and display
+them on webpages. The only solution is to click a link and download the
+file. I thought about store them on google docs and embed them in a
+webpage, but it is so not cool to scatter your files all over the
+Internet.
+
+Then, I had the chance to really get to known GAE, by working on the
+[WGSO website](http://wgsosu.appspot.com). Thanks to Master Rishabh, I
+managed to grasp some basics about developing a GAE app within weeks.
+When the project was pretty much done, I began to consider migrating my
+own site to GAE. And this site obviously is the product of that thought.
+The code is adopted from [Brian Clapper's "Writing Blogging Software for
+Google App Engine"](http://brizzled.clapper.org/id/77/), with a few
+minor modifications (mainly a custom url handler). It looks pretty neat
+and has all the features I wanted.
+
+### How to build a research blog
+
+The main improvement from a function point of view, is that it can
+perfectly integrate word file, pdfs etc. into web view experience. Some
+examples can be found on this page: [Research](/research). It seems to
+me the perfect solution for a research blog. Now what I need to do is
+simply upload my file to Google Docs, publish and embed them into a
+webpage. Everything is stored under my GMAIL account, and this site
+serves as a front-end for displaying the contents. Instead of writing
+HTML, I can finish my work in any software I like.
+
+This is not some brand new idea, but it works well for me. Here's some
+thing I have learned through the whole site-migrating process.
+
+\
+First the simplest solution, if your paper is in word format, just
+upload it to Google Docs. Here's how I did it:
+
+The only annoying thing is that FF and IE doesn't support the "height:
+100%" well. So you may have to define the height for each file
+specifically; add something like this: "height: 3200px".
+
+As you can see, for pdf, it is done similarly.
+
+As of math formulas, obviously LaTex is the best choice. However, how to
+display it inside a webpage is not a easy job. The first option is to
+write the whole article in LaTex and compile it into PDF. Another
+solution would be some online LaTex rendering engine, and paste the url
+or the image contains the formula into Google Docs. A third way is to
+use softwares like LaTex2html; however, the problem with this approach
+is that it generates "pngs" for the formula, uploading these images
+would be annoying. The fourth method I am still exploring is by using
+rendering engines like
+[LatexRender](http://www.mayer.dial.pipex.com/tex.htm). Formulas can be
+done as simple as [tex]\\frac{1}{2}[/tex]. I'll write something more
+about it in the future.
+
+
+
+{[|]}
+# It's WCG time again.
+
+[slug](2010/09/wcg2009)
+Good luck to all Chinese players.
+
+![image](http://lh3.ggpht.com/_4jVmmbOb8bk/TPkc0jBjHtI/AAAAAAAAAEA/6NZp8wQFT0c/wcg2009.jpg)
+
+
+
+{[|]}
+# Metaphysics of Business Education[1]
+
+[slug](2010/09/metaphysics-of-business-education-1)
+Back home, we used to look down upon MBA's. Unlike here, MBA was not
+regarded as the most proud program of a business school-at least for my
+university. We would think that MBA's are but a gathering of
+middled-aged, somewhat clueless businessmen who had a strange fantasy
+about a "Tsinghua Degree". Just like any other graduate program, MBA at
+Tsinghua University is less valued as an undergraduate degree from
+there. Until today, most people still think only undergraduates are the
+authentic, unadulterated Tsinghua people.
+
+\
+Chinese society has great faith in the undergraduate education of
+Tsinghua or Peking, but we would naturally assume the elite group of
+these undergraduates will go for oversea studies after graduation. As of
+domestic MBA's, they were leftovers. Yet another strange cognition in
+our mindset is, those elites who went oversea studies will and should
+remain abroad while those "leftovers" are left in charge of the country.
+You will often hear from Chinese people, that the real millionaires are
+high school dropouts, we somehow believe that monetary success are
+inversely related to academic excellence.
+
+\
+Following this line of reasoning, it is not hard to understand we
+Chinese do not believe business leaders should be primarily
+knowledgeable, nor MBA education could help you do business better. We
+do not see the value of business schools; we think business talents are
+derived from the practice, not from school education.
+
+\
+TO BE CONTINUED
+
+
+
+{[|]}
+# CG
+
+[slug](2010/09/cg)
+![image](http://hiphotos.baidu.com/qiangda_syr/pic/item/f154e03d7ea72c0dbba16779.jpg)
+
+![image](http://hiphotos.baidu.com/qiangda_syr/pic/item/102735edfa0676d9b21cb17c.jpg)
+
+
+
+{[|]}
+# Salt Water vs. Fresh Water, what is it really all about
+
+[slug](2010/09/salt-water)
+On Wednesday class, we discussed about the Krugman article. It is
+certainly good timing for him to bring up all the Keynesian ideas. After
+being nurtured in a environment of continuous growth, people suddenly
+feel the global wide economic downturn is like a slap in the face,
+making them to start questioning everything they are so accustomed to;
+including a healthy appetite for risks, a strong confidence in both the
+notion of free market and the sophisticated financial industry, which
+ironically, was regarded as the factors led to the economy's past
+success.
+
+Then suddenly everything changed. The main-streets have to suffer
+because of the Wall Street. Then comes the Salt Water economists,
+blaming the imperfection of market system, the lack of government
+intervention, and the blindness and arrogance of their Fresh Water
+colleges. It is not just a debate about what is the right vision for
+scholars to have in the economics profession, it's also about what macro
+policies the White House should commit itself into.
+
+Therefore, to understand the Salt Water vs. Fresh Water debate, a more
+detailed version of the underlying story should be told; specifically,
+one need to dissect the US economy and see clearly who is going to
+benefit, to what extent, under different government policy approaches.
+This is important, but often neglected intentionally by both groups of
+economists, each and every one of them just claim his or her policy
+suggestions are for the best interests of the nation as a whole.
+
+Of course this is fallacious, especially given the current economic
+structure of the current US economy, which consists of two distinct
+components.
+
+GDP has been growing moderately this year up to now, but the few jobs
+are created. Sadly, people are still unhappy, because the income of the
+average Americans still are not secured. Then who's been making the
+money? Long story short, companies or industries whose primary markets
+are abroad. As other countries' recovering and growing way faster than
+US, lots of US multinationals seized the opportunity by either exporting
+or placing their operations oversea. Companies like Coke Cola who
+consider themselves as global player certainly had a great time, in fact
+they are the ones who contributes to the recent growth while firms
+primarily focus on domestic market get even worse. However, the foreign
+markets fueled companies or industries can't and won't contribute much
+to job creation. What they need from US is employees with higher
+education and expertise in designing, marketing, and other upper ends of
+a company's needs. As to the increased labor demand, they just hire more
+people in their plants in Asia, South America and Mexico. So the mass
+working class in US is ruled out in sharing the cake. In some other
+words, the recent growth in US economy is in fact export driven, a
+weaker dollar also helps explaining that.
+
+That's probably why the Fresh Water guys prefer less government
+intervention outside the monetary system. They just need the Fed to keep
+the interest rate close to zero therefore drives the dollar value low
+enough for the sake of exports. They say: let the market heals itself,
+let our nation focus on its comparative advantages, don't be
+jobs-oriented. Salt Water economists argue, fiscal policy is good
+because it can provide jobs for the American works instantaneously, in
+which case benefits will shifts to those domestic sectors like
+automobile and manufacturing.
+
+Then, which is the better approach? What is the best for the two-tracked
+US economy?
+
+Unfortunately, I have no answers (and I would probably prefers to think
+more about which is better for China), though Prof. Chen really don't
+like me to do so when I say it depends and refuse to take position. My
+position is a combination of different categories of policies should be
+made and passed to find out a optimal solution in the trade-off
+elaborated above. It should be the calculated results of those smart
+economists working for the government rather than the influenced
+political decisions by lobbying groups from a certain industry. Also a
+thorough analysis of consequences internationally of different policy
+bundles transmitted through exchange rate and an global coordination is
+critical too in this situation. I could give out some opinions on that
+too, but I am already forgetting models in international finance, so,
+it's better I just stop here and concludes the whole article quoting an
+Allen Woody movie:
+
+Well, whatever works.

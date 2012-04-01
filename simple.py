@@ -10,6 +10,7 @@ import markdown
 from google.appengine.ext import ndb
 from google.appengine.api import users
 
+
 app = Flask(__name__)
 app.config.from_object('settings')
 
