@@ -132,7 +132,7 @@ def edit(id):
 	    draft = False
 
         if post.draft and not draft:
-            slug = slugify(post.title)
+            slug = slugify(title)
 
             other_post = Post.get_by_slug(slug)
             if other_post and other_post.id != id:
