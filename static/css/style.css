@@ -41,6 +41,8 @@ width: 100%;
 height: 252px;
 background: url(../imgs/hdr.jpg) no-repeat;
 border-bottom: 10px solid #111;
+position: relative;
+overflow: visible;
 }
 #header-bloginfo{
 display: block;
@@ -73,12 +75,14 @@ font-size: 11px;
 }
 #header-widget{
 width: 42%;
-padding: 1%;
 color: #000;
 height: 100%;
-float: right;
+position: absolute;
+right: 1%;
+top: -8px;
 color: white;
 overflow: visible;
+z-index: 65530;
 }
 #header-widget iframe{
 display: none;

@@ -66,6 +66,7 @@ $(function() {
         e.preventDefault();
         var form = _.clone($('form:first'));
         form.attr("action", $(this).attr("href"));
+	form.find("#save").remove();
         form.attr("target", "_blank");
         form.submit();
     });
