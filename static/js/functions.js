@@ -63,12 +63,14 @@ $(function() {
         }
     });
     $("#preview").click(function(e){
-        e.preventDefault();
-        var form = _.clone($('form:first'));
-        form.attr("action", $(this).attr("href"));
-	form.find("#save").remove();
-        form.attr("target", "_blank");
-        form.submit();
+	e.preventDefault();
+        window.post_data = recordPostData();
+	var url = $(this).attr("href");
+	$.post(document.URL, window.post_data, function(res){
+	    if (res.status=="success") {
+	        window.open(url, target="_blank");
+	    }
+	});
     });
     if (window.post_data = recordPostData()) {
         $("#save").click(function() {
