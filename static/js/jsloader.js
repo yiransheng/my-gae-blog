@@ -60,6 +60,7 @@ var math = function() {
 }; 
 
 var code = function() {
+    $("pre").addClass("prettyprint");
     prettyPrint()
 };
 
