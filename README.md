@@ -1,1 +1,1 @@
-Based on [Seincere](http://github.com/yiransheng.com/seincere).
+Based on [Seincere](http://github.com/yiransheng/seincere).
