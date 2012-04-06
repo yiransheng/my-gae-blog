@@ -116,8 +116,6 @@ $(IMG).bind("load", function() {
           e.preventDefault();
 	  tl.stop();
       });
-      
-      tl.start()
 });
 
   
