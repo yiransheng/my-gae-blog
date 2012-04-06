@@ -97,6 +97,12 @@ def feed():
     posts = Post.query(Post.draft==False).order(-Post.created_at).fetch(limit=10)
 
     return render_template('index.xml', posts=posts)
+@app.route("/recent")
+def recent():
+    posts = Post.query(Post.draft==False).order(-Post.created_at).fetch(limit=7)
+    output = [{"title":p.title, "slug":p.slug} for p in posts]
+
+    return jsonify(success=True, recent=output)
 
 
 #---------- Admin Views ---------------

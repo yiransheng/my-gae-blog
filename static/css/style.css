@@ -563,8 +563,11 @@ z-index: 65535;
 z-index: 65535;
 }
 #logo{
+position: relative;
+z-index: -65535;
 visibility: hidden;
 }
+
 #header-bloginfo{
 display: block;
 width: 30%;
@@ -594,16 +597,35 @@ text-align: center;
 #footer span.powered-by {
 font-size: 11px; 
 }
-#header-widget{
+#header-widget, #recent-list{
 width: 42%;
-color: #000;
-height: 100%;
+height: auto;
 position: absolute;
 right: 1%;
 top: -8px;
 color: white;
 overflow: visible;
 z-index: 65530;
+}
+#recent-list{
+z-index: 65520;
+overflow: hidden;
+top: 55px;
+height: 175px;
+font-family: Georgia, Times New Roman, serif;
+display: none;
+}
+#recent-list a{
+display: block;
+width: 90%;
+color: #f9f9f9;
+padding: 4px 3%;
+font-size: 13px;
+}
+
+#recent-list a:before{
+content: "*";
+padding-right: 4px;
 }
 #header-widget iframe{
 display: none;

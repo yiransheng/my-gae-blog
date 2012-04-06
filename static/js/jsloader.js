@@ -74,6 +74,16 @@ var printView = function() {
 // jQuery things
 
 $(document).ready(function(){
+    $.getJSON("/recent",function(data){
+       if (data.success) {
+           for (i in data.recent){
+               $("<a></a>").html(data.recent[i].title)
+	           .attr("href",("/"+data.recent[i].slug) )
+	           .appendTo("#recent-list");
+	   }
+	   $("#recent-list").slideDown();
+       } 
+    });
     var url_parts = window.location.href.split("#");
     var printable = url_parts[url_parts.length-1];
     if (printable == "printable") {
