@@ -108,10 +108,13 @@ $(IMG).bind("load", function() {
 	  }
       }
 
-      $("#stage-wrapper").bind("click", function(e){
+      $("#stage-wrapper").bind("mouseover", function(e){
           e.preventDefault();
-	  tl.toggle();
-	  $('#stage').toggleClass("hide");
+	  tl.start();
+      });
+      $("#stage-wrapper").bind("mouseout", function(e){
+          e.preventDefault();
+	  tl.stop();
       });
       
       tl.start()
