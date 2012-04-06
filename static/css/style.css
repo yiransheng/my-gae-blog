@@ -550,6 +550,21 @@ border-bottom: 10px solid #111;
 position: relative;
 overflow: visible;
 }
+#stage-wrapper{
+position: absolute;
+display: block;
+width: 420px;
+height: 220px;
+left: 0;
+top: 0;
+z-index: 65535;
+}
+#stage{
+z-index: 65535;
+}
+#logo{
+visibility: hidden;
+}
 #header-bloginfo{
 display: block;
 width: 30%;
@@ -688,7 +703,7 @@ font-weight: bold;
 font-family: 'Open Sans Condensed', sans-serif;
 }
 .headline a, h1 a{border: none;color: #8f1718;text-align: left;}
-.subheadline, h2{
+.subheadline{
 font-family: "Lucida Grande", Tahoma;
 font-size: 10px;
 font-weight: lighter;
@@ -700,7 +715,7 @@ text-align: left
 letter-spacing: 0.3em;
 margin-top: -3px;
 }
-.sectiontitle, h3{
+.sectiontitle{
 font-family: times, Times New Roman, times-roman, georgia, serif;
 font-size: 14px;
 text-align: left;

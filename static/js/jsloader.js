@@ -64,6 +64,13 @@ var code = function() {
     prettyPrint()
 };
 
+var printView = function() {
+    $("#header").toggleClass("hide");
+    $("#comment").toggleClass("hide");
+    $("#footer").toggleClass("hide");
+    $("#printable-view").addClass("on");
+};
+
 // jQuery things
 
 $(document).ready(function(){
