@@ -111,9 +111,8 @@ $(IMG).bind("load", function() {
 
       $("#stage-wrapper").bind("mouseover", function(e){
           e.preventDefault();
-	  $("#stage").fadeIn(function() {
-	      tl.start();
-	  });
+	  tl.start();
+	  $("#stage").fadeIn("slow");
       });
       $("#stage-wrapper").bind("mouseout", function(e){
           e.preventDefault();
