@@ -55,7 +55,7 @@ $(IMG).bind("load", function() {
 		  p.v.add(d);
 		  p.v.scale(Math.random()*.1+.9);
 		  if ((a=d.length())<0.005 && Math.random()>0.5){
-		      p.v.set(Math.random()*40-15, Math.random());
+		      p.v.set(Math.random()*50-15, Math.random()*10-5);
 		  }
 		  i = redValueForPixel(p.p.x, p.p.y);
 		  this.imageData.data[i] = p.colorR;
@@ -109,12 +109,14 @@ $(IMG).bind("load", function() {
       }
 
       $("#stage-wrapper").bind("mouseover", function(e){
+	  $("#stage").fadeIn();
           e.preventDefault();
 	  tl.start();
       });
       $("#stage-wrapper").bind("mouseout", function(e){
           e.preventDefault();
 	  tl.stop();
+	  $("#stage").fadeOut();
       });
 });
 

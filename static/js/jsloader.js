@@ -81,7 +81,7 @@ $(document).ready(function(){
 	           .attr("href",("/"+data.recent[i].slug) )
 	           .appendTo("#recent-list");
 	   }
-	   $("#recent-list").slideDown();
+	   $("#recent-list").slideDown("slow");
        } 
     });
     var url_parts = window.location.href.split("#");
