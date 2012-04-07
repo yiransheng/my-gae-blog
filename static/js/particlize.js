@@ -54,8 +54,9 @@ $(IMG).bind("load", function() {
 		  d = p.dest.clone().subtract(p.p).scale(0.06);
 		  p.v.add(d);
 		  p.v.scale(Math.random()*.1+.9);
-		  if ((a=d.length())<0.005 && Math.random()>0.5){
+		  if ((a=d.length())<0.01){
 		      p.v.set(Math.random()*50-15, Math.random()*10-5);
+		      p.p.set(p.dest.clone().scale(.5));
 		  }
 		  i = redValueForPixel(p.p.x, p.p.y);
 		  this.imageData.data[i] = p.colorR;
@@ -96,7 +97,7 @@ $(IMG).bind("load", function() {
 		  p = Sheng.create(Particle, {
 		      p : Sheng.point(x,y),
 		      v : Sheng.point(Math.random()*W/10-W/14, Math.random()*H/20-H/30),
-		      a : Sheng.point(0,0),
+		      a : Sheng.point(-0.1,0),
 		      colorR : colorR,
 		      colorG : colorG,
 		      colorB : colorB,
@@ -109,14 +110,15 @@ $(IMG).bind("load", function() {
       }
 
       $("#stage-wrapper").bind("mouseover", function(e){
-	  $("#stage").fadeIn();
           e.preventDefault();
-	  tl.start();
+	  $("#stage").fadeIn(function() {
+	      tl.start();
+	  });
       });
       $("#stage-wrapper").bind("mouseout", function(e){
           e.preventDefault();
 	  tl.stop();
-	  $("#stage").fadeOut();
+	  $("#stage").fadeOut("slow");
       });
 });
 
