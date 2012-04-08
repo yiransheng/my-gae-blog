@@ -548,6 +548,7 @@ height: 252px;
 background: url(../imgs/hdr2.jpg) no-repeat;
 border-bottom: 10px solid #111;
 position: relative;
+z-index: 0;
 overflow: visible;
 }
 #stage-wrapper{
@@ -557,7 +558,7 @@ width: 420px;
 height: 220px;
 left: 0;
 top: 0;
-z-index: 65535;
+z-index: -1;
 }
 #stage{
 z-index: 65535;
