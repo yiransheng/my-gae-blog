@@ -139,6 +139,7 @@ $(IMG).bind("load", function() {
 	      el.fadeIn("slow");
 	  } else {
 	      tl.start();
+	      el.show();
 	  }
       });
       $("#stage-wrapper").bind("mouseout", function(e){
@@ -150,6 +151,7 @@ $(IMG).bind("load", function() {
 	      });
 	  } else {
 	      tl.stop();
+              el.hide();
 	  }
       });
 });
