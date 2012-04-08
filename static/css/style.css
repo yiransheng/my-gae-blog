@@ -899,6 +899,7 @@ display: none;
 }
 .print .main{
 padding: 10px;
+width: 100%;
 }
 .print div{
 border: none;
