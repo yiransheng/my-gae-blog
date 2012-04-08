@@ -646,6 +646,9 @@ box-shadow: 0px 0px 10px #f16e71;
 -webkit-box-shadow: 0px 0px 10px #f16e71;
 background: white;
 }
+#container.print{
+width: 100%;
+}
 .main{
 position: relative;
 width: 749px;
@@ -891,5 +894,13 @@ button:active, .next:active, .prev:active
     to(#888888));
 }
 
-
+.print #header, .print #comment, .print #footer, .print .can, .print .back-button, .print #HyphenatorToggleBox{
+display: none;
+}
+.print .main{
+padding: 10px;
+}
+.print div{
+border: none;
+}
 

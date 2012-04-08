@@ -65,10 +65,9 @@ var code = function() {
 };
 
 var printView = function() {
-    $("#header").toggleClass("hide");
-    $("#comment").toggleClass("hide");
-    $("#footer").toggleClass("hide");
-    $("#printable-view").addClass("on");
+    $(".can").toggleClass("hide");
+    $("#printable-view").toggleClass("on");
+    $("#container").toggleClass("print");
 };
 
 // jQuery things
@@ -87,19 +86,13 @@ $(document).ready(function(){
     var url_parts = window.location.href.split("#");
     var printable = url_parts[url_parts.length-1];
     if (printable == "printable") {
-        $("#header").toggleClass("hide");
-        $("#comment").toggleClass("hide");
-        $("#footer").toggleClass("hide");
-        $("#printable-view").addClass("on");
+	printView();
     }
     $(".postMeta:first").removeClass("limited");
     $(".more-button:first").remove();
     $("#printable-view").click(function(e){
 	e.preventDefault();
-        $("#header").toggleClass("hide");
-        $("#comment").toggleClass("hide");
-        $("#footer").toggleClass("hide");
-        $(this).toggleClass("on");
+	printView();
     });
     _Loader("Hyphenator", hyphen).load();
     _Loader("prettyPrint", code).load();
