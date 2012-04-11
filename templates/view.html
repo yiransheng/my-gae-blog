@@ -7,17 +7,9 @@
         <a class="back-button" href="{{ url_for('index', page=pid) }}">Back to Blog</a>
 
     <section id="post-{{ post.id }}">
-	<table class="article_title_container" cellspacing="0" cellpadding="0">
-	    <tbody><tr class="article_title_line">
-			
-		<td class="can">
-		    <div class="month">{{ post.created_at.strftime('%b') }}</div>
-		    <div class="day">{{ post.created_at.strftime('%d') }}</div>
-		</td>
 
-		<td class="title-container">
-			
-		    <div id="articletitle"><h1>{{ post.title }}</h1></div>
+    <div class="post-title">		
+	<h1>{{ post.title }}</h1>
 			
 		    <div><p class="subheadline">
                         {% if post.created_at.strftime('%B %d, %Y') != post.updated_at.strftime('%B %d, %Y') %}
@@ -27,10 +19,7 @@
                         {% endif %}&nbsp;
 	                    <a href="#" id="printable-view">Printable Version</a>
 			</p></div>
-		</td>
-	    </tr>
-	  </tbody></table>
-		
+			</div>
 	<div class="postMeta hyphenate text">{{ post.render_content()|safe }}</div>
     </section>
 

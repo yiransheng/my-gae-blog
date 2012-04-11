@@ -64,6 +64,9 @@ def requires_authentication(f):
 
     return _auth_decorator
 
+@app.route("/resume")
+def about():
+    return redirect("http://www.indeed.com/me/yiran_sheng")
 
 @app.route("/")
 def index():

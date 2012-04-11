@@ -6,28 +6,16 @@
 
     {% for post in posts %}
     <section id="post-{{ post.id }}">
-	<table class="article_title_container" cellspacing="0" cellpadding="0">
-	    <tbody><tr class="article_title_line">
-			
-		<td class="can">
-		    <div class="month">{{ post.created_at.strftime('%b') }}</div>
-		    <div class="day">{{ post.created_at.strftime('%d') }}</div>
-		</td>
-		<td class="title-container">
-		    <div id="articletitle"><h1><a href="{{ url_for('view_post_slug', slug=post.slug, pid=current_page) }}">{{ post.title }}</a></h1></div>
-			
-                        <div><p class="subheadline">
-                        {% if post.created_at.strftime('%B %d, %Y') != post.updated_at.strftime('%B %d, %Y') %}
-                            Updated at {{ post.updated_at.strftime('%B %d, %Y | %H:%M') }}
-			{% else %}
-			    Posted at {{ post.created_at.strftime('%B %d, %Y | %H:%M') }}
-                        {% endif %}
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#disqus_thread">Comments</a>
-			</p></div>
-
-		</td>
-	    </tr>
-	  </tbody></table>
+		    <div class='post-title'><h1><a href="{{ url_for('view_post_slug', slug=post.slug, pid=current_page) }}">{{ post.title }}</a></h1>
+		    <div><p class="subheadline">
+		    {% if post.created_at.strftime('%B %d, %Y') != post.updated_at.strftime('%B %d, %Y') %}
+			Updated at {{ post.updated_at.strftime('%B %d, %Y | %H:%M') }}
+		    {% else %}
+			Posted at {{ post.created_at.strftime('%B %d, %Y | %H:%M') }}
+		    {% endif %}
+		    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#disqus_thread">Comments</a>
+		    </p></div>
+        </div>
 		
 	<div class="postMeta limited hyphenate text">{{ post.render_content()|safe }}</div>
 	<div class="more-button"><p class="gtag"><a href="{{ url_for('view_post_slug', slug=post.slug, pid=current_page)}}">>>More</a></p></div><br>
