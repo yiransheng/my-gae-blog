@@ -558,7 +558,7 @@ width: 420px;
 height: 220px;
 left: 0;
 top: 0;
-z-index: -1;
+z-index: 65533;
 }
 #stage{
 z-index: 65535;
@@ -792,9 +792,11 @@ font-size: 11px;
 }
 
 /* CSS3 */
-#header-bloginfo ul li{
+#header-bloginfo ul{
 display: block;
 width: 80%;
+position: relative;
+z-index: 65535;
 }
 #header-bloginfo ul li{
 -moz-border-radius: 5px;

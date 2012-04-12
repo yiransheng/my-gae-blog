@@ -9,6 +9,7 @@ import markdown
 
 from google.appengine.ext import ndb
 from google.appengine.api import users
+from google.appengine.api import memcache
 
 
 app = Flask(__name__)
@@ -50,9 +51,17 @@ class Post(ndb.Model):
         #your own
         return q.fetch(10000000)
 
-    def render_content(self):
-        return markdown.Markdown(extensions=['fenced_code', 'mathjax'], output_format="html5", safe_mode=True).convert(self.text)
+    def render_content(self, cache=True):
+	cached = memcache.get(self.slug)
+	if cached and cache:
+	    return cached
 
+        content = markdown.Markdown(extensions=['fenced_code', 'mathjax'], output_format="html5", safe_mode=True).convert(self.text)
+        memcache.set(self.slug, content)
+
+	return content 
+
+    
 
 def requires_authentication(f):
     @wraps(f)
@@ -153,8 +162,11 @@ def edit(id):
         post.title = title
         post.text  = text
 
-        post.put()
+        future = post.put_async()
+	memcache.delete(post.slug)
+	memcache.set(post.slug, post.render_content())
 
+        future.wait()
         if request.is_xhr:
             return jsonify(status='success')
         else:
@@ -169,6 +181,7 @@ def delete(id):
     if not post:
         flash("Error deleting post ID %s" % id, category="error")
     else:
+	memcache.delete(post.slug)
         post.key.delete()
 
     return redirect(request.args.get("next","") or request.referrer or url_for('index'))
