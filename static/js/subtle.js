@@ -14,14 +14,13 @@ var imga = new Image(),
     imgDataR,
     prep,
     tid,
-    aLoaded,
-    j, i, c=0,imgId = 0,   
+    aLoaded=false,
+    j, i, c=0,imgId = -1,   
     render, 
     nextImg, 
     imgs = ["cave.jpg", "butterflyn.jpg", "14.jpg","20.jpg","17.jpg"];
 
 
-imga.src = "/static/imgs/cave.jpg";
 imgb.src = "/static/imgs/overlay.jpg";
 
 nextImg = function(load){
@@ -31,14 +30,13 @@ nextImg = function(load){
         imga = new Image();
         imga.src = "/static/imgs/"+imgs[imgId];
 	aLoaded=false;
-	imga.onload = function(){
-	    aLoaded = true 
-	}
+    }
+    if (aLoaded) {
+        prep(); 
     } else {
-	if (aLoaded) {
-	    prep()
-	} else {
-            imga.onload = prep;
+        imga.onload = function(){
+	    aLoaded=true;
+	    prep();
 	}
     }
 };
@@ -59,10 +57,6 @@ prep = function() {
    nextImg();
 };
 
-imga.onload = function(){
-    aLoaded = true;
-    if (ctx_bg) imgb.onload = prep;
-};
 
 
 render = function() {
@@ -98,4 +92,8 @@ render = function() {
        imgDataR.data[i] = Math.round(imgDataB.data[i]*(r-y)/r);
    }
    ctx_rd.putImageData(imgDataR, 0, 0);
+};
+
+imgb.onload = function(){
+    nextImg();
 };
