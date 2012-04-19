@@ -1,0 +1,77 @@
+body{background: url(../imgs/rug.jpg);font-family: "Helvetica Neue",Arial,Verdana,sans-serif;min-width:1100px;}
+
+#container{
+background: url(../imgs/butterflyn.jpg) no-repeat top right;
+width: 994px;
+height: 613px;
+margin: 0px auto;
+padding: 0;
+}
+#content{
+background: url(../imgs/rug2.jpg);
+float:left;
+width: 235px;
+height: 564px;
+margin-top: 26px;
+color: #f2ada7;
+}
+#content .text{
+position: relative;
+left: 30px;
+padding: 40p 35px; 
+font-size: 12px;
+text-align: justify;
+}
+#content p{
+hyphens: auto;
+}
+.wrapper{
+margin-top: 26px;
+display: block;
+width: 40px;
+overflow: visible;
+float: left;
+padding-top: 20px;
+position: relative;
+}
+.i{
+display:block;
+padding-left: 40px;
+height: 40px;
+width: 0px;
+overflow: hidden;
+position: absolute;
+right: 0;
+cursor: pointer;
+background: url(../imgs/icons.png) no-repeat;
+background-color: #af908d;
+border-left: 1px solid #678999;
+border-top: 2px solid #888;
+border-bottom: 1px solid #abab98;
+}
+.i a{
+display:block;
+padding: 5px;
+width: 100px;
+font-size: 16px;
+margin:5px 0;
+text-shadow: 1px 0px 1px rgba(255,255,255,.4),
+             -1px 0px 1px rgba(0,0,0,.4);
+font-weight: bold;
+}
+.i:hover{
+background-color: #cceaea;
+box-shadow: 0px 0px 2px #fff,
+            0px -1px 20px #fff;
+}
+#blog{top:20px;}
+#labs{background-position: 0px -41px;top: 70px;}
+#research{background-position: 0px -79px;top: 120px;}
+#github{background-position: 0px -117px;top:170px;}
+#linkedin{background-position: 0px -155px;top: 220px;}
+#resume{background-position: 0px -193px;top:270px;}
+
+
+h1,h2,h3,h4,h5,h6{color: #d9ce3d}
+a, a:visited{color:#73534c;text-decoration:none;}
+#content a:hover{background: #fff;color:#222;}

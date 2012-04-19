@@ -77,7 +77,7 @@ def requires_authentication(f):
 def about():
     return redirect("http://www.indeed.com/me/yiran_sheng")
 
-@app.route("/")
+@app.route("/blog")
 def index():
     page = request.args.get("page", 0, type=int)
 
