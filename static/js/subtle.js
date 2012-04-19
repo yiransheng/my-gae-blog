@@ -54,16 +54,16 @@ prep = function() {
        imgDataB.data[j] = value;
    }
    tid=window.setInterval("render()", 100);
-   nextImg();
 };
 
 
 
 render = function() {
    var w,h,x,y,X,Y,xx,yy,r,orig,end;
-   can_rd.width = 0;
-   can_rd.width = W;
    c++;
+   if (c==50) {
+       nextImg();
+   }
    if (c>160) {
        imgDataR = ctx_rd.getImageData(0,0,W,H);
        c = 0;
