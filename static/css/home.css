@@ -98,16 +98,21 @@ a, a:visited{color:#43233c;text-decoration:none;}
 #content a:hover{background: #fff;color:#222;}
 
 
-#subtle-bg, #subtle-overlay, #subtle-render{
+iframe, #subtle-bg, #subtle-overlay, #subtle-render{
+overflow: hidden;
 display: block;
 padding: 0;
 margin: 0;
 width: 727px;
 height: 630px;
 position: absolute;
-top: 20px; right: -90px;
 z-index: 0;
 }
 #subtle-bg, #subtle-overlay{
 visibility: hidden;
 }
+iframe{
+top:20px; right: -90px;
+border: 0px solid #ffffff;
+}
+
