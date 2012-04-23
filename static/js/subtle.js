@@ -18,17 +18,18 @@ var imga = new Image(),
     j, i, c=0,imgId = -1,   
     render, 
     nextImg, 
+    media_url = "/static/imgs/", 
     imgs = ["cave.jpg", "butterflyn.jpg", "14.jpg","20.jpg","17.jpg"];
 
 
-imgb.src = "/static/imgs/overlay.jpg";
+imgb.src = media_url+"overlay.jpg";
 
 nextImg = function(load){
     if (!load) {
         imgId ++;
         if (imgId>=imgs.length) imgId =0;
         imga = new Image();
-        imga.src = "/static/imgs/"+imgs[imgId];
+        imga.src = media_url+imgs[imgId];
 	aLoaded=false;
     }
     if (aLoaded) {
