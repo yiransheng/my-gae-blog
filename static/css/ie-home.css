@@ -1,77 +1,68 @@
-body{background: url(../imgs/rug.jpg);font-family: "Helvetica Neue",Arial,Verdana,sans-serif;min-width:1100px;}
+body{background: url(../imgs/bg2.png);font-family: "Helvetica Neue",Arial,Verdana,sans-serif;color: #dedeff;}
 
-#container{
-background: url(../imgs/butterflyn.jpg) no-repeat top right;
-width: 994px;
-height: 613px;
-margin: 0px auto;
-padding: 0;
+h1,h2,h3,h4,h5,a,a:visited,a:link{
+color: #d9ce3d;
 }
+h1{font-size: 1.8em;margin-left: 10px;}
+
+*iframe{display:none\9;width:0\9;height:0\9;visibility:hidden\9}
+
+header{display: block; border-bottom: 2px solid #400;}
 #content{
-background: url(../imgs/rug2.jpg);
-float:left;
-width: 235px;
-height: 564px;
-margin-top: 26px;
-color: #f2ada7;
+width: 700px;
+background: #ddd;
+color: #222;
+min-height: 290px;
+margin: 20px;
 }
 #content .text{
 position: relative;
-left: 30px;
-padding: 40p 35px; 
+z-index: 2;
+left: 0px;
+padding: 18px;
 font-size: 12px;
 text-align: justify;
 }
-#content p{
-hyphens: auto;
-}
-.wrapper{
-margin-top: 26px;
+
+
+#menu {
+z-index: 1000;
 display: block;
-width: 40px;
-overflow: visible;
-float: left;
-padding-top: 20px;
+margin: 20px auto;
+width: 100%;
 position: relative;
+text-align: center;
 }
-.i{
-display:block;
-padding-left: 40px;
-height: 40px;
-width: 0px;
+
+#menu ul {
+padding: 0;
+margin: 0;
+list-style: none;
 overflow: hidden;
-position: absolute;
-right: 0;
-cursor: pointer;
-background: url(../imgs/icons.png) no-repeat;
-background-color: #af908d;
-border-left: 1px solid #678999;
-border-top: 2px solid #888;
-border-bottom: 1px solid #abab98;
 }
-.i a{
-display:block;
-padding: 5px;
-width: 100px;
-font-size: 16px;
-margin:5px 0;
-text-shadow: 1px 0px 1px rgba(255,255,255,.4),
-             -1px 0px 1px rgba(0,0,0,.4);
-font-weight: bold;
+
+#menu ul li {
+margin: 0;
+padding: 0;
+float: left;
+text-align: center;
+border: 1px solid #223;
+margin-left: -1px;
 }
-.i:hover{
-background-color: #cceaea;
-box-shadow: 0px 0px 2px #fff,
-            0px -1px 20px #fff;
+
+#menu ul li:hover {
+background: #777;
 }
-#blog{top:20px;}
-#labs{background-position: 0px -41px;top: 70px;}
-#research{background-position: 0px -79px;top: 120px;}
-#github{background-position: 0px -117px;top:170px;}
-#linkedin{background-position: 0px -155px;top: 220px;}
-#resume{background-position: 0px -193px;top:270px;}
+
+#menu ul li:active {
+background: #888;
+}
+#menu ul li a{
+text-decoration: none;
+font: 11px Arial, sans-serif;
+color: #ddd;
+text-transform: uppercase;
+padding: 35px;
+}
 
 
-h1,h2,h3,h4,h5,h6{color: #d9ce3d}
-a, a:visited{color:#73534c;text-decoration:none;}
-#content a:hover{background: #fff;color:#222;}

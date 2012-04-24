@@ -48,7 +48,7 @@ overflow: visible;
 float: left;
 padding-top: 20px;
 }
-h1{font-size: 1.8em;}
+h1{font-size: 1.8em;text-align: center}
 h1,h2,h3,h4,h5,h6{color: #d9ce3d;}
 a, a:visited{color:#43233c;text-decoration:none;}
 #content a:hover{background: #fff;color:#222;}

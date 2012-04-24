@@ -8,11 +8,16 @@
    Yiran Sheng's Homepage
   
 </title>
-<link href="/static/css/_normalize.css" rel="stylesheet" type="text/css">
-<link href="/static/css/home.css" rel="stylesheet" type="text/css">
-<!--[if (gte IE 8)|(gte IE 7)]>
-<link href="./static/css/ie-home.css" rel="stylesheet" type="text/css">
-<![endif]-->
+<link href="/static/css/_normalize.css" rel="stylesheet" type="text/css" />
+
+<![if (lt IE 9)]>
+<link href="/static/css/ie-home.css" rel="stylesheet" type="text/css" />
+<![endif]>
+<![if (gt IE 8)|(! IE)]>
+<link href="/static/css/home.css" rel="stylesheet" type="text/css" />
+<![endif]>
+
+
 
 
 <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Open+Sans+Condensed:700' rel='stylesheet' type='text/css'>
@@ -21,7 +26,7 @@
 </head>
 <body>
 <header>
-<h1 align="center">Yiran Sheng</h1>
+<h1>Sheng's Homepage</h1>
 <div id="menu">
   <ul>
     <li class="i" id="blog">
@@ -69,47 +74,5 @@
 <script>
 Hyphenator.run();
 </script>
-<!--[if (gte IE 8)|(gte IE 7)]>
-<script>
-var buttons = document.getElementsByClassName ? document.getElementsByClassName("i") : document.getElementById("menu").getElementsByTagName("div"),
-    N = buttons.length,i,j,bt,d,
-    animate = function(){
-	for (j=0;j<N;j++){
-	    bt = buttons[j];
-	    d=Math.abs(bt.destw-bt.w);
-	    if (d<2){
-		bt.w = bt.destw;
-		bt.v = 0;
-		d = 0;
-	    }
-	    bt.v += d ? (bt.destw-bt.w)/d*20 : 0;
-	    bt.v *= 0.58;
-	    bt.w += bt.v;
-	    bt.style.width = bt.w+"px";
-	}
-    };		
-for (i=0;i<N;i++){
-    bt = buttons[i];
-    bt.w = 0;
-    bt.v = 0;
-    bt.destw = 0;
-    bt.addEvent = bt.addEventListener || function(evt, func){
-        bt["on"+evt] = func
-    };
-    bt.addEvent("mouseover", function(e){
-	evt = e || {target:this};
-	evt.target.destw = 90;
-	evt.target.v += 1;
-    });
-    bt.addEvent("mousedown", function(e){
-	evt = e || {target:this};
-	evt.target.destw = 0;
-	evt.target.v -= 1;
-    });
-}
-window.setInterval("animate()", 50);
-</script>
-<![endif]-->
-<script src="/static/js/subtle.js"></script>
 </body>
 
