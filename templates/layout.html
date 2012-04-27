@@ -25,26 +25,12 @@
 	<header>
 	<div id="stage-wrapper">
 	        <img id="logo" src="{{ url_for('static', filename='imgs/butterfly.png')}}"/>
-		<a href="{{ url_for('index' )}}"><canvas id="stage">
+		<a href="/"><canvas id="stage">
 		    </canvas></a>
 	</div>
 	<div id="header-bloginfo"> 
 	    <h1><a href="{{ url_for('index') }}">{{ config.BLOG_TITLE }}</a></h1>
 	    <span>{{ config.BLOG_TAGLINE }}</span>
-	    <ul>
-		{% if config.GITHUB_USERNAME %}
-		    <li class='text'><a href="https://github.com/{{ config.GITHUB_USERNAME }}/">Github</a></li>
-		{% endif %}
-		{% if config.CONTACT_EMAIL %}
-		<li class='text'><a href="mailto:{{ config.CONTACT_EMAIL }}?subject:Howdy">Email me</a></li>
-		{% endif %}
-		{% if config.LINKEDIN_PROFILE %}
-		<li class='text'><a href="{{ config.LINKEDIN_PROFILE }}">LinkedIn</a></li>
-		{% endif %}
-		<li class='text'><a href="{{ url_for('feed') }}">Feed</a></li>
-		{% block sidebar %}{% endblock %}
-	    </ul>
-	
 	</div>
         <div style="font: 0px/0px;clear: both;display: block"> </div>
 	    <div id="recent-list">
