@@ -1,4 +1,4 @@
-
+(function(){
 var play = {
 
     run: function(){
@@ -105,6 +105,14 @@ var play = {
         return this.msg	    
     },
 
+    hyphen: function(){
+	if (!this.Hyphen) {
+	    $("#content .text").css({textAlign:"justify"});
+	    Hyphenator.run()
+	    this.Hyphen = true;
+	}
+    }, 
+
     msg : "I just tricked you to type my name, did I?", 
 
     ai : function(){
@@ -127,7 +135,7 @@ _jsonp = function(x) {
     play.Recent.experiment = o.html();
     play.Recent.all += o.html();
     $(o.html()).appendTo("#output");
-}, 
+},
 
 tid = -1, 
 
@@ -138,6 +146,21 @@ check = /(^[\w_\$]+)\s+(?:((?:\w+\s*)+)|((?:-\w\s*)+))/g;
 play.Yiran = play.yiran;
 play.Sheng = play.yiran;
 play.sheng = play.yiran;
+
+$.fn.setRange = function(start, end) {
+    return this.each(function() {
+        if (this.setSelectionRange) {
+            this.focus();
+            this.setSelectionRange(start, end);
+        } else if (this.createTextRange) {
+            var range = this.createTextRange();
+            range.collapse(true);
+            range.moveEnd('character', end);
+            range.moveStart('character', start);
+            range.select();
+        }
+    });
+}, 
 
 $(function(){
     function resize(){
@@ -161,6 +184,9 @@ $(function(){
 	    if (txt) { 
 		cHisotry.unshift(txt);
 		tid = -1;
+		if (cHisotry.length>=20){
+		    cHisotry.splice(19,2);
+		}
             }
 	    txt = execute(txt);
 	    if (typeof txt == "string"){
@@ -195,9 +221,12 @@ $(function(){
 	    }
 	    txt = cHisotry[tid+1];
 	    if (txt && tid < cHisotry.length-1) {
-		$this.val("");
-	        $this.val(txt);
+		$this.blur();
 	        $input.text(txt);
+                pos = -txt.length*7;
+		$("#cursor").css({left:pos+"px"}).addClass("on");
+	        $this.val(txt).setRange(0, 0);
+		$this.focus();
 		tid ++;
 	    }
 
@@ -205,12 +234,16 @@ $(function(){
 
 	    txt = tid > 0 ? cHisotry[tid-1] : txt;
 	    if (tid > 0 && txt){
-	        $this.val(txt);
+		$this.blur();
 	        $input.text(txt);
+                pos = 0;
+		$("#cursor").css({left:pos+"px"}).removeClass("on");
+	        $this.val(txt).setRange(txt.length, txt.length);
+		$this.focus();
 		tid --;
 	    } else {
 	        $input.text(txt);
-	        tid --;
+	        tid = tid >-1 ? tid -1 : -1;
 	    }
 
 	} else {
@@ -250,7 +283,7 @@ $(function(){
 	}
 
         try {
-	    ret = String(eval(txt))
+	    ret = run_js(txt);
 	} catch (err) {
 	    ret = play.help();
 	}
@@ -262,9 +295,19 @@ $(function(){
     $("#textarea").val("")
                   .focus()
                   .keydown(terminal)
+                  .keypress(terminal)
                   .keyup(terminal);    
 
     $("#widgets-area").click(function(e){
         $("#textarea").focus();
     });
-})
+
+    play.hyphen();
+});
+
+})();
+
+function run_js(txt){
+    var Hyphenator;
+    return String(eval(txt))
+}
