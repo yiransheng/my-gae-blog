@@ -1,4 +1,3 @@
-(function(){
 var play = {
 
     run: function(){
@@ -111,7 +110,12 @@ var play = {
 	    Hyphenator.run()
 	    this.Hyphen = true;
 	}
-    }, 
+    },
+
+    admin: function(){
+        $('<p><a href="/admin/">Admin</a></p>').appendTo("#output");	   
+	return "=====" 
+    },
 
     msg : "I just tricked you to type my name, did I?", 
 
@@ -160,7 +164,7 @@ $.fn.setRange = function(start, end) {
             range.select();
         }
     });
-}, 
+}; 
 
 $(function(){
     function resize(){
@@ -305,9 +309,8 @@ $(function(){
     play.hyphen();
 });
 
-})();
 
 function run_js(txt){
-    var Hyphenator;
+    var Hyphenator, _jsonp, play;
     return String(eval(txt))
 }

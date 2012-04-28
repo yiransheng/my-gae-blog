@@ -545,6 +545,9 @@ td.gsc-branding-text, td.gcsc-branding-text {
 
 .gsc-adBlock {
   padding-bottom: 5px;
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .gsc-table-cell-snippet-close,
@@ -552,4 +555,5 @@ td.gsc-branding-text, td.gcsc-branding-text {
   padding-left: 0;
   padding-right: 0;
 }
+
 
