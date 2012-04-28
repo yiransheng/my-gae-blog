@@ -111,8 +111,11 @@ def feed():
     return render_template('index.xml', posts=posts)
 @app.route("/recent")
 def recent():
-    posts = Post.query(Post.draft==False).order(-Post.created_at).fetch(limit=7)
-    output = [{"title":p.title, "slug":p.slug} for p in posts]
+    output = memcache.get("recent")
+    if not output:
+        posts = Post.query(Post.draft==False).order(-Post.created_at).fetch(limit=7)
+        output = [{"title":p.title, "slug":p.slug} for p in posts]
+	memcache.set("recent", output)
 
     return jsonify(success=True, recent=output)
 
@@ -164,6 +167,7 @@ def edit(id):
 
         future = post.put_async()
 	memcache.delete(post.slug)
+	memcache.delete("recent")
 	memcache.set(post.slug, post.render_content())
 
         future.wait()
