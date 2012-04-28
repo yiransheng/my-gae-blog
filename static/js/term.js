@@ -219,16 +219,16 @@ $(function(){
 		cHisotry.unshift(txt);
 		tid ++;
 	    }
-	    txt = cHisotry[tid+1];
-	    if (txt && tid < cHisotry.length-1) {
+	    txt = cHisotry[tid+1] ? cHisotry[tid+1] : txt;
+	    if (txt) {
 		$this.blur();
 	        $input.text(txt);
                 pos = -txt.length*7;
 		$("#cursor").css({left:pos+"px"}).addClass("on");
 	        $this.val(txt).setRange(0, 0);
 		$this.focus();
-		tid ++;
-	    }
+		tid = tid < cHisotry.length-1 ? tid+1 : cHisotry.length-1;
+	    } 
 
 	} else if (e.keyCode == 40 && e.type=="keydown") {
 
@@ -236,8 +236,6 @@ $(function(){
 	    if (tid > 0 && txt){
 		$this.blur();
 	        $input.text(txt);
-                pos = 0;
-		$("#cursor").css({left:pos+"px"}).removeClass("on");
 	        $this.val(txt).setRange(txt.length, txt.length);
 		$this.focus();
 		tid --;
@@ -245,6 +243,8 @@ $(function(){
 	        $input.text(txt);
 	        tid = tid >-1 ? tid -1 : -1;
 	    }
+            pos = 0;
+	    $("#cursor").css({left:pos+"px"}).removeClass("on");
 
 	} else {
 	    if (txt != $input.text()) $input.text(txt);
