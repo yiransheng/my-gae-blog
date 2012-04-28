@@ -119,7 +119,7 @@ _jsonp = function(x) {
 	item = res.registered[i]
 	p = $("<p></p>")
 	$("<a></a>").text("[Lab]"+item.name)
-		    .attr("href", "http://yiransheng.github.com/html5lab/"+item.place)
+		    .attr("href", "http://yiransheng.github.com/html5lab/#/"+item.place)
 		    .appendTo(p);
 	o.append(p);
 	if (x>4) {break}
