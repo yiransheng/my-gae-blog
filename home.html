@@ -21,7 +21,8 @@
 
 
 <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Open+Sans+Condensed:700' rel='stylesheet' type='text/css'>
-<script src="/static/js/hyphenator.min.js" type="text/javascript">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="/static/js/term.js" type="text/javascript">
 </script>
 </head>
 <body>
@@ -67,12 +68,25 @@
 		<p>He writes web apps, reads fantasy literature and does graphical design and CGI in his spare time. </p>
 		 </div>
     </div>
-    <iframe src="gallery.html" width="727" height="630" scrollbar='no' marginwidth='0' marginheight='0' hspace='0' align='middle' frameborder='0'></iframe>
+    <div id="widgets-area"> 
+      <div class="widget"> 
+	<div id="output">
+	<p><pre id="logo">
+    __  __ _ _____   ____   __  _      ____  _   _  ____  __  _  ____ 
+    \ \/ /| || () ) / () \ |  \| |    (_ (_`| |_| || ===||  \| |/ (_,`
+     |__| |_||_|\_\/__/\__\|_|\__|   .__)__)|_| |_||____||_|\__|\____)
+	</pre></p>
+	  </div>
+	<div id="input">
+	    <span id="linestart">>&nbsp;</span>
+	    <pre id="line"></pre>
+	    <span id="cursor"></span>
+	  </div>
+	<input id="textarea" spellcheck="false"/>
+	</div>
+    </div>
 </div>
 
 
-<script>
-Hyphenator.run();
-</script>
 </body>
 
