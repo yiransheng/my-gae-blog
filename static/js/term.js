@@ -6,10 +6,13 @@ var play = {
 	try {
 	    n = arguments.length;
             func = arguments[0];
-	    if (!(this[func] instanceof Function)) return this.help();
 	    opts = arguments[n-1];
 	    args = n > 2 ? Array.prototype.slice.apply(arguments, [1, n-1]) : undefined;
 
+	    if (!(this[func] instanceof Function)) {
+		args = [func].concat(args);
+		return this.ai.apply(this, args);
+	    }
 	    if (this.readOpts(opts, "h")){
 	        return (this.help(func))
 	    }
@@ -102,7 +105,11 @@ var play = {
         return this.msg	    
     },
 
-    msg : "I just tricked you to type my name, did I?"
+    msg : "I just tricked you to type my name, did I?", 
+
+    ai : function(){
+        return this.help() 
+    }
 
 },
 
