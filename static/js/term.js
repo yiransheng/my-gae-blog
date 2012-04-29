@@ -50,12 +50,16 @@ var play = {
 	return x
     }, 
 
-    recent: function(_type) {
+    recent: function(_type, quite) {
         if (this.Recent) {
 	    if (typeof _type !== "undefined"){
 		if (this.Recent[_type]){
-	            $(this.Recent[_type]).appendTo("#output");
-	            return "==========>"+_type 
+		    if (!quite) {
+	                $(this.Recent[_type]).appendTo("#output");
+	                return "==========>"+_type 
+		    } else {
+		        return 
+		    }
 		} else {
 		    this.Recent[_type] = "";
 		    if (this[_type] instanceof Function) this[_type]();
@@ -70,6 +74,9 @@ var play = {
 	this.Recent = {all:""};
 	this.blog();
 	this.experiment();
+	this.research();
+
+	return "Now loading..."
     }, 
 
     experiment: function(quite) {
@@ -78,6 +85,14 @@ var play = {
 	          crossDomain:true, 
 	          dataType: "jsonp"});
     }, 
+
+    research : function(quite) {
+	$.ajax("http://research.yiransheng.com/jsonp", 
+		{ success : _research,  
+	          crossDomain:true, 
+	          dataType: "jsonp"});
+    }, 
+
 
     blog: function(quite) {
 	$.ajax("/recent", { success: function(res){
@@ -94,9 +109,9 @@ var play = {
 	    }	
             play.Recent.blog = o.html();
 	    play.Recent.all += o.html();
-	    $(o.html()).appendTo("#output");
+	    play.recent("blog");
 	}, 
-	crossDomain: true,
+	crossDomain: false,
 	dataType: "json"});
     }, 
 
@@ -125,6 +140,23 @@ var play = {
 
 },
 
+_research = function(res){
+    var x=0, p, o = $("<div><p>Recent Research</p></div>");       
+    for (i in res){
+	item = res[i]
+	p = $("<p></p>")
+	$("<a></a>").text("[Research]"+item.title)
+		    .attr("href", item.permlink)
+		    .appendTo(p);
+	o.append(p);
+	x++;
+	if (x>4) {break}
+    }
+    play.Recent.research = o.html();
+    play.Recent.all += o.html();
+    play.recent("research");
+}, 
+
 _jsonp = function(x) {
     var res = x, x=0, p, o = $("<div><p>Recent Experiments</p></div>");       
     for (i in res.registered){
@@ -138,7 +170,8 @@ _jsonp = function(x) {
     }
     play.Recent.experiment = o.html();
     play.Recent.all += o.html();
-    $(o.html()).appendTo("#output");
+    
+    play.recent("experiment");
 },
 
 tid = -1, 

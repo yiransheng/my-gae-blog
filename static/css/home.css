@@ -69,7 +69,7 @@ visibility: hidden;
 }
 iframe.hide{display: none;}
 iframe, #widgets-area{
-top:20px; right: -90px;
+top:16px; right: -90px;
 border: 0px solid #ffffff;
 }
 
@@ -220,7 +220,7 @@ width: 527px;
 padding: 20px;
 height: 520px;
 background: url(../imgs/bg3.png);
-font-family: monospace, serif;
+font-family: 'Inconsolata', monospace, sans-serif;
 font-size: 13px;
 color: #00ff00;
 line-height: 150%;
@@ -240,7 +240,7 @@ outline: none;
 width: 527px;
 height: 21px;
 color: #00ff00;
-font-family: monospace, serif;
+font-family: 'Inconsolata', monospace, sans-serif;
 font-size: 14px;
 line-height: 150%;
 margin: 0;
